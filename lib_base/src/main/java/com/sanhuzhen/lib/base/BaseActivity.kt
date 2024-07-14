@@ -12,14 +12,15 @@ import androidx.viewbinding.ViewBinding
  */
 abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
-    protected lateinit var mBinding: VB
+    protected val mBinding by lazy {
+        getViewBinding()
+    }
 
     protected abstract fun afterCreate()
     //得到ViewBinding
     protected abstract fun getViewBinding(): VB
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mBinding = getViewBinding()
         setContentView(mBinding.root)
         afterCreate()
     }
