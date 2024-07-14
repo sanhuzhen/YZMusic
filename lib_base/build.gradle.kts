@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+    kotlin("kapt")
 }
 
 android {
@@ -37,6 +38,8 @@ android {
 
 dependencies {
 
+    kapt("cn.therouter:apt:1.1.1")
+    implementation("cn.therouter:router:1.2.1")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
