@@ -1,25 +1,20 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("therouter")
-    id("kotlin-kapt")
 }
 
 android {
-    namespace = "com.sanhuzhen.yzmusic"
+    namespace = "com.sanhuzhen.module.login"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.sanhuzhen.yzmusic"
+        applicationId = "com.sanhuzhen.module.login"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-    viewBinding{
-        enable = true
     }
 
     buildTypes {
@@ -42,10 +37,6 @@ android {
 
 dependencies {
 
-    implementation(project(":lib_base"))
-    kapt("cn.therouter:apt:1.1.1")
-    implementation("cn.therouter:router:1.2.1")
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -54,5 +45,4 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
 }
