@@ -1,7 +1,8 @@
 package com.sanhuzhen.yzmusic.network
 
 import com.sanhuzhen.yzmusic.api.ApiService
-import com.sanhuzhen.yzmusic.bean.ExtInfo
+import com.sanhuzhen.yzmusic.bean.Data
+import com.sanhuzhen.yzmusic.bean.HomeData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -18,8 +19,8 @@ object RetrofitRequest {
 
     private val apiService = retrofit.create(ApiService::class.java)
 
-    fun getBanner():Observable<ExtInfo>{
-        return apiService.getBanner()
+    fun getBlocks():Observable<HomeData>{
+        return apiService.getBlocks()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

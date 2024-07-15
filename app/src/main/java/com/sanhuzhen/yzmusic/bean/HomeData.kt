@@ -1,7 +1,7 @@
 package com.sanhuzhen.yzmusic.bean
 
 data class HomeData(
-    val code: Int,
+    val code: Long,
     val `data`: Data
 )
 
@@ -57,12 +57,12 @@ data class ResourceExtInfo(
     val artists: List<Artist>,
     val hasListened: Boolean,
     val highQuality: Boolean,
-    val playCount: Int,
+
     val song: Song,
     val songData: SongData,
     val songPrivilege: SongPrivilege,
-    val specialCover: Int,
-    val specialType: Int,
+    val specialCover: Long,
+    val specialType: Long,
     val users: List<User>
 )
 
@@ -75,17 +75,17 @@ data class UiElement(
 )
 
 data class Artist(
-    val albumSize: Int,
+    val albumSize: Long,
     val alias: List<Any>,
     val briefDesc: String,
-    val id: Int,
-    val img1v1Id: Int,
+    val id: Long,
+    val img1v1Id: Long,
     val img1v1Url: String,
-    val musicSize: Int,
+    val musicSize: Long,
     val name: String,
-    val picId: Int,
+    val picId: Long,
     val picUrl: String,
-    val topicPerson: Int,
+    val topicPerson: Long,
     val trans: String
 )
 
@@ -96,46 +96,46 @@ data class Song(
     val ar: List<Ar>,
     val cd: String,
     val cf: String,
-    val copyright: Int,
-    val cp: Int,
+    val copyright: Long,
+    val cp: Long,
     val crbt: Any,
-    val djId: Int,
-    val dt: Int,
+    val djId: Long,
+    val dt: Long,
     val entertainmentTags: Any,
-    val fee: Int,
-    val ftype: Int,
+    val fee: Long,
+    val ftype: Long,
     val h: H,
     val hr: Hr,
     val id: Long,
     val l: L,
     val m: M,
     val mark: Long,
-    val mst: Int,
-    val mv: Int,
+    val mst: Long,
+    val mv: Long,
     val name: String,
-    val no: Int,
+    val no: Long,
     val noCopyrightRcmd: Any,
-    val originCoverType: Int,
+    val originCoverType: Long,
     val originSongSimpleData: Any,
-    val pop: Int,
-    val pst: Int,
+    val pop: Long,
+    val pst: Long,
     val publishTime: Long,
     val resourceState: Boolean,
     val rt: String,
     val rtUrl: Any,
     val rtUrls: List<Any>,
-    val rtype: Int,
+    val rtype: Long,
     val rurl: Any,
-    val s_id: Int,
-    val single: Int,
+    val s_id: Long,
+    val single: Long,
     val songJumpInfo: Any,
     val sq: Sq,
-    val st: Int,
-    val t: Int,
+    val st: Long,
+    val t: Long,
     val tagPicList: Any,
     val tns: List<String>,
-    val v: Int,
-    val version: Int,
+    val v: Long,
+    val version: Long,
     val videoInfo: VideoInfo
 )
 
@@ -147,13 +147,13 @@ data class SongData(
     val bMusic: BMusic,
     val commentThreadId: String,
     val copyFrom: String,
-    val copyright: Int,
-    val copyrightId: Int,
+    val copyright: Long,
+    val copyrightId: Long,
     val crbt: Any,
-    val dayPlays: Int,
+    val dayPlays: Long,
     val disc: String,
-    val duration: Int,
-    val fee: Int,
+    val duration: Long,
+    val fee: Long,
     val ftype: Int,
     val hMusic: HMusic,
     val hearTime: Int,
@@ -255,7 +255,7 @@ data class User(
 )
 
 data class Al(
-    val id: Int,
+    val id: Long,
     val name: String,
     val pic: Long,
     val picUrl: String,
