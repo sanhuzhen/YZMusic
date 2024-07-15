@@ -5,52 +5,19 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.LoginActivity">
+    tools:context=".ui.activity.activity.LoginActivity">
 
-    <com.google.android.material.textfield.TextInputLayout
-
-        android:layout_marginTop="300dp"
+    <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:id="@+id/register_username">
-        <EditText
-            android:id="@+id/register_username_edit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="请输入用户名"
-            android:maxLength="25"
-            android:maxLines="1"/>
+        android:layout_height="60dp"
+        android:background="@color/Firebrick1"
+        android:id="@+id/tab_choice"
+        app:tabMode="scrollable"
+        app:tabGravity="center"/>
 
-    </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:id="@+id/register_password">
-        <EditText
-            android:id="@+id/register_password_edit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="请输入密码"
-            android:maxLength="25"
-            android:maxLines="1"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="登录"
-            android:id="@+id/login_button"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/btn_shape"/>
-
-    </LinearLayout>
-
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 </LinearLayout>

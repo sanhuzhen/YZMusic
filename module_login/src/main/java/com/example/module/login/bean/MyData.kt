@@ -7,5 +7,5 @@ data class MyData(
 data class Profile(
     val avatarUrl: String,
     val backgroundUrl: String,
-    val userId: Int
+    val userId: Long
 )

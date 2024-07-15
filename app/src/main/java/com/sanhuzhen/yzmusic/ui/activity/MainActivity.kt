@@ -1,6 +1,8 @@
 package com.sanhuzhen.yzmusic.ui.activity
 
+import android.content.Intent
 import androidx.fragment.app.Fragment
+import com.example.module.login.ui.activity.activity.LoginActivity
 import com.sanhuzhen.lib.base.BaseActivity
 import com.sanhuzhen.yzmusic.R
 import com.sanhuzhen.yzmusic.adapter.VpAdapter
@@ -19,6 +21,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         return ActivityMainBinding.inflate(layoutInflater)
     }
     override fun afterCreate() {
+        mBinding.ToLogin.setOnClickListener { startActivity(Intent(this, LoginActivity::class.java)) }
         addFragment()
         //Vp2设置
         mBinding.mainVp2.apply {

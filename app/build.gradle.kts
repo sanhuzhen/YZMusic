@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.sanhuzhen.yzmusic"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -44,8 +44,8 @@ dependencies {
 
     implementation(project(":lib_base"))
     implementation(project(":module_login"))
-    kapt("cn.therouter:apt:1.1.1")
-    implementation("cn.therouter:router:1.2.1")
+    kapt("cn.therouter:apt:1.2.2")
+    implementation("cn.therouter:router:1.2.2")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
