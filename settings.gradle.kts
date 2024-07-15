@@ -25,3 +25,6 @@ include(":lib_base")
 
 include(":module_login")
 
+include(":module_recommend")
+include(":module_mine")
+include(":module_hot")

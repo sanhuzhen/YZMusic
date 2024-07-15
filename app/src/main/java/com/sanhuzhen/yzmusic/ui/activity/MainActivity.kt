@@ -1,16 +1,10 @@
 package com.sanhuzhen.yzmusic.ui.activity
 
-import android.graphics.Color
 import androidx.core.view.GravityCompat
-import androidx.core.view.WindowCompat
-import androidx.fragment.app.Fragment
 import com.sanhuzhen.lib.base.BaseActivity
 import com.sanhuzhen.yzmusic.R
 import com.sanhuzhen.yzmusic.adapter.VpAdapter
 import com.sanhuzhen.yzmusic.databinding.ActivityMainBinding
-import com.sanhuzhen.yzmusic.ui.fragment.HotFragment
-import com.sanhuzhen.yzmusic.ui.fragment.MineFragment
-import com.sanhuzhen.yzmusic.ui.fragment.RecommendFragment
 /**
  * @author: sanhuzhen
  * @date: 2024/7/14
