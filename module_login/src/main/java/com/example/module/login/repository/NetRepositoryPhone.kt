@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object NetRepositoryPhone {
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://baobab.kaiyanapp.com/api/")
+        .baseUrl("https://1258656679-dk116gec67-gz.scf.tencentcs.com")
         .addConverterFactory(GsonConverterFactory.create())//这里添加GSON的converter,后面把数据解析成对象要用。
         .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
         .build()
