@@ -3,7 +3,7 @@ package com.sanhuzhen.lib.base
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
-
+import com.therouter.TheRouter
 
 /**
  * @author: sanhuzhen
@@ -23,6 +23,8 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(mBinding.root)
+        //注入TheRouter
+        TheRouter.inject(this)
         afterCreate()
     }
 }
