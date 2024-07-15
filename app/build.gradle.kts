@@ -44,6 +44,8 @@ dependencies {
 
     implementation(project(":lib_base"))
     implementation(project(":module_login"))
+    kapt("cn.therouter:apt:1.1.1")
+    implementation("cn.therouter:router:1.2.1")
 
     implementation ("com.squareup.retrofit2:adapter-rxjava3:2.9.0")
     // 正常 RxJava 依赖
@@ -52,8 +54,6 @@ dependencies {
     implementation ("io.reactivex.rxjava3:rxandroid:3.0.0")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    kapt("cn.therouter:apt:1.1.1")
-    implementation("cn.therouter:router:1.2.1")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
