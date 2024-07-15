@@ -3,9 +3,9 @@ package com.sanhuzhen.yzmusic.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.sanhuzhen.yzmusic.ui.fragment.HotFragment
-import com.sanhuzhen.yzmusic.ui.fragment.MineFragment
-import com.sanhuzhen.yzmusic.ui.fragment.RecommendFragment
+import com.sanhuzhen.module.home.RecommendFragment
+import com.sanhuzhen.module.hot.HotFragment
+import com.sanhuzhen.module.mine.MineFragment
 
 
 class VpAdapter(fa : FragmentActivity) : FragmentStateAdapter(fa)  {
