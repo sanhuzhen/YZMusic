@@ -20,6 +20,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     //得到ViewBinding
     protected abstract fun getViewBinding(): VB
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(mBinding.root)
         //注入TheRouter
