@@ -10,4 +10,6 @@
     <color name="yellow">#FFFF00</color>
     <color name="orange">#FFA500</color>
     <color name="grey">#BEBEBE</color>
+    <color name="light_grey">#D3D3D3</color>
+    <color name="Firebrick1">#FF3030</color>
 </resources>
