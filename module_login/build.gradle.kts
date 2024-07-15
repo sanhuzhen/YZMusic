@@ -1,19 +1,18 @@
 plugins {
-    alias(libs.plugins.android.application)
+//    alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-//    id("com.android.library")
+    id("com.android.library")
 }
-
 android {
     namespace = "com.example.module.login"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.module.login"
+//        applicationId = "com.example.module.login"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+//        versionCode = 1
+//        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
