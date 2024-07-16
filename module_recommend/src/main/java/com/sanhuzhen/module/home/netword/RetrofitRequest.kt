@@ -10,7 +10,7 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitRequest {
-    private val BASE_URL = "https://1258656679-dk116gec67-gz.scf.tencentcs.com/"
+    private val BASE_URL = "http://82.156.18.110:3000/"
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
