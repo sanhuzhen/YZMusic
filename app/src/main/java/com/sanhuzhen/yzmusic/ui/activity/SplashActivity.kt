@@ -16,7 +16,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
 
     private lateinit var countDownTimer: CountDownTimer
     override fun afterCreate() {
-        countDownTimer = object : CountDownTimer(2000, 1000) {
+        countDownTimer = object : CountDownTimer(1000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
 
             }

@@ -7,35 +7,68 @@
     >
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:fitsSystemWindows="true">
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="11">
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/main_vp2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
             <Toolbar
                 android:id="@+id/main_toolbar_menu"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/nav_menu"/>
-        </FrameLayout>
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/main_nav"
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="true"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="60dp"
+                    android:src="@drawable/search"/>
+
+                <Toolbar
+                    android:layout_width="250dp"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="30dp"
+                    android:background="@drawable/search_type" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@color/white"
-            app:menu="@menu/menu_navigation"
-            app:itemPaddingTop= "1dp"
-            app:itemTextColor="@drawable/nav_color"
-            app:itemIconTint="@drawable/nav_color"
-            android:layout_weight="1"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:fitsSystemWindows="true"
+            >
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="11">
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/main_vp2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </FrameLayout>
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/main_nav"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/white"
+                app:menu="@menu/menu_navigation"
+                app:itemPaddingTop= "1dp"
+                app:itemTextColor="@drawable/nav_color"
+                app:itemIconTint="@drawable/nav_color"
+                android:layout_weight="1"/>
+        </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

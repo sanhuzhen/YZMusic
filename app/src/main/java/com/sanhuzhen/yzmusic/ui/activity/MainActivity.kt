@@ -32,7 +32,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             })
             //禁止滑动
             isUserInputEnabled = false
-            setCurrentItem(0,false)
         }
         //Nav设置
         mBinding.mainNav.setOnItemSelectedListener {
