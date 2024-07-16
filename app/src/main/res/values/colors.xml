@@ -2,4 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="GhostWhite">#F8F8FF</color>
+    <color name="Gainsboro">#DCDCDC</color>
+    <color name="Grey">#BEBEBE</color>
 </resources>
