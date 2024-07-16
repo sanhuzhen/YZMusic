@@ -1,6 +1,8 @@
 package com.example.module.login.repository
 
 import com.example.module.login.bean.MyData
+import com.example.module.login.network.ApiServiceCaptchaSend
+import com.example.module.login.network.ApiServiceEmail
 import com.example.module.login.network.ApiServicePhone
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -16,15 +18,47 @@ object NetRepositoryPhone {
         .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
         .build()
 
-    private val apiService = retrofit.create(ApiServicePhone::class.java)
+    private val apiServicePhone = retrofit.create(ApiServicePhone::class.java)
+    private val apiServiceSend = retrofit.create(ApiServiceCaptchaSend::class.java)
+    private val apiServiceVerify = retrofit.create(ApiServiceCaptchaSend::class.java)
+    private val apiServiceEmail = retrofit.create(ApiServiceEmail::class.java)
 
 
-    fun getSearchData(phone:String,password:String): Observable<MyData> {
-        return apiService.getSearchData(phone,password)
+    fun getSearchDataEmail(email: String, password: String): Observable<MyData> {
+        return apiServiceEmail.getSearchData(email, password)
             //指定被观察者线程，网络请求所在线程
             .subscribeOn(Schedulers.io())
             //指定观察者线程，把数据返回到主线程用来更新。
             .observeOn(AndroidSchedulers.mainThread())
 
     }
+
+
+    fun getSearchDataVerify(phone: String, captcha:String): Observable<MyData> {
+        return apiServiceVerify.getSearchDataVerify(phone, captcha)
+            //指定被观察者线程，网络请求所在线程
+            .subscribeOn(Schedulers.io())
+            //指定观察者线程，把数据返回到主线程用来更新。
+            .observeOn(AndroidSchedulers.mainThread())
+
+    }
+
+
+    fun getSearchDataSend(phone: String ): Observable<MyData> {
+        return apiServiceSend.getSearchDataSend(phone)
+            //指定被观察者线程，网络请求所在线程
+            .subscribeOn(Schedulers.io())
+            //指定观察者线程，把数据返回到主线程用来更新。
+            .observeOn(AndroidSchedulers.mainThread())
+
+
+    }
+        fun getSearchDataPhone(phone: String, password: String): Observable<MyData> {
+            return apiServicePhone.getSearchData(phone, password)
+                //指定被观察者线程，网络请求所在线程
+                .subscribeOn(Schedulers.io())
+                //指定观察者线程，把数据返回到主线程用来更新。
+                .observeOn(AndroidSchedulers.mainThread())
+
+        }
 }
