@@ -13,7 +13,7 @@ class LoginActivity : BaseActivity <ActivityLoginBinding>() {
 val vpAdapter: VpAdapter by lazy { VpAdapter(this, listOf(1,2)) }
 
     override fun afterCreate() {
-        mBinding.viewPager.adapter=VpAdapter(this, listOf(1,2))
+        mBinding.viewPager.adapter=vpAdapter
         mBinding.tabChoice
         mBinding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {
