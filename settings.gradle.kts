@@ -25,3 +25,4 @@ include("lib_base")
 include(":module_login")
 
 
+include(":module_search")
