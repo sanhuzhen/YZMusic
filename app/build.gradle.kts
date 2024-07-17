@@ -43,6 +43,7 @@ android {
 dependencies {
 
     implementation(project(":lib_base"))
+    implementation(project(":lib_net"))
     implementation(project(":module_login"))
     implementation(project(":module_recommend"))
     implementation(project(":module_mine"))

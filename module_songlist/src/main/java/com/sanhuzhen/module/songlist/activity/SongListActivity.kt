@@ -1,6 +1,5 @@
-package com.sanhuzhen.module.songlist
+package com.sanhuzhen.module.songlist.activity
 
-import android.util.Log
 import com.sanhuzhen.lib.base.BaseActivity
 import com.sanhuzhen.module.songlist.databinding.ActivitySonglistBinding
 import com.therouter.router.Autowired

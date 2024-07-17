@@ -3,7 +3,7 @@
 
     <application>
         <activity
-            android:name=".SongListActivity"
+            android:name=".activity.SongListActivity"
             android:exported="true">
 
         </activity>

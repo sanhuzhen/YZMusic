@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sanhuzhen.module.home.bean.HomeData
-import com.sanhuzhen.module.home.netword.RetrofitRequest
+import com.sanhuzhen.module.home.network.RetrofitRequest
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 

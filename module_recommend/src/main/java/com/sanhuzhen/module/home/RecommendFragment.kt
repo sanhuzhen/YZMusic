@@ -1,6 +1,5 @@
 package com.sanhuzhen.module.home
 
-import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -16,7 +15,6 @@ import com.sanhuzhen.module.home.bean.Resource
 import com.sanhuzhen.module.home.bean.SongData
 import com.sanhuzhen.module.home.databinding.FragmentRecommendBinding
 import com.sanhuzhen.module.home.helper.ZoomOutPageTransformer
-import com.sanhuzhen.module.songlist.SongListActivity
 import com.therouter.TheRouter
 import java.util.Timer
 import java.util.TimerTask

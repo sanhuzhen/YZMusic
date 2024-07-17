@@ -44,6 +44,7 @@ dependencies {
 
     implementation(project(":lib_base"))
     implementation(project(":module_songlist"))
+    implementation(project(":lib_net"))
     implementation ("com.squareup.retrofit2:adapter-rxjava3:2.9.0")
     // 正常 RxJava 依赖
     implementation ("io.reactivex.rxjava3:rxjava:3.0.13")
