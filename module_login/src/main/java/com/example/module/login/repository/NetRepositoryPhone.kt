@@ -4,6 +4,7 @@ import com.example.module.login.bean.MyData
 import com.example.module.login.network.ApiServiceCaptchaSend
 import com.example.module.login.network.ApiServiceEmail
 import com.example.module.login.network.ApiServicePhone
+import com.example.module.login.network.ApiServiceVisit
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -22,6 +23,7 @@ object NetRepositoryPhone {
     private val apiServiceSend = retrofit.create(ApiServiceCaptchaSend::class.java)
     private val apiServiceVerify = retrofit.create(ApiServiceCaptchaSend::class.java)
     private val apiServiceEmail = retrofit.create(ApiServiceEmail::class.java)
+    private val apiServiceVisit= retrofit.create(ApiServiceVisit::class.java)
 
 
     fun getSearchDataEmail(email: String, password: String): Observable<MyData> {
@@ -61,4 +63,12 @@ object NetRepositoryPhone {
                 .observeOn(AndroidSchedulers.mainThread())
 
         }
+    fun getSearchDataVisit(): Observable<MyData> {
+        return apiServiceVisit.getSearchVisitData()
+            //指定被观察者线程，网络请求所在线程
+            .subscribeOn(Schedulers.io())
+            //指定观察者线程，把数据返回到主线程用来更新。
+            .observeOn(AndroidSchedulers.mainThread())
+
+    }
 }

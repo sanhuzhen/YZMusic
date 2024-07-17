@@ -2,7 +2,8 @@ package com.example.module.login.bean
 
 data class MyData(
     val code: Int,
-    val profile: Profile
+    val profile: Profile,
+    val loginType: Int,
 )
 data class Profile(
     val avatarUrl: String,

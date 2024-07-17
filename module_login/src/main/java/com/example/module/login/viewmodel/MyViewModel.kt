@@ -95,4 +95,25 @@ class MyViewModel:ViewModel() {
             }
         })
     }
+    fun getVisit(){
+        NetRepositoryPhone.getSearchDataVisit().subscribe(object : Observer<MyData>{
+            override fun onSubscribe(d: Disposable) {
+
+            }
+
+            override fun onError(e: Throwable) {
+                Log.d("Error", "${e.message} ")
+            }
+
+            override fun onComplete() {
+
+            }
+
+            override fun onNext(t: MyData) {
+                num.postValue(t)
+                Log.d("onNext", "${t}")
+            }
+
+        })
+    }
 }

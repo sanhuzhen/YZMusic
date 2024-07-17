@@ -29,6 +29,9 @@ val vpAdapter: VpAdapter by lazy { VpAdapter(this, listOf(1,2)) }
                 1 ->{
                     tab.text="短信验证码登录"
                 }
+                2->{
+                    tab.text="游客登陆"
+                }
             }
         }.attach()
     }
