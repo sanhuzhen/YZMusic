@@ -25,10 +25,17 @@ class LoginByFragment : BaseFragment<FragmentLoginByBinding>() {
     }
     private fun setCaptcha(){
         mBinding.loginGetCode.setOnClickListener {
-            val mCountDownTimeUtils= CountDownTimeUtils(mBinding.loginGetCode,60000,1000)
-            mCountDownTimeUtils.start()
             getMessage()
-            mViewmodel.getSend(phone!!)
+            if(phone==null){
+                Toast.makeText(this.requireContext(), "请输入手机号", Toast.LENGTH_SHORT).show()
+            }else if(phone!!.length!=11){
+                Toast.makeText(this.requireContext(), "手机号格式错误", Toast.LENGTH_SHORT).show()
+            }else {
+                Toast.makeText(this.requireContext(), "发送验证码", Toast.LENGTH_SHORT).show()
+                val mCountDownTimeUtils = CountDownTimeUtils(mBinding.loginGetCode, 60000, 1000)
+                mCountDownTimeUtils.start()
+                mViewmodel.getSend(phone!!)
+            }
         }
     }
     private fun getCaptcha(){
