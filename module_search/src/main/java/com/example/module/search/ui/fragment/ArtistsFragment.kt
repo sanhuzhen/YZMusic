@@ -1,36 +1,57 @@
 package com.example.module.search.ui.fragment
 
 
+import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.module.search.R
 import com.example.module.search.adapter.ArtistsRvAdapter
 import com.example.module.search.bean.ArtistsData
 import com.example.module.search.databinding.FragmentArtistsBinding
 import com.example.module.search.viewmodel.ArtistsViewModel
+import com.example.module.search.viewmodel.SharedVIewModel
 import com.sanhuzhen.lib.base.BaseFragment
 
 
-class ArtistsFragment : BaseFragment<FragmentArtistsBinding>() {
-    private val mViewModel by lazy{
-        ViewModelProvider(this)[ArtistsViewModel::class.java]
-    }
-    private val madapter= ArtistsRvAdapter()
-    // Fragment中的某个方法，用于更新UI等
-    fun updateFragmentUI() {
-        // 更新Fragment的UI
-        mBinding.recyclerViewArtists.apply {
-            layoutManager= LinearLayoutManager(this@ArtistsFragment.requireContext())
-            adapter= madapter
+class ArtistsFragment : Fragment(){
+    private val mBinding: FragmentArtistsBinding by lazy { FragmentArtistsBinding.inflate(layoutInflater) }
+    private val rvAdapter: ArtistsRvAdapter by lazy { ArtistsRvAdapter() }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
         }
-        mViewModel.getArtistsData()
-    }
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
 
-    override fun getViewBinding(): FragmentArtistsBinding {
-        return FragmentArtistsBinding.inflate(layoutInflater)
+        return mBinding.root
     }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val sharedVIewModel: SharedVIewModel by lazy { ViewModelProvider(requireActivity())[SharedVIewModel::class.java] }
+        val artistsViewModel: ArtistsViewModel by lazy { ViewModelProvider(this)[ArtistsViewModel::class.java] }
+        mBinding.recyclerViewArtists.apply {
+            layoutManager = LinearLayoutManager(this@ArtistsFragment.context)
+            adapter = rvAdapter
+        }
+       sharedVIewModel.someData.observe(viewLifecycleOwner) {
+           artistsViewModel.getArtistsData(sharedVIewModel.someData.value!!, 100)
+           artistsViewModel.artistsData.observe(viewLifecycleOwner) {
+               rvAdapter.submitList(it.result.artists)
+               Log.d("ArtistsFragment", "onViewCreated: ${it.result.artists}")
+           }
+           Log.d("ArtistsFragment", "onViewCreated: ${sharedVIewModel.someData.value}")
 
-    override fun afterCreate() {
-        updateFragmentUI()
-    }
+        }
+
+   }
 }
+
+

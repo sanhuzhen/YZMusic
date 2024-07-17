@@ -23,13 +23,13 @@ object NetRepository {
     private val apiServiceArtists= retrofit.create(ApiService::class.java)
 
 
-    fun getSearchMusicData(keywords: String, type: Int): Observable<MusicData> {
-        return apiServiceMusic.getSearchMusicData(keywords, type)
+    fun getSearchMusicData(keywords: String,limit:Int): Observable<MusicData> {
+        return apiServiceMusic.getSearchMusicData(keywords,limit)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
-    fun getSearchMvData(keywords: String, type: Int): Observable<MvData> {
-        return apiServiceMv.getSearchMvData(keywords, type)
+    fun getSearchMvData(keywords: String, type: Int,limit: Int): Observable<MvData> {
+        return apiServiceMv.getSearchMvData(keywords, type,limit)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

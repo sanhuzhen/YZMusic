@@ -11,12 +11,12 @@ data class ResultMv(
 data class Mv(
     val artists: List<ArtistMv>,
     val cover: String,
-    val id: Int,
+    val id: Long,
     val name: String,
 
 )
 
 data class ArtistMv(
-    val id: Int,
+    val id: Long,
     val name: String,
 )

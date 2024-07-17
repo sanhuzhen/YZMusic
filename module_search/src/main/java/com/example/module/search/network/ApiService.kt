@@ -11,12 +11,13 @@ interface ApiService {
     @GET("/search")
     fun getSearchMusicData(
         @Query("keywords")keywords:String,
-        @Query("type")type:Int
+        @Query("limit")limit: Int
     ): Observable<MusicData>
     @GET("/search")
     fun getSearchMvData(
         @Query("keywords")keywords:String,
-        @Query("type")type:Int
+        @Query("type")type:Int,
+        @Query("limit")limit:Int
     ): Observable<MvData>
     @GET("/search")
     fun getSearchArtistsData(

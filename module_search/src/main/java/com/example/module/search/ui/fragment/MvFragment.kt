@@ -5,24 +5,37 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.module.search.R
+import com.example.module.search.adapter.MvRvAdapter
+import com.example.module.search.databinding.FragmentMvBinding
+import com.example.module.search.viewmodel.MvViewModel
+import com.example.module.search.viewmodel.SharedVIewModel
+import com.sanhuzhen.lib.base.BaseFragment
 
-class MvFragment : Fragment() {
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+class MvFragment : BaseFragment<FragmentMvBinding>(){
+    private val sharedVIewModel: SharedVIewModel by lazy { ViewModelProvider(requireActivity())[SharedVIewModel::class.java] }
+    private val mvViewModel: MvViewModel by lazy { ViewModelProvider(this)[MvViewModel::class.java] }
+    private val mvAdapter: MvRvAdapter by lazy { MvRvAdapter() }
+    override fun getViewBinding(): FragmentMvBinding {
+        return FragmentMvBinding.inflate(layoutInflater)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mv, container, false)
+    override fun afterCreate() {
+        initRv()
     }
-
-
+    fun initRv(){
+        mBinding.rvMv.apply {
+            layoutManager = LinearLayoutManager(this@MvFragment.context)
+            adapter = mvAdapter
+        }
+        sharedVIewModel.someData.observe(viewLifecycleOwner) {
+            mvViewModel.getMvData(sharedVIewModel.someData.value!!,1004,100)
+            mvViewModel.mvData.observe(viewLifecycleOwner) {
+                mvAdapter.submitList(it.result.mvs)
+            }
+        }
+    }
 
 }

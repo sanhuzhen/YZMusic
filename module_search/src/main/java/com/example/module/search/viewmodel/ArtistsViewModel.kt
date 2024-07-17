@@ -24,7 +24,7 @@ class ArtistsViewModel: ViewModel() {
             override fun onComplete() {
             }
             override fun onNext(t: ArtistsData) {
-                Log.d("onNext", "${t}")
+                Log.d("Artists", "${t}")
                 data.postValue(t)
             }
 

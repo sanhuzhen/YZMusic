@@ -36,6 +36,7 @@ class MusicRvAdapter:ListAdapter<Song,MusicRvAdapter.ViewHolder>(object :
         fun songData(musicData: Song){
             musicName.text=musicData.name
             musicAlbum.text=musicData.album.name
+            musicAlbum.maxLines=1
             musicArtist.text=musicData.artists[0].name
         }
     }

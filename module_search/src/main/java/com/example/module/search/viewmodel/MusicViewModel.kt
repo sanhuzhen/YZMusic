@@ -12,8 +12,8 @@ class MusicViewModel: ViewModel() {
     private val data= MutableLiveData<MusicData>()
     val musicData:MutableLiveData<MusicData>
         get()=data
-    fun getMusicData(keywords: String, type: Int){
-        NetRepository.getSearchMusicData(keywords, type).subscribe(object : Observer<MusicData> {
+    fun getMusicData(keywords: String,limit:Int){
+        NetRepository.getSearchMusicData(keywords,limit).subscribe(object : Observer<MusicData> {
             override fun onSubscribe(d: Disposable) {
             }
 
@@ -25,7 +25,7 @@ class MusicViewModel: ViewModel() {
             }
 
             override fun onNext(t: MusicData) {
-                Log.d("onNext", "${t}")
+                Log.d("Music", "${t}")
                 data.postValue(t)
             }
 

@@ -9,7 +9,7 @@ data class ResultArtists(
 )
 
 data class Artist(
-    val id: Int,
+    val id: Long,
     val name: String,
     val picUrl: String,
 )

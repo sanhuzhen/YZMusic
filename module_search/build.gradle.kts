@@ -1,7 +1,7 @@
 plugins {
-//    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("com.android.library")
+//    id("com.android.library")
     id("kotlin-kapt")
 }
 
@@ -10,11 +10,11 @@ android {
     compileSdk = 34
 
     defaultConfig {
-//        applicationId = "com.example.module.search"
-        minSdk = 30
+        applicationId = "com.example.module.search"
+        minSdk = 26
         targetSdk = 34
-//        versionCode = 1
-//        versionName = "1.0"
+        versionCode = 1
+        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -42,6 +42,7 @@ android {
 
 dependencies {
     kapt("cn.therouter:apt:1.2.2")
+    implementation ("androidx.core:core-ktx:1.7.0")
     implementation("cn.therouter:router:1.2.2")
 
     implementation ("com.github.bumptech.glide:glide:4.12.0")

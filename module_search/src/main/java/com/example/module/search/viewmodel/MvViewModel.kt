@@ -12,8 +12,8 @@ class MvViewModel:ViewModel() {
     private val data= MutableLiveData<MvData>()
     val mvData:MutableLiveData<MvData>
         get()=data
-    fun getMvData(keywords:String,type:Int){
-        NetRepository.getSearchMvData(keywords, type).subscribe(object :Observer<MvData>{
+    fun getMvData(keywords:String,type:Int,limit:Int){
+        NetRepository.getSearchMvData(keywords, type,limit).subscribe(object :Observer<MvData>{
             override fun onSubscribe(d: Disposable) {
             }
 
