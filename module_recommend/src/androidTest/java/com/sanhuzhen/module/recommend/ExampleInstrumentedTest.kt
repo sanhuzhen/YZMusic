@@ -1,4 +1,4 @@
-package com.sanhuzhen.module.home
+package com.sanhuzhen.module.recommend
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

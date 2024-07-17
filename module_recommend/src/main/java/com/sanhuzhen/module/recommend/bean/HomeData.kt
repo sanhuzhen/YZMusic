@@ -1,4 +1,4 @@
-package com.sanhuzhen.module.home.bean
+package com.sanhuzhen.module.recommend.bean
 
 
 data class HomeData(

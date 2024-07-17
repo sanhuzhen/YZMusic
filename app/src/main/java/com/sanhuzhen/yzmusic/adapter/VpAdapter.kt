@@ -3,7 +3,7 @@ package com.sanhuzhen.yzmusic.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.sanhuzhen.module.home.RecommendFragment
+import com.sanhuzhen.module.recommend.RecommendFragment
 import com.sanhuzhen.module.hot.HotFragment
 import com.sanhuzhen.module.mine.MineFragment
 

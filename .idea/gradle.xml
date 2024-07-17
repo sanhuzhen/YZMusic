@@ -11,12 +11,14 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/lib_base" />
+            <option value="$PROJECT_DIR$/lib_net" />
             <option value="$PROJECT_DIR$/module_hot" />
             <option value="$PROJECT_DIR$/module_login" />
             <option value="$PROJECT_DIR$/module_mine" />
             <option value="$PROJECT_DIR$/module_musicplayer" />
             <option value="$PROJECT_DIR$/module_recommend" />
             <option value="$PROJECT_DIR$/module_search" />
+            <option value="$PROJECT_DIR$/module_songlist" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

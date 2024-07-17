@@ -1,4 +1,4 @@
-package com.sanhuzhen.module.home.helper
+package com.sanhuzhen.module.recommend.helper
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2
 

@@ -1,20 +1,20 @@
-package com.sanhuzhen.module.home
+package com.sanhuzhen.module.recommend
 
 import android.util.Log
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.sanhuzhen.lib.base.BaseFragment
-import com.sanhuzhen.module.home.adapter.BannerAdapter
-import com.sanhuzhen.module.home.adapter.HomePlayListAdapter
-import com.sanhuzhen.module.home.adapter.SongListAdapter
-import com.sanhuzhen.module.home.bean.HomeData
-import com.sanhuzhen.module.home.bean.Resource
-import com.sanhuzhen.module.home.bean.SongData
+import com.sanhuzhen.module.recommend.adapter.BannerAdapter
+import com.sanhuzhen.module.recommend.adapter.HomePlayListAdapter
+import com.sanhuzhen.module.recommend.adapter.SongListAdapter
+import com.sanhuzhen.module.recommend.bean.HomeData
+import com.sanhuzhen.module.recommend.bean.Resource
+import com.sanhuzhen.module.recommend.bean.SongData
 import com.sanhuzhen.module.home.databinding.FragmentRecommendBinding
-import com.sanhuzhen.module.home.helper.ZoomOutPageTransformer
+import com.sanhuzhen.module.recommend.bean.Banner
+import com.sanhuzhen.module.recommend.helper.ZoomOutPageTransformer
 import com.therouter.TheRouter
 import java.util.Timer
 import java.util.TimerTask
@@ -26,7 +26,7 @@ import java.util.TimerTask
  */
 class RecommendFragment : BaseFragment<FragmentRecommendBinding>(),
     HomePlayListAdapter.OnItemClickListener {
-    private var BannerFargments: MutableList<Fragment> = mutableListOf()
+    private var BannerList: MutableList<Banner> = mutableListOf()
     private var homePageSlidePlayList: MutableList<Resource> = mutableListOf()
     private var homePageSlidePlayListTitle: String? = null
     private var SongList: MutableList<SongData> = mutableListOf()
@@ -65,12 +65,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(),
         //得到HomeData中的Banner数据，并将Fragment加入BannerFragments
         for (i in data.data.blocks) {
             if (i.blockCode == "HOMEPAGE_BANNER") {
-                for (j in i.extInfo.banners) {
-                    val fragment = BannerFragment(j.pic, j.url)
-                    if (!BannerFargments.contains(fragment)) {
-                        BannerFargments.add(fragment)
-                    }
-                }
+                BannerList = i.extInfo.banners.toMutableList()
             } else if (i.blockCode == "HOMEPAGE_BLOCK_PLAYLIST_RCMD") {
                 homePageSlidePlayListTitle = i.uiElement.subTitle.title
                 for (j in i.creatives) {
@@ -142,10 +137,13 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(),
 
     //实现Banner
     private fun initBanner() {
+        val mAdapter = BannerAdapter()
+        mAdapter.submitList(BannerList)
         mBinding.bannerVp2.apply {
-            adapter = BannerAdapter(requireActivity(), BannerFargments)
+            adapter = mAdapter
             setPageTransformer(ZoomOutPageTransformer())
         }
+        killDelayedTask()
         timer = Timer()
         timerTask = object : TimerTask() {
             override fun run() {
@@ -153,12 +151,23 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(),
                 mBinding.bannerVp2.post {
                     val currentItem = mBinding.bannerVp2.currentItem
                     val nextItem =
-                        if (currentItem == BannerFargments.size - 1) 0 else currentItem + 1
+                        if (currentItem == BannerList.size - 1) 0 else currentItem + 1
                     mBinding.bannerVp2.setCurrentItem(nextItem, true)
                 }
             }
         }
         timer?.schedule(timerTask, delayTime, delayTime)
+    }
+    //销毁定时器,保证只有一组定时任务在运行
+    private fun killDelayedTask() {
+        if (timer != null) {
+            timer?.cancel()
+            timer = null
+        }
+        if (timerTask != null) {
+            timerTask?.cancel()
+            timerTask = null
+        }
     }
 
     override fun onDestroyView() {
@@ -173,6 +182,8 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(),
     override fun onItemClick(item: Resource) {
         TheRouter.build("/songlist/songListActivity")
             .withString("id", item.resourceId)
+            .withString("alTv",item.uiElement.image.imageUrl)
+
             .navigation()
         Log.d("onClick","sakcdheiuwshfuc")
     }
