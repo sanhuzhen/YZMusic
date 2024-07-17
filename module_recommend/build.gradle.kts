@@ -54,6 +54,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.github.bumptech.glide:glide:4.12.0")
     implementation("com.github.bumptech.glide:compiler:4.12.0")
+    // 浏览器
     implementation ("androidx.browser:browser:1.4.0")
     kapt("cn.therouter:apt:1.2.2")
     implementation("cn.therouter:router:1.2.2")

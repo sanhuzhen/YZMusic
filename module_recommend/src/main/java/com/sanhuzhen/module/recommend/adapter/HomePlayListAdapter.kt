@@ -1,4 +1,4 @@
-package com.sanhuzhen.module.home.adapter
+package com.sanhuzhen.module.recommend.adapter
 
 import android.content.Context
 import android.view.View
@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sanhuzhen.module.home.R
-import com.sanhuzhen.module.home.bean.Resource
+import com.sanhuzhen.module.recommend.bean.Resource
 
 class HomePlayListAdapter(private val context: Context,private val itemClickListener: OnItemClickListener) : ListAdapter<Resource, HomePlayListAdapter.mViewHolder>(object :
     DiffUtil.ItemCallback<Resource>() {

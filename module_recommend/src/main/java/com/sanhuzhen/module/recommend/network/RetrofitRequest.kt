@@ -1,8 +1,8 @@
-package com.sanhuzhen.module.home.network
+package com.sanhuzhen.module.recommend.network
 
 import com.sanhuzhen.lib.net.RetrofitRequest
-import com.sanhuzhen.module.home.api.ApiService
-import com.sanhuzhen.module.home.bean.HomeData
+import com.sanhuzhen.module.recommend.api.ApiService
+import com.sanhuzhen.module.recommend.bean.HomeData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers

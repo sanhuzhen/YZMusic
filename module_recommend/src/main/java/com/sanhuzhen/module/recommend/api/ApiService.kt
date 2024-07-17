@@ -1,6 +1,6 @@
-package com.sanhuzhen.module.home.api
+package com.sanhuzhen.module.recommend.api
 
-import com.sanhuzhen.module.home.bean.HomeData
+import com.sanhuzhen.module.recommend.bean.HomeData
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.GET
 

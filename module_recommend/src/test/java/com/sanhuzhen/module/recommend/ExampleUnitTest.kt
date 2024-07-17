@@ -1,4 +1,4 @@
-package com.sanhuzhen.module.home
+package com.sanhuzhen.module.recommend
 
 import org.junit.Test
 
