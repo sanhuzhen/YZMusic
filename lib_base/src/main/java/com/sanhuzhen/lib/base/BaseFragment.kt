@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.therouter.TheRouter
+
 /**
  * @author: sanhuzhen
  * @date: 2024/7/14
@@ -28,6 +30,7 @@ abstract class BaseFragment<VB: ViewBinding> : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        TheRouter.inject(this)
         afterCreate()
     }
 }

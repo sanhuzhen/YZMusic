@@ -2,8 +2,10 @@ package com.sanhuzhen.yzmusic.ui.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Bundle
 import android.os.CountDownTimer
-import com.sanhuzhen.lib.base.BaseActivity
+import androidx.appcompat.app.AppCompatActivity
+import com.sanhuzhen.yzmusic.R
 import com.sanhuzhen.yzmusic.databinding.ActivitySplashBinding
 
 /**
@@ -12,15 +14,16 @@ import com.sanhuzhen.yzmusic.databinding.ActivitySplashBinding
  * @description:开屏页
  */
 @SuppressLint("CustomSplashScreen")
-class SplashActivity : BaseActivity<ActivitySplashBinding>() {
+class SplashActivity : AppCompatActivity() {
 
     private lateinit var countDownTimer: CountDownTimer
-    override fun afterCreate() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_splash)
         countDownTimer = object : CountDownTimer(1000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
 
             }
-
             override fun onFinish() {
                 startActivity(Intent(this@SplashActivity, MainActivity::class.java))
                 finish()
@@ -28,7 +31,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
         }.start()
     }
 
-    override fun getViewBinding(): ActivitySplashBinding {
-        return ActivitySplashBinding.inflate(layoutInflater)
-    }
+
+
 }

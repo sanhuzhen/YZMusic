@@ -14,7 +14,9 @@ data class Data(
 data class Block(
     val creatives: List<Creative>,
     val extInfo: ExtInfo,
-    val showType: String
+    val blockCode: String,
+    val showType: String,
+    val uiElement: UiElement
 )
 
 data class Creative(
@@ -68,9 +70,7 @@ data class SongData(
     val album: Album,
     val artists: List<Artist>,
     val id: Long,
-    val name: String,
-
-    )
+    val name: String, )
 
 data class Album(
     val artist: Artist,
