@@ -1,8 +1,13 @@
 package com.sanhuzhen.lib.base
 
+import android.content.Context
 import android.graphics.Color
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.viewbinding.ViewBinding
@@ -29,7 +34,12 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         cancelStatusBar()
         //注入TheRouter
         TheRouter.inject(this)
-        afterCreate()
+        if (isNetworkAvailable(this)){
+            afterCreate()
+        }else{
+            Toast.makeText(this,"请检查网络",Toast.LENGTH_SHORT).show()
+        }
+
     }
     //将状态栏设置为透明，扒的掌邮
     private fun cancelStatusBar() {
@@ -48,5 +58,19 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     }
 
 
+    //判断手机是否联网
+    fun isNetworkAvailable(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val network = connectivityManager.activeNetwork ?: return false
+            val networkCapabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+            return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+        } else {
+            @Suppress("DEPRECATION")
+            val activeNetworkInfo = connectivityManager.activeNetworkInfo
+            @Suppress("DEPRECATION")
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected
+        }
+    }
 
 }

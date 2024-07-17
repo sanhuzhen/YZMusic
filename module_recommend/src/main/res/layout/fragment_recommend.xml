@@ -1,23 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        android:orientation="vertical">
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="75dp"
-            android:src="@drawable/search"/>
-        <Toolbar
-            android:layout_width="250dp"
-            android:layout_height="45dp"
-            android:background="@drawable/search_type"
-            android:layout_gravity="center_horizontal"/>
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/banner_vp2"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="5dp" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/banner_tab"
+            android:layout_width="match_parent"
+            android:layout_gravity="start"
+            app:tabGravity="center"
+            android:layout_height="20dp"
+            android:layout_marginTop="120dp"/>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="158dp"
+            android:layout_marginTop="160dp"
+            app:cardCornerRadius="10dp"
+            android:background="@color/white"
+            android:padding="5dp">
+            <TextView
+                android:id="@+id/recommend_pageTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text=""
+                android:textStyle="bold"
+                android:textSize="15sp"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recommend_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"/>
+
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            android:layout_marginTop="330dp"
+            android:padding="10dp">
+            <TextView
+                android:id="@+id/recommend_songList_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_marginLeft="5dp"
+                android:textStyle="bold"
+                android:textSize="15sp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recommend_songList_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp" />
+
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            android:layout_marginTop="600dp">
+            <TextView
+                android:id="@+id/recommend_mySongList_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_marginLeft="5dp"
+                android:textStyle="bold"
+                android:textSize="15sp"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recommend_mySongList_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp" />
+
+        </androidx.cardview.widget.CardView>
     </FrameLayout>
-</FrameLayout>
+</ScrollView>
