@@ -26,11 +26,7 @@ class SongListActivity : BaseActivity<ActivitySonglistBinding>() {
 
     override fun afterCreate() {
         Log.d("SongListActivity", "id:$id")
-//        if (id != null){
-//            repeat(2){
-//                mViewModel.getPlayList(id!!)
-//            }
-//        }
+
         mViewModel.getPlayList("638864394",50,0)
     }
 
