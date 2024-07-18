@@ -1,5 +1,6 @@
 package com.example.module.search.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.module.search.R
 import com.example.module.search.bean.Mv
+import com.therouter.TheRouter
 
 class MvRvAdapter :ListAdapter<Mv,MvRvAdapter.ThisHodler>(object :DiffUtil.ItemCallback<Mv>(){
     override fun areItemsTheSame(oldItem: Mv, newItem: Mv): Boolean {
@@ -37,6 +39,16 @@ class MvRvAdapter :ListAdapter<Mv,MvRvAdapter.ThisHodler>(object :DiffUtil.ItemC
         private val mvName: TextView =itemView.findViewById(R.id.mv_title)
         private val mvArtist: TextView =itemView.findViewById(R.id.mv_artist)
         private val mvCover: ImageView =itemView.findViewById(R.id.mv_img)
+        init {
+            MvClick()
+        }
+        fun MvClick(){
+            itemView.setOnClickListener {
+                TheRouter.build("/mvplayer/MvPlayerActivity").withString("id",getItem(adapterPosition).id.toString()).navigation()
+                Log.d("MvAdapter","--------- ${getItem(adapterPosition).id}")
+            }
+
+        }
         fun mvData(mv: Mv){
             mvName.text=mv.name
             mvArtist.text=mv.artists[0].name
