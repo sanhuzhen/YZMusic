@@ -38,7 +38,7 @@ class BannerAdapter() :
         fun initListener() {
             bannerIv.setOnClickListener {
                 //使用let，避免空指针
-                getItem(adapterPosition).url.let {
+                getItem(adapterPosition).url?.let {
                     if ("http" in it){
                         val url = Uri.parse(it)
                         val customTabsIntent = CustomTabsIntent.Builder().build()
