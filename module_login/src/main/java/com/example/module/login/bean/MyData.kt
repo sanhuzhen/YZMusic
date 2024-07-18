@@ -8,5 +8,6 @@ data class MyData(
 data class Profile(
     val avatarUrl: String,
     val backgroundUrl: String,
-    val userId: Long
+    val userId: Long,
+    val nickname: String,
 )

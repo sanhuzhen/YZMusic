@@ -3,7 +3,7 @@
 
     <application>
         <activity
-            android:name=".MineFragment"
+            android:name=".ui.fragment.MineFragment"
             android:exported="true">
         </activity>
     </application>

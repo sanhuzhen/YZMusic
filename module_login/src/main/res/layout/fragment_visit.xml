@@ -14,5 +14,12 @@
     android:id="@+id/btn_visit"
     android:layout_marginTop="350dp"
     android:text="进行游客登陆"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_shape"
+        android:id="@+id/btn_visit_know"
+        android:layout_marginTop="20dp"
+        android:text="登陆须知"/>
 
 </LinearLayout>

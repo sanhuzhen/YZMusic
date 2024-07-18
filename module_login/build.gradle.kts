@@ -40,6 +40,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.firebase.auth.common)
     kapt("cn.therouter:apt:1.2.2")
     implementation("cn.therouter:router:1.2.2")
 
