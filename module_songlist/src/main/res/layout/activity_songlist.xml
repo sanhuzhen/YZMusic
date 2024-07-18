@@ -2,7 +2,6 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
     android:layout_height="match_parent"
     android:background="@color/pick">
 
@@ -10,12 +9,15 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:fitsSystemWindows="true"
+        android:layout_height="210dp"
+        android:background="@color/pick">
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_anchor="@+id/appBarLayout"
             app:layout_anchorGravity="center"
+            app:collapsedTitleGravity="center_horizontal"
             app:title="痛到心碎的虐心歌曲和伤感歌曲">
 
             <ImageView
@@ -28,18 +30,34 @@
                 android:id="@+id/cool_playListName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="35dp"
                 android:layout_marginLeft="150dp"
                 android:text="痛到心碎的虐心歌曲和伤感歌曲"
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
-            <Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/pick"
-                app:layout_collapseMode="pin"/>
+
+            <ImageView
+                android:id="@+id/cool_user_iv"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_launcher_background"
+                android:layout_marginLeft="150dp"
+                android:layout_marginTop="100dp"/>
+            <TextView
+                android:id="@+id/cool_user_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="张伟涛"
+                android:layout_marginLeft="180dp"
+                android:layout_marginTop="100dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="缘聚缘散，犹如云烟。\n已经不联系的人，\n默默地存在于你的通讯录中。"
+                android:layout_marginTop="140dp"
+                android:layout_marginLeft="40dp"
+                android:textStyle="italic"/>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -53,16 +71,21 @@
         android:layout_gravity="start"
         android:layout_margin="2dp"/>
 
-    <androidx.cardview.widget.CardView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="200dp"
-        app:cardCornerRadius="10dp">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/songlist_rv"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="2dp"
+        android:layout_marginTop="210dp">
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </androidx.cardview.widget.CardView>
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:layout_marginTop="0dp"
+            app:cardCornerRadius="10dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=""/>
+        </androidx.cardview.widget.CardView>
+    </ScrollView>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

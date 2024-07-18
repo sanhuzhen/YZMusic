@@ -16,6 +16,17 @@
       <SelectionState runConfigName="module_login">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
+      <SelectionState runConfigName="module_musicplayer">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="module_songlist">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="module_search">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="module_mvplayer">
+        <option name="selectionMode" value="DROPDOWN" />
       <SelectionState runConfigName="module_search">
         <option name="selectionMode" value="DROPDOWN" />
         <DropdownSelection timestamp="2024-07-17T03:32:29.609618600Z">
@@ -26,12 +37,6 @@
           </Target>
         </DropdownSelection>
         <DialogSelection />
-      </SelectionState>
-      <SelectionState runConfigName="module_musicplayer">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="module_songlist">
-        <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
   </component>

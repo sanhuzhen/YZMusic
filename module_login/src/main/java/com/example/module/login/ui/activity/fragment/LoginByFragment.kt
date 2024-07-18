@@ -1,8 +1,10 @@
 package com.example.module.login.ui.activity.fragment
 
+import android.app.AlertDialog
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.module.login.databinding.FragmentLoginByBinding
+import com.example.module.login.manager.UserManager
 import com.example.module.login.util.CountDownTimeUtils
 import com.example.module.login.viewmodel.MyViewModel
 import com.sanhuzhen.lib.base.BaseFragment
@@ -16,6 +18,7 @@ class LoginByFragment : BaseFragment<FragmentLoginByBinding>() {
     }
 
     override fun afterCreate() {
+        getknow()
         setCaptcha()
         getCaptcha()
     }
@@ -49,6 +52,18 @@ class LoginByFragment : BaseFragment<FragmentLoginByBinding>() {
                     Toast.makeText(this.requireContext(), "账号或密码错误", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+    }
+    fun getknow(){
+        mBinding.btnKnow.setOnClickListener{
+            val builder= AlertDialog.Builder(this.requireContext())
+            builder.setTitle("登陆须知")
+            builder.setMessage("这里使用手机号验证码登录，但登陆后无法保存登陆状态")
+            builder.setPositiveButton("确定"){ dialog, which ->
+                dialog.dismiss()
+            }
+            val dialog=builder.create()
+            dialog.show()
         }
     }
 

@@ -49,6 +49,9 @@ dependencies {
     implementation(project(":module_mine"))
     implementation(project(":module_hot"))
     implementation(project(":module_songlist"))
+    implementation(project(":module_search"))
+    implementation(project(":module_mvplayer"))
+
     kapt("cn.therouter:apt:1.2.2")
     implementation("cn.therouter:router:1.2.2")
     implementation(libs.androidx.core.ktx)

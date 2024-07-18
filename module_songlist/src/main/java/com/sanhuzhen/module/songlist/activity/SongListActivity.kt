@@ -1,7 +1,10 @@
 package com.sanhuzhen.module.songlist.activity
 
+import android.util.Log
+import androidx.lifecycle.ViewModelProvider
 import com.sanhuzhen.lib.base.BaseActivity
 import com.sanhuzhen.module.songlist.databinding.ActivitySonglistBinding
+import com.sanhuzhen.module.songlist.viewmodel.SongListViewModel
 import com.therouter.router.Autowired
 import com.therouter.router.Route
 
@@ -12,12 +15,19 @@ import com.therouter.router.Route
  */
 @Route(path = "/songlist/songListActivity")
 class SongListActivity : BaseActivity<ActivitySonglistBinding>() {
-
     @Autowired
     @JvmField
     var id: String? = null
+
+    private val mViewModel by lazy {
+        ViewModelProvider(this)[SongListViewModel::class.java]
+    }
+
+
     override fun afterCreate() {
-        
+        Log.d("SongListActivity", "id:$id")
+
+        mViewModel.getPlayList("638864394",50,0)
     }
 
     override fun getViewBinding(): ActivitySonglistBinding {
