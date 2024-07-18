@@ -79,12 +79,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
-            android:layout_marginTop="210dp"
+            android:layout_marginTop="0dp"
             app:cardCornerRadius="10dp">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="q\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\\n\n\n\n\n\nn\n\n\nn\\n\n\n\n\nrergetrt\n\n\tr\n\"/>
+                android:text=""/>
         </androidx.cardview.widget.CardView>
     </ScrollView>
 

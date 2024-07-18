@@ -1,6 +1,6 @@
 plugins {
-//    alias(libs.plugins.android.application)
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.android.application)
+//    alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     kotlin("kapt")
 }
@@ -10,11 +10,11 @@ android {
     compileSdk = 34
 
     defaultConfig {
-//        applicationId = "com.sanhuzhen.module.musicplayer"
+        applicationId = "com.sanhuzhen.module.musicplayer"
         minSdk = 24
         targetSdk = 34
-//        versionCode = 1
-//        versionName = "1.0"
+        versionCode = 1
+        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -51,6 +51,7 @@ dependencies {
     implementation("androidx.media3:media3-session:1.3.1")
     implementation("androidx.media3:media3-exoplayer:1.3.1")
 
+    implementation ("com.ms-square:expandableTextView:0.1.5")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
