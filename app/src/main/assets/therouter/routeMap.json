@@ -5,5 +5,12 @@
     "action": "",
     "description": "",
     "params": {}
+  },
+  {
+    "path": "/search/SearchActivity",
+    "className": "com.example.module.search.ui.activity.SearchActivity",
+    "action": "",
+    "description": "",
+    "params": {}
   }
 ]

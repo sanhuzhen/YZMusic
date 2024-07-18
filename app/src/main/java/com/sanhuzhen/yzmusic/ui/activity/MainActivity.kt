@@ -5,6 +5,8 @@ import com.sanhuzhen.lib.base.BaseActivity
 import com.sanhuzhen.yzmusic.R
 import com.sanhuzhen.yzmusic.adapter.VpAdapter
 import com.sanhuzhen.yzmusic.databinding.ActivityMainBinding
+import com.therouter.TheRouter
+
 /**
  * @author: sanhuzhen
  * @date: 2024/7/14
@@ -19,6 +21,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         initBottomNav()
         //抽屉式菜单
         initNavigationView()
+        initEvent()
     }
     private fun initBottomNav(){
         //Vp2设置
@@ -54,6 +57,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 R.id.menu_nav_mine -> mBinding.mainVp2.currentItem = 2
             }
             true
+        }
+    }
+    private fun initEvent(){
+        mBinding.mainToolbarSearch.setOnClickListener {
+            TheRouter.build("/search/SearchActivity").navigation()
         }
     }
 }

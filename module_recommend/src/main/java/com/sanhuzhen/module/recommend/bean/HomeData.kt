@@ -41,7 +41,7 @@ data class ResourceExtInfo(
     val commentSimpleData: CommentSimpleData,
     val playCount: Long,
     val songData: SongData,
-    )
+)
 
 data class UiElement(
     val image: Image,

@@ -15,7 +15,9 @@ import com.example.module.search.viewmodel.ArtistsViewModel
 import com.example.module.search.viewmodel.SharedVIewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sanhuzhen.lib.base.BaseActivity
+import com.therouter.router.Route
 
+@Route(path = "/search/SearchActivity")
 class SearchActivity : BaseActivity<ActivitySearchBinding>() {
     private val vpAdapter: SearchVpAdapter by lazy { SearchVpAdapter(this, listOf(1,2,3)) }
     private lateinit var sharedVIewModel: SharedVIewModel
@@ -37,7 +39,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
            }
        }.attach()
         mBinding.searchBack.setOnClickListener{
-
+            finish()
         }
 
         mBinding.searchBtn.setOnClickListener {
