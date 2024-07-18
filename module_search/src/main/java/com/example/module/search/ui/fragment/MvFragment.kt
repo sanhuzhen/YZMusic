@@ -1,6 +1,7 @@
 package com.example.module.search.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -32,6 +33,7 @@ class MvFragment : BaseFragment<FragmentMvBinding>(){
         }
         sharedVIewModel.someData.observe(viewLifecycleOwner) {
             mvViewModel.getMvData(sharedVIewModel.someData.value!!,1004,100)
+            Log.d("MvFragment", "onViewCreated: ${sharedVIewModel.someData.value}")
             mvViewModel.mvData.observe(viewLifecycleOwner) {
                 mvAdapter.submitList(it.result.mvs)
             }
