@@ -12,6 +12,7 @@ android {
     defaultConfig {
 //        applicationId = "com.example.module.search"
         minSdk = 26
+        minSdk = 24
         targetSdk = 34
 //        versionCode = 1
 //        versionName = "1.0"
@@ -42,11 +43,10 @@ android {
 
 dependencies {
     kapt("cn.therouter:apt:1.2.2")
-    implementation ("androidx.core:core-ktx:1.7.0")
     implementation("cn.therouter:router:1.2.2")
 
     implementation ("com.github.bumptech.glide:glide:4.12.0")
-    implementation ("com.github.bumptech.glide:glide:4.12.0")
+
     implementation ("com.squareup.retrofit2:adapter-rxjava3:2.9.0")
     // 正常 RxJava 依赖
     implementation ("io.reactivex.rxjava3:rxjava:3.0.13")

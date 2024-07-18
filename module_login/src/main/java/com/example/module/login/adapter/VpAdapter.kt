@@ -5,9 +5,10 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.module.login.ui.activity.fragment.LoginByFragment
 import com.example.module.login.ui.activity.fragment.LoginFragment
+import com.example.module.login.ui.activity.fragment.VisitFragment
 
 class VpAdapter(fa: FragmentActivity, val l: List<Int>):FragmentStateAdapter(fa) {
-    override fun getItemCount(): Int =2
+    override fun getItemCount(): Int =3
 
     override fun createFragment(position: Int): Fragment {
 
@@ -17,6 +18,9 @@ class VpAdapter(fa: FragmentActivity, val l: List<Int>):FragmentStateAdapter(fa)
             }
             1->{
                 LoginByFragment()
+            }
+            2->{
+                VisitFragment()
             }
 
             else -> error("Error Fragment")

@@ -1,4 +1,4 @@
-package com.sanhuzhen.module.mine
+package com.sanhuzhen.module.mine.ui.fragment
 
 import com.sanhuzhen.lib.base.BaseFragment
 import com.sanhuzhen.module.mine.databinding.FragmentMineBinding

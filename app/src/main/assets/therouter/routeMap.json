@@ -9,6 +9,8 @@
   {
     "path": "/search/SearchActivity",
     "className": "com.example.module.search.ui.activity.SearchActivity",
+    "path": "/songlist/songListActivity",
+    "className": "com.sanhuzhen.module.songlist.SongListActivity",
     "action": "",
     "description": "",
     "params": {}
