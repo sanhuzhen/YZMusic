@@ -15,19 +15,9 @@ import com.therouter.router.Route
  */
 @Route(path = "/songlist/songListActivity")
 class SongListActivity : BaseActivity<ActivitySonglistBinding>() {
-    @Autowired
-    @JvmField
-    var id: String? = null
-
-    private val mViewModel by lazy {
-        ViewModelProvider(this)[SongListViewModel::class.java]
-    }
-
 
     override fun afterCreate() {
-        Log.d("SongListActivity", "id:$id")
 
-        mViewModel.getPlayList("638864394",50,0)
     }
 
     override fun getViewBinding(): ActivitySonglistBinding {
