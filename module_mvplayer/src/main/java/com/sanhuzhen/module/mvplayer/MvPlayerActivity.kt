@@ -20,7 +20,7 @@ import com.therouter.router.Route
  * @date: 2024/7/18
  * @description: MV播放器
  */
-
+@Route(path = "/mvplayer/MvPlayerActivity")
 class MvPlayerActivity : BaseActivity<ActivityMvplayerBinding>() {
     @Autowired
     @JvmField
