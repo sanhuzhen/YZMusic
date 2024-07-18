@@ -1,5 +1,6 @@
 package com.sanhuzhen.module.mvplayer
 
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
@@ -46,10 +47,16 @@ class MvPlayerActivity : BaseActivity<ActivityMvplayerBinding>() {
         }
         mViewModel.apply {
             mvUrl.observe(this@MvPlayerActivity) {
-                val mediaItem = MediaItem.fromUri(it.url)
-                player.setMediaItem(mediaItem)
-                player.prepare()
-                player.playWhenReady = true
+                //加入非空判断,否则奔溃
+                if (it.url==null){
+                    Toast.makeText(this@MvPlayerActivity,"该视频无法播放",Toast.LENGTH_SHORT).show()
+                }else{
+                    val mediaItem = MediaItem.fromUri(it.url)
+                    player.setMediaItem(mediaItem)
+                    player.prepare()
+                    player.playWhenReady = true
+                }
+
             }
             mvDetail.observe(this@MvPlayerActivity) {
                 initMvDetail(it)
