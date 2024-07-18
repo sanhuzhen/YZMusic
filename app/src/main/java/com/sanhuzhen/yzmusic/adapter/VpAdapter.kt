@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.sanhuzhen.module.recommend.RecommendFragment
 import com.sanhuzhen.module.hot.HotFragment
-import com.sanhuzhen.module.mine.MineFragment
+import com.sanhuzhen.module.mine.ui.fragment.MineFragment
 
 
 class VpAdapter(fa : FragmentActivity) : FragmentStateAdapter(fa)  {
