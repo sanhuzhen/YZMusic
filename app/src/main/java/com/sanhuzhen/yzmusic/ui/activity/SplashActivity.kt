@@ -32,7 +32,8 @@ class SplashActivity : AppCompatActivity() {
     private val mViewmodel: MyViewModel by lazy { ViewModelProvider(this)[MyViewModel::class.java] }
     val GO_HOME = 1
     val GO_LOGIN = 2
-    private val mHandler = object : Handler() {
+    private val mHandler = @SuppressLint("HandlerLeak")
+    object : Handler() {
         override fun handleMessage(msg: Message) {
             when (msg.what) {
                 GO_HOME -> {
