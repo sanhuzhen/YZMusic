@@ -17,6 +17,9 @@
         <activity
             android:name=".ui.activity.MainActivity"
             android:exported="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.sanhuzhen.module.songlist.activity.SongListActivity" />
 
         </activity>
         <activity android:name=".ui.activity.SplashActivity"

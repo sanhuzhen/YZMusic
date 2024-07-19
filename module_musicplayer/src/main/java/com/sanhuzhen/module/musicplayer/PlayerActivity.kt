@@ -3,15 +3,11 @@ package com.sanhuzhen.module.musicplayer
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.util.Log
 import android.view.animation.LinearInterpolator
-import android.widget.RadioGroup
+import android.widget.SeekBar
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -19,8 +15,6 @@ import com.sanhuzhen.lib.base.BaseActivity
 import com.sanhuzhen.module.musicplayer.databinding.ActivityPlayerBinding
 import com.sanhuzhen.module.musicplayer.viewmodel.PlayViewModel
 import com.therouter.router.Autowired
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 /**
  * @author: sanhuzhen
@@ -111,8 +105,22 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding>() {
             }
             isPlaying = !isPlaying
         }
-
         mBinding.musicTimeTotal.text = musicTime1
+        mBinding.seekBar.setOnSeekBarChangeListener(
+        object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+        })
     }
 
     override fun onDestroy() {

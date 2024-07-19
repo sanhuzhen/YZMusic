@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.android.material.tabs.TabLayoutMediator
 import com.sanhuzhen.lib.base.BaseFragment
 import com.sanhuzhen.module.recommend.adapter.BannerAdapter
 import com.sanhuzhen.module.recommend.adapter.HomePlayListAdapter
@@ -24,8 +25,7 @@ import java.util.TimerTask
  * @date: 2024/7/16
  * @description:
  */
-class RecommendFragment : BaseFragment<FragmentRecommendBinding>(),
-    HomePlayListAdapter.OnItemClickListener {
+class RecommendFragment : BaseFragment<FragmentRecommendBinding>() {
     private var BannerList: MutableList<Banner> = mutableListOf()
     private var homePageSlidePlayList: MutableList<Resource> = mutableListOf()
     private var homePageSlidePlayListTitle: String? = null
@@ -61,6 +61,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(),
 
     }
 
+    //分析数据
     private fun otherEvent(data: HomeData) {
         //得到HomeData中的Banner数据，并将Fragment加入BannerFragments
         for (i in data.data.blocks) {
@@ -102,7 +103,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(),
 
     private fun initMyList() {
         mBinding.recommendMySongListTitle.text = MySongListTitle
-        val mAdapter = HomePlayListAdapter(requireActivity(),this)
+        val mAdapter = HomePlayListAdapter(this)
         mAdapter.submitList(MySongList)
         mBinding.recommendMySongListRv.apply {
             layoutManager =
@@ -126,7 +127,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(),
     //实现HomePlayList
     private fun initHomeList() {
         mBinding.recommendPageTitle.text = homePageSlidePlayListTitle
-        val adapter = HomePlayListAdapter(requireActivity(), this)
+        val adapter = HomePlayListAdapter(this)
         adapter.submitList(homePageSlidePlayList)
         mBinding.recommendRv.apply {
             layoutManager =
@@ -143,6 +144,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(),
             adapter = mAdapter
             setPageTransformer(ZoomOutPageTransformer())
         }
+
         killDelayedTask()
         timer = Timer()
         timerTask = object : TimerTask() {
@@ -178,14 +180,6 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>(),
         timer = null
     }
 
-    //设置HomePageLists中的点击事件
-    override fun onItemClick(item: Resource) {
-        TheRouter.build("/songlist/songListActivity")
-            .withString("id", item.resourceId)
-            .withString("alTv",item.uiElement.image.imageUrl)
 
-            .navigation()
-        Log.d("onClick","sakcdheiuwshfuc")
-    }
 
 }
