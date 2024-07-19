@@ -7,13 +7,6 @@
     "params": {}
   },
   {
-    "path": "/songlist/songListActivity",
-    "className": "com.sanhuzhen.module.songlist.SongListActivity",
-    "action": "",
-    "description": "",
-    "params": {}
-  },
-  {
     "path": "/mvplayer/MvPlayerActivity",
     "className": "com.sanhuzhen.module.mvplayer.MvPlayerActivity",
     "action": "",
@@ -21,8 +14,22 @@
     "params": {}
   },
   {
+    "path": "/mine/MineFragment",
+    "className": "com.sanhuzhen.module.mine.ui.fragment.MineFragment",
+    "action": "",
+    "description": "",
+    "params": {}
+  },
+  {
     "path": "/search/SearchActivity",
     "className": "com.example.module.search.ui.activity.SearchActivity",
+    "action": "",
+    "description": "",
+    "params": {}
+  },
+  {
+    "path": "/login/LoginActivity",
+    "className": "com.example.module.login.ui.activity.activity.LoginActivity",
     "action": "",
     "description": "",
     "params": {}

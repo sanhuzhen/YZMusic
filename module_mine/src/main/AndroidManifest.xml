@@ -3,9 +3,20 @@
 
     <application>
         <activity
+            android:name=".ui.activity.NetActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.FocusActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.FavouriteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.HistoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.fragment.MineFragment"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
     </application>
 
 </manifest>

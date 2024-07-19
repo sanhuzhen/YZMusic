@@ -7,6 +7,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/second_background"
     tools:context=".ui.activity.SearchActivity">
 
     <LinearLayout
@@ -45,15 +46,21 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="40dp"
         app:tabGravity="center"
         app:tabMode="scrollable"
-        android:background="@color/light_grey"
+        android:background="@drawable/second_background"
         />
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
+    <androidx.cardview.widget.CardView
+        android:layout_width="350dp"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:layout_marginLeft="5dp">
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>

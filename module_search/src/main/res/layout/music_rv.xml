@@ -31,7 +31,7 @@
         android:textSize="15sp"
         android:textStyle="italic"
         android:gravity="left"
-        android:textColor="@color/light_grey"/>
+        android:textColor="@color/grey"/>
 
     <ImageView
         android:layout_width="50dp"

@@ -7,87 +7,124 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.MineFragment">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginStart="168dp"
-        android:layout_marginTop="108dp"
+    <LinearLayout
+        android:id="@+id/layout_mine"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="144dp"
+        android:layout_marginTop="52dp"
+        android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="12dp"
-        android:text="Mine"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:src="@drawable/ic_my"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="      游客"
+            app:layout_constraintStart_toStartOf="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    </LinearLayout>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="350dp"
-        android:layout_height="300dp"
+        android:layout_width="300dp"
+        android:layout_height="270dp"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="248dp"
+        android:layout_marginTop="164dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/music_favourite"
             android:layout_width="71dp"
             android:layout_height="78dp"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="25dp"
             android:layout_marginTop="40dp"
-            android:id="@+id/music_favourite"
             android:orientation="vertical">
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:src="@drawable/music_favourite"/>
+                android:src="@drawable/music_favourite" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:text="     收藏"
-                android:textSize="15sp"/>
+                android:textSize="15sp" />
 
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/music_history"
             android:layout_width="71dp"
             android:layout_height="78dp"
-            android:orientation="vertical"
-            android:id="@+id/music_history"
-            android:layout_marginLeft="150dp"
-            android:layout_marginTop="40dp">
+            android:layout_marginLeft="125dp"
+            android:layout_marginTop="40dp"
+            android:orientation="vertical">
+
             <ImageView
-                android:layout_width="65dp"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:src="@drawable/music_history"/>
+                android:src="@drawable/music_history" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:text="历史播放"
-                android:textSize="15sp"/>
+                android:textSize="15sp" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/my_focus"
             android:layout_width="71dp"
             android:layout_height="78dp"
-            android:orientation="vertical"
-            android:layout_marginLeft="250dp"
-            android:layout_marginTop="40dp">
+            android:layout_marginLeft="220dp"
+            android:layout_marginTop="40dp"
+            android:orientation="vertical">
+
             <ImageView
-                android:layout_width="65dp"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:src="@drawable/focus"/>
+                android:src="@drawable/focus" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
-                android:text="我的关注"/>
+                android:text="我的关注" />
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/music_net"
+            android:layout_width="71dp"
+            android:layout_height="78dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="150dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:src="@drawable/net_music" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:text=" 我的云盘" />
+        </LinearLayout>
+
     </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

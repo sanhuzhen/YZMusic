@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.activity.fragment.LoginByFragment"
-    android:background="@drawable/img">
+    android:background="@color/white"
+    >
 
     <com.google.android.material.textfield.TextInputLayout
 
