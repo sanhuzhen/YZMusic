@@ -9,7 +9,7 @@ import retrofit2.http.Query
 
 interface ApiService {
     //获取音乐url
-    @GET("/song/url")
+    @GET("song/url")
     fun getMusicUrl(
         @Query("id") id: String
     ): Observable<MusicUrlData>

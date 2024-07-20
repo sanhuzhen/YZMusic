@@ -16,7 +16,7 @@ data class Data(
     val fee: Long,
     val flag: Long,
     val freeTimeTrialPrivilege: FreeTimeTrialPrivilege,
-    val freeTrialInfo: Any,
+    val freeTrialInfo: FreeTrialInfo,
     val freeTrialPrivilege: FreeTrialPrivilege,
     val gain: Double,
     val id: Long,
@@ -43,8 +43,15 @@ data class FreeTimeTrialPrivilege(
     val userConsumable: Boolean
 )
 
+data class FreeTrialInfo(
+    val algData: Any,
+    val end: Long,
+    val fragmentType: Long,
+    val start: Long
+)
+
 data class FreeTrialPrivilege(
-    val cannotListenReason: Any,
+    val cannotListenReason: Long,
     val listenType: Any,
     val playReason: Any,
     val resConsumable: Boolean,

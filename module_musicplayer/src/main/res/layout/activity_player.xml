@@ -111,7 +111,7 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="570dp">
+        android:layout_marginTop="575dp">
         <TextView
             android:id="@+id/music_time_current"
             android:layout_width="0dp"
@@ -136,30 +136,44 @@
 
     <ImageView
         android:id="@+id/music_play"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/music_close"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/music_open"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"/>
+        android:layout_marginBottom="60dp"/>
     <ImageView
         android:id="@+id/music_front"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_toLeftOf="@id/music_play"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="68dp"
+        android:layout_marginBottom="78dp"
         android:src="@drawable/front"
-        android:layout_marginRight="40dp"/>
+        android:layout_marginRight="30dp"/>
     <ImageView
         android:id="@+id/music_next"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_toRightOf="@id/music_play"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="68dp"
-        android:layout_marginLeft="40dp"
+        android:layout_marginBottom="78dp"
+        android:layout_marginLeft="30dp"
         android:src="@drawable/next"/>
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/music_list"
+        android:layout_toRightOf="@id/music_next"
+        android:layout_alignTop="@id/music_next"
+        android:layout_marginLeft="25dp"/>
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_toLeftOf="@id/music_front"
+        android:layout_alignTop="@id/music_front"
+        android:src="@drawable/suiji"
+        android:layout_marginRight="25dp"/>
 
 
 

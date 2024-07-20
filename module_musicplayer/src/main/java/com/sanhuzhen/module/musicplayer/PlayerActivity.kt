@@ -2,32 +2,49 @@ package com.sanhuzhen.module.musicplayer
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.content.ServiceConnection
+import android.os.IBinder
 import android.util.Log
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
 import android.widget.Toast
+import androidx.annotation.OptIn
 import androidx.lifecycle.ViewModelProvider
+import androidx.media3.common.util.UnstableApi
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sanhuzhen.lib.base.BaseActivity
+import com.sanhuzhen.module.musicplayer.bean.Data
 import com.sanhuzhen.module.musicplayer.databinding.ActivityPlayerBinding
 import com.sanhuzhen.module.musicplayer.viewmodel.PlayViewModel
 import com.therouter.router.Autowired
+import java.util.ArrayList
 
 /**
  * @author: sanhuzhen
  * @date: 2024/7/19
- * @description:mv播放
+ * @description:music播放
  */
+@UnstableApi
 class PlayerActivity : BaseActivity<ActivityPlayerBinding>() {
     @Autowired
     @JvmField
-    var id: String? = null
+    var idList: ArrayList<String>? = null
 
+    private var mBinder: PlayerService.MusicBinder?=null
+    private var myService: PlayerService? = null//服务
+    private var BASE_URL: String? = ""
     private var isPlaying = false//是否播放音乐
-    private var Url: String? = null//音乐url
+    private var bound = false//是否绑定服务
+    private var isUserTouchingSeekBar = false
+    private var MusicUrl: ArrayList<String>? = ArrayList()//音乐url
     private var musicName: String? = null//音乐名称
     private var singer: String? = null//歌手
     private var musicAlbum: String? = null//专辑
@@ -36,97 +53,97 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding>() {
     private var musicTime1: String? = null//转换的时间
     private var animator: ObjectAnimator? = null//旋转动画
 
+
     private val mViewModel by lazy {
         ViewModelProvider(this)[PlayViewModel::class.java]
     }
 
-    override fun afterCreate() {
-        mViewModel.checkMusic("33894312")
-        mViewModel.checkMusic.observe(this) {
-            if (it.success) {
-                mViewModel.apply {
-                    getMusicUrl("33894312")
-                    getSongDetail("33894312")
-                }
-            } else {
-                Toast.makeText(this, "抱歉，获取失败", Toast.LENGTH_SHORT).show()
-            }
-        }
-        mViewModel.apply {
-            musicUrl.observe(this@PlayerActivity) {
-                Url = it.url
-                musicTime = it.time / 1000
-                //计算时长
-                musicTime1 = calculateTime(musicTime)
-                initEvents()
-            }
-            songDetail.observe(this@PlayerActivity) {
-                musicName = it.name
-                for (i in it.ar) {
-                    singer = singer + i.name + ' '
-                }
-                musicCoverUrl = it.al.picUrl
-                musicAlbum = it.al.name
-                mBinding.musicName.text = musicName
-                mBinding.apply {
-                    musicSinger.text = singer
-                }
-                Glide.with(this@PlayerActivity).load(musicCoverUrl)
-                    .transform(CenterCrop(), RoundedCorners(360)).into(mBinding.musicImage)
-            }
+    private val connection = object : ServiceConnection {
+        @OptIn(UnstableApi::class)
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            mBinder = service as PlayerService.MusicBinder
+            mBinder?.setSongList(MusicUrl!!)
         }
 
+        override fun onServiceDisconnected(name: ComponentName?) {
+
+        }
+
+    }
+
+
+    override fun afterCreate() {
+        idList = arrayListOf("33894312","33894311")
+        //拼接url
+        idList?.let {
+            for (i in it) {
+                BASE_URL = BASE_URL + i
+                //判断是否带逗号
+                if (i != it[it.size - 1]) {
+                    BASE_URL = BASE_URL + ","
+                }
+            }
+            Log.d("BASE_URL", "$BASE_URL")
+        }
+        BASE_URL?.let {
+            mViewModel.apply {
+                getMusicUrl(it)
+            }
+        }
+        mViewModel.musicUrl.observe(this) {
+            for (i in it) {
+                MusicUrl?.add(i.url)
+                Log.d("you", "${i.url}")
+            }
+            initEvent()
+        }
+
+        Thread.sleep(1000)
+    }
+
+    //一些UI的点击事件
+    @OptIn(UnstableApi::class)
+    private fun initEvent() {
+        mBinding.apply {
+            musicPlay.setOnClickListener {
+                Log.d("TAG", "onClick: ")
+                if (isPlaying) {
+                    mBinder?.pauseMusic()
+                    musicPlay.setImageResource(R.drawable.music_close)
+                } else {
+                    mBinder?.playMusic()
+                    musicPlay.setImageResource(R.drawable.music_open)
+                }
+                isPlaying = !isPlaying
+            }
+            musicNext.setOnClickListener {
+                mBinder?.playNext()
+            }
+            musicFront.setOnClickListener {
+                mBinder?.playPrevious()
+            }
+        }
+    }
+
+    @OptIn(UnstableApi::class)
+    override fun onStart() {
+        super.onStart()
+        if (!bound) {
+            val intent = Intent(this, PlayerService::class.java)
+            bindService(intent, connection, Context.BIND_AUTO_CREATE)
+            isPlaying = true
+            bound = true
+        }
     }
 
     override fun getViewBinding(): ActivityPlayerBinding {
         return ActivityPlayerBinding.inflate(layoutInflater)
     }
 
-    private fun initEvents() {
-        mBinding.musicPlay.setOnClickListener {
-            Log.d("OnePlus", "dfsgeswgerg")
-            if (!isPlaying) {
-                //启动服务
-                val intent = Intent(this, PlayerService::class.java)
-                intent.putExtra("url", Url)
-                startService(intent)
-                mBinding.musicPlay.setImageResource(R.drawable.music_open)
-                if (animator != null) {
-                    animator?.resume()
-                } else {
-                    RecordRotation()//旋转动画
-                }
-
-            } else {
-                //停止服务
-                stopService(Intent(this, PlayerService::class.java))
-                mBinding.musicPlay.setImageResource(R.drawable.music_close)
-                StopRotation()
-            }
-            isPlaying = !isPlaying
-        }
-        mBinding.musicTimeTotal.text = musicTime1
-        mBinding.seekBar.setOnSeekBarChangeListener(
-        object : SeekBar.OnSeekBarChangeListener{
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-
-            }
-
-        })
-    }
-
     override fun onDestroy() {
         super.onDestroy()
-        //停止服务
-        stopService(Intent(this, PlayerService::class.java))
+        //停止服务,不需要停止，要在后台一直播放
+//        stopService(Intent(this, PlayerService::class.java))
     }
 
     //事件转换器
@@ -168,7 +185,6 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding>() {
     private fun StopRotation() {
         animator?.pause()
     }
-
 
 
 }

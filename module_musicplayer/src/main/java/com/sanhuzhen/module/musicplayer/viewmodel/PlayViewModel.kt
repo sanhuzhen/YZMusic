@@ -18,14 +18,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class PlayViewModel : ViewModel() {
-    private val _musicUrl = MutableLiveData<Data>()
+    private val _musicUrl = MutableLiveData<List<Data>>()
     private val _checkMusic = MutableLiveData<MusicUsdData>()
     private val _songDetail = MutableLiveData<Song>()
 
 //    private val _mutableStateFlow = MutableStateFlow<MusicUsdData?>(null)
 //    val mutableStateFlow get() = _mutableStateFlow.asStateFlow()
 
-    val musicUrl: MutableLiveData<Data>
+    val musicUrl: MutableLiveData<List<Data>>
         get() = _musicUrl
     val checkMusic: MutableLiveData<MusicUsdData>
         get() = _checkMusic
@@ -46,8 +46,8 @@ class PlayViewModel : ViewModel() {
 
             }
             override fun onNext(t: MusicUrlData) {
-                _musicUrl.postValue(t.data[0])
-                Log.d("Success", "---------  ${t.data[0].url}")
+                _musicUrl.postValue(t.data)
+                Log.d("Success", "---------  ${t.data}")
             }
         })
     }

@@ -4,7 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="module_musicplayer">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-07-19T08:57:45.874893400Z">
+        <DropdownSelection timestamp="2024-07-20T07:26:20.029002200Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="PhysicalDevice" identifier="serial=df5b369" />

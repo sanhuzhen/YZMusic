@@ -3,6 +3,7 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">m8.music.126.net</domain>
         <domain includeSubdomains="true">p1.music.126.net</domain>
+        <domain includeSubdomains="true">m702.music.126.net</domain>
     </domain-config>
     <base-config cleartextTrafficPermitted="true"/>
 </network-security-config>
