@@ -3,9 +3,11 @@
 
     <application>
         <activity
-            android:name=".HotFragment"
-            android:exported="true">
-        </activity>
+            android:name=".ui.activity.DetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.fragment.HotFragment"
+            android:exported="true"></activity>
     </application>
 
 </manifest>

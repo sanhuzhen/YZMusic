@@ -4,7 +4,9 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sanhuzhen.module.mine.bean.BaseData
+import com.sanhuzhen.module.mine.bean.CloudData
 import com.sanhuzhen.module.mine.bean.FavouriteData
+import com.sanhuzhen.module.mine.bean.FocusData
 import com.sanhuzhen.module.mine.bean.HistoryData
 import com.sanhuzhen.module.mine.bean.PLData
 import com.sanhuzhen.module.mine.repository.NetRepository
@@ -24,6 +26,12 @@ class BaseViewModel:ViewModel() {
     private val favourite=MutableLiveData<FavouriteData>()
     val mFavourite:MutableLiveData<FavouriteData>
         get() = favourite
+    private val cloud=MutableLiveData<CloudData>()
+    val mCloud:MutableLiveData<CloudData>
+        get() = cloud
+    private val focus=MutableLiveData<FocusData>()
+    val mFocus:MutableLiveData<FocusData>
+        get() = focus
     fun getBase(uid:Long){
         NetRepository.getSearchData(uid).subscribe(object : Observer<BaseData> {
             override fun onSubscribe(d: Disposable) {
@@ -104,6 +112,46 @@ class BaseViewModel:ViewModel() {
             override fun onNext(t: FavouriteData) {
                 Log.d("BaseFavourite", "${t}")
                 favourite.postValue(t)
+            }
+        })
+    }
+    fun getCloud(limit:Int){
+        NetRepository.getCloudData(limit).subscribe(object : Observer<CloudData> {
+            override fun onSubscribe(d: Disposable) {
+
+            }
+
+            override fun onError(e: Throwable) {
+                Log.d("CloudError","${e.message}")
+            }
+
+            override fun onComplete() {
+
+            }
+
+            override fun onNext(t: CloudData) {
+                Log.d("BaseCloud", "${t}")
+               cloud.postValue(t)
+            }
+        })
+    }
+    fun getFocus(uid:Long){
+        NetRepository.getFollowsData(uid).subscribe(object : Observer<FocusData> {
+            override fun onSubscribe(d: Disposable) {
+
+            }
+
+            override fun onError(e: Throwable) {
+                Log.d("FocusError","${e.message}")
+            }
+
+            override fun onComplete() {
+
+            }
+
+            override fun onNext(t: FocusData) {
+                Log.d("BaseFocus", "${t}")
+                focus.postValue(t)
             }
         })
     }

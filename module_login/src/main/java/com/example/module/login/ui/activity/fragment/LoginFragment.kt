@@ -69,7 +69,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding> () {
              val builder=AlertDialog.Builder(this.requireContext())
              builder.setTitle("登陆须知")
              builder.setMessage("这里使用邮箱或者手机号登录，并且登陆后可以保持登陆状态")
-             builder.setPositiveButton("确定"){ dialog, which ->
+             builder.setPositiveButton("确定"){ dialog, _ ->
                  dialog.dismiss()
              }
              val dialog=builder.create()

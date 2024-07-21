@@ -2,7 +2,9 @@ package com.sanhuzhen.module.mine.repository
 
 import com.sanhuzhen.lib.net.RetrofitRequest
 import com.sanhuzhen.module.mine.bean.BaseData
+import com.sanhuzhen.module.mine.bean.CloudData
 import com.sanhuzhen.module.mine.bean.FavouriteData
+import com.sanhuzhen.module.mine.bean.FocusData
 import com.sanhuzhen.module.mine.bean.HistoryData
 import com.sanhuzhen.module.mine.bean.PLData
 import com.sanhuzhen.module.mine.network.ApiService
@@ -31,6 +33,16 @@ object NetRepository {
     }
     fun getFavouriteData(id: Long): Observable<FavouriteData> {
         return apiService.getFavouriteData(id)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+    fun getCloudData(limit: Int): Observable<CloudData> {
+        return apiService.getCloudData(limit)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+    fun getFollowsData(uid: Long): Observable<FocusData> {
+        return apiService.getFollowsData(uid)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
