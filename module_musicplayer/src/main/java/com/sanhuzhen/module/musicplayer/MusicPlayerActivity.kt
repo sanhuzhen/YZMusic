@@ -5,9 +5,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
+import androidx.media3.common.Player
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sanhuzhen.lib.base.BaseActivity
+import com.sanhuzhen.module.musicplayer.adapter.SingerAdapter
 import com.sanhuzhen.module.musicplayer.adapter.VpAdapter
 import com.sanhuzhen.module.musicplayer.databinding.ActivityMusicplayerBinding
 import com.sanhuzhen.module.musicplayer.fragment.PlayFragment
@@ -79,6 +82,7 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
                 }
             }
         }
+        initBackPress()
         initVp()
         initNetwork()
         initView()
@@ -128,9 +132,10 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
             finish()
         }
         mBinding.musicShare.setOnClickListener {
+            currentPosition = mBinder.getMusicPosition()
             // 创建分享意图
             val shareIntent = Intent().apply {
-                val title = "$musicName -- $musicAuthor\n $musicUrl"
+                val title = "$musicName -- $musicAuthor\n ${musicUrlList[currentPosition]}"
                 action = Intent.ACTION_SEND
                 putExtra(Intent.EXTRA_TEXT, title)
                 type = "text/plain"
@@ -142,9 +147,11 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
             if (mBinder.getPlayWhenReady()){
                 mBinder.stopMusic()
                 mBinding.musicPlay.setImageResource(R.drawable.music_close)
+                playViewModel.isPlay(false)
             }else{
                 mBinder.playMusic()
                 mBinding.musicPlay.setImageResource(R.drawable.music_open)
+                playViewModel.isPlay(true)
             }
         }
         mBinding.musicNext.setOnClickListener {
@@ -183,6 +190,31 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
                 }
             }
         }.attach()
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unbindService(connection)
+    }
+
+    //一些动画效果
+    private fun initBackPress() {
+        // 添加返回按钮的回调函数
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // 在这里处理返回按钮事件
+                handleCustomOnBackPressed()
+            }
+        })
+    }
+    private fun handleCustomOnBackPressed() {
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out)
     }
 
 

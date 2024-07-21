@@ -36,37 +36,15 @@ class PlayFragment : BaseFragment<FragmentPlayBinding>() {
     }
 
     override fun afterCreate() {
-//        RecordRotation()
-//        mBinding.musicPlay.setOnClickListener {
-//            if (isPlaying) {
-//                mViewModel.isPlay(false)
-//                mBinding.musicPlay.setImageResource(R.drawable.music_close)
-//                animator?.pause()
-//            } else {
-//                mViewModel.isPlay(true)
-//                mBinding.musicPlay.setImageResource(R.drawable.music_open)
-//                animator?.resume()
-//            }
-//            isPlaying = !isPlaying
-//        }
-//        mBinding.musicNext.setOnClickListener {
-//            mViewModel.changeMusic(1)
-//            if (!isPlaying) {
-//                mBinding.musicPlay.setImageResource(R.drawable.music_open)
-//                animator?.resume()
-//                isPlaying = true
-//            }
-//        }
-//        mBinding.musicFront.setOnClickListener {
-//            mViewModel.changeMusic(0)
-//            if (!isPlaying) {
-//                mBinding.musicPlay.setImageResource(R.drawable.music_open)
-//                animator?.resume()
-//                isPlaying = true
-//            }
-//        }
-//        initUIEvent()
-
+        RecordRotation()
+        mViewModel.isPlay.observe(requireActivity()){
+            if (it) {
+                animator?.resume()
+            } else {
+                animator?.pause()
+            }
+        }
+        initUIEvent()
     }
 
     /**

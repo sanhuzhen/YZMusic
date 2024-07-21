@@ -33,4 +33,9 @@ abstract class BaseFragment<VB: ViewBinding> : Fragment() {
         TheRouter.inject(this)
         afterCreate()
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+    }
 }
