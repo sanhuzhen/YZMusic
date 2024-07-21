@@ -1,7 +1,7 @@
 package com.sanhuzhen.module.musicplayer.api
 
 import com.sanhuzhen.module.musicplayer.bean.MusicUrlData
-import com.sanhuzhen.module.musicplayer.bean.MusicUsdData
+import com.sanhuzhen.module.musicplayer.bean.MusicUsedData
 import com.sanhuzhen.module.musicplayer.bean.SongDetailData
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.GET
@@ -17,7 +17,7 @@ interface ApiService {
     //音乐是否可用
     @GET("check/music")
 //    suspend fun checkMusic(@Query("id") id: String): MusicUsdData
-    fun checkMusic(@Query("id") id: String): Observable<MusicUsdData>
+    fun checkMusic(@Query("id") id: String): Observable<MusicUsedData>
 
     //获取歌曲详情
     @GET("song/detail")

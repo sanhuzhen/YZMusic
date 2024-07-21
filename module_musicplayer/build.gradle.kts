@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.android.application)
-//    alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     kotlin("kapt")
 }
@@ -18,9 +17,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-    viewBinding{
-        enable = true
-    }
 
     buildTypes {
         release {
@@ -30,6 +26,9 @@ android {
                 "proguard-rules.pro"
             )
         }
+    }
+    buildFeatures {
+        viewBinding = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -64,7 +63,6 @@ dependencies {
     implementation("androidx.media3:media3-ui:1.3.1")
     implementation("androidx.media3:media3-session:1.3.1")
     implementation("androidx.media3:media3-exoplayer:1.3.1")
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
