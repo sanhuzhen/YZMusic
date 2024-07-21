@@ -1,6 +1,7 @@
 package com.sanhuzhen.module.hot.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sanhuzhen.module.hot.bean.HotListData
@@ -13,16 +14,16 @@ import io.reactivex.rxjava3.disposables.Disposable
 
 class BaseViewModel :ViewModel(){
     private val singer=MutableLiveData<SingerData>()
-    val mSinger:MutableLiveData<SingerData>
+    val mSinger:LiveData<SingerData>
         get() = singer
     private val topList=MutableLiveData<TopListData>()
-    val mTopList:MutableLiveData<TopListData>
+    val mTopList: LiveData<TopListData>
         get() = topList
     private val hotList=MutableLiveData<HotListData>()
-    val mHotList:MutableLiveData<HotListData>
+    val mHotList:LiveData<HotListData>
         get() = hotList
     private val songList=MutableLiveData<SongListData>()
-    val mSongList:MutableLiveData<SongListData>
+    val mSongList:LiveData<SongListData>
         get() = songList
     fun getSinger(){
         NetRepository.getSingerData().subscribe(object : Observer<SingerData> {
@@ -76,7 +77,7 @@ class BaseViewModel :ViewModel(){
 
             override fun onNext(t: HotListData) {
                 Log.d("HotList","${t}")
-                mHotList.postValue(t)
+                hotList.postValue(t)
             }
         })
     }

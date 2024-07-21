@@ -1,6 +1,7 @@
 package com.example.module.login.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.module.login.bean.MyData
@@ -12,7 +13,7 @@ class MyViewModel:ViewModel() {
     private val num=MutableLiveData<MyData>()
 
 
-    val _num:MutableLiveData<MyData>
+    val _num: LiveData<MyData>
         get() = num
 
     fun getNum(email:String,password:String){

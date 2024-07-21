@@ -1,6 +1,7 @@
 package com.sanhuzhen.module.mine.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sanhuzhen.module.mine.bean.BaseData
@@ -15,22 +16,22 @@ import io.reactivex.rxjava3.disposables.Disposable
 
 class BaseViewModel:ViewModel() {
     private val base=MutableLiveData<BaseData>()
-    val mBase:MutableLiveData<BaseData>
+    val mBase: LiveData<BaseData>
         get() = base
     private val history=MutableLiveData<HistoryData>()
-    val mHistory:MutableLiveData<HistoryData>
+    val mHistory:LiveData<HistoryData>
         get() = history
     private val pL=MutableLiveData<PLData>()
-    val mPL:MutableLiveData<PLData>
+    val mPL:LiveData<PLData>
         get() = pL
     private val favourite=MutableLiveData<FavouriteData>()
-    val mFavourite:MutableLiveData<FavouriteData>
+    val mFavourite:LiveData<FavouriteData>
         get() = favourite
     private val cloud=MutableLiveData<CloudData>()
-    val mCloud:MutableLiveData<CloudData>
+    val mCloud:LiveData<CloudData>
         get() = cloud
     private val focus=MutableLiveData<FocusData>()
-    val mFocus:MutableLiveData<FocusData>
+    val mFocus:LiveData<FocusData>
         get() = focus
     fun getBase(uid:Long){
         NetRepository.getSearchData(uid).subscribe(object : Observer<BaseData> {
