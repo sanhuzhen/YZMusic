@@ -12,7 +12,7 @@ import io.reactivex.rxjava3.disposables.Disposable
 class SongListViewModel: ViewModel() {
     private val _playList = MutableLiveData<Playlist>()
 
-    val playList : MutableLiveData<Playlist>
+    val playList : LiveData<Playlist>
         get() = _playList
 
     fun getPlayList(id:String){

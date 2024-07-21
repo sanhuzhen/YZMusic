@@ -2,6 +2,11 @@ package com.sanhuzhen.module.recommend.helper
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2
 
+/**
+ * @author: sanhuzhen
+ * @date: 2024/7/16
+ * @description: ViewPaper2的动画效果
+ */
 class ZoomOutPageTransformer : ViewPager2.PageTransformer {
     //页面最小的缩放比例
     private val MIN_SCALE = 0.85f

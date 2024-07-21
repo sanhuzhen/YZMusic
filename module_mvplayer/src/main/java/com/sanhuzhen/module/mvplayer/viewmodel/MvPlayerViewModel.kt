@@ -1,6 +1,7 @@
 package com.sanhuzhen.module.mvplayer.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sanhuzhen.module.mvplayer.bean.Data
@@ -16,19 +17,20 @@ class MvPlayerViewModel : ViewModel() {
     private val _mvUrl = MutableLiveData<Data>()
     private val _mvDetail = MutableLiveData<mData>()
     private val _simiMv = MutableLiveData<SimiMvData>()
-    val mvUrl: MutableLiveData<Data>
+    val mvUrl: LiveData<Data>
         get() = _mvUrl
-    val mvDetail: MutableLiveData<mData>
+    val mvDetail: LiveData<mData>
         get() = _mvDetail
-    val simiMv: MutableLiveData<SimiMvData>
+    val simiMv: LiveData<SimiMvData>
         get() = _simiMv
-    fun getMvUrl(id: String){
+
+    fun getMvUrl(id: String) {
         NetWork.getMvUrl(id).subscribe(object : Observer<MvUrlData> {
             override fun onSubscribe(d: Disposable) {
             }
 
             override fun onError(e: Throwable) {
-                Log.e("Error","------ ${e.message}")
+                Log.e("Error", "------ ${e.message}")
             }
 
             override fun onComplete() {
@@ -37,22 +39,23 @@ class MvPlayerViewModel : ViewModel() {
 
             override fun onNext(t: MvUrlData) {
                 _mvUrl.postValue(t.data)
-               Log.d("MvPlayerViewModel","-------- $t")
+                Log.d("MvPlayerViewModel", "-------- $t")
             }
         })
     }
-    fun getMvDetail(mvid: String){
+
+    fun getMvDetail(mvid: String) {
         NetWork.getMvDetail(mvid).subscribe(object : Observer<MvDetailData> {
             override fun onSubscribe(d: Disposable) {
             }
 
             override fun onNext(t: MvDetailData) {
                 _mvDetail.postValue(t.data)
-                Log.d("MvPlayerViewModel","-------- $t")
+                Log.d("MvPlayerViewModel", "-------- $t")
             }
 
             override fun onError(e: Throwable) {
-                Log.e("Error","------ ${e.message}")
+                Log.e("Error", "------ ${e.message}")
             }
 
             override fun onComplete() {
@@ -60,18 +63,19 @@ class MvPlayerViewModel : ViewModel() {
             }
         })
     }
-    fun getSimiMv(mvid: String){
+
+    fun getSimiMv(mvid: String) {
         NetWork.getSimiMv(mvid).subscribe(object : Observer<SimiMvData> {
             override fun onSubscribe(d: Disposable) {
             }
 
             override fun onNext(t: SimiMvData) {
                 _simiMv.postValue(t)
-                Log.d("MvPlayerViewModel","-------- $t")
+                Log.d("MvPlayerViewModel", "-------- $t")
             }
 
             override fun onError(e: Throwable) {
-                Log.e("Error","------ ${e.message}")
+                Log.e("Error", "------ ${e.message}")
             }
 
             override fun onComplete() {

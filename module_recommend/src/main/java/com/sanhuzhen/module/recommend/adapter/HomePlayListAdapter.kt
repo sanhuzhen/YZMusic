@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -13,8 +14,9 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sanhuzhen.module.home.R
 import com.sanhuzhen.module.recommend.bean.Resource
+import com.therouter.TheRouter
 
-class HomePlayListAdapter(private val context: Context,private val itemClickListener: OnItemClickListener) : ListAdapter<Resource, HomePlayListAdapter.mViewHolder>(object :
+class HomePlayListAdapter(private val fragment: Fragment) : ListAdapter<Resource, HomePlayListAdapter.mViewHolder>(object :
     DiffUtil.ItemCallback<Resource>() {
     override fun areItemsTheSame(oldItem: Resource, newItem: Resource): Boolean {
         return oldItem.uiElement == newItem.uiElement
@@ -37,10 +39,7 @@ class HomePlayListAdapter(private val context: Context,private val itemClickList
             )
         )
     }
-    //设置接口，进行点击事件
-    interface OnItemClickListener {
-        fun onItemClick(item:Resource)
-    }
+
 
     override fun onBindViewHolder(holder: HomePlayListAdapter.mViewHolder, position: Int) {
         holder.bind(getItem(position))
@@ -51,11 +50,14 @@ class HomePlayListAdapter(private val context: Context,private val itemClickList
         private var playlistNameTv: TextView = item.findViewById(R.id.playlist_tv)
 
         init {
+            initListener()
+        }
+        fun initListener() {
             itemView.setOnClickListener {
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    itemClickListener.onItemClick(getItem(position))
-                }
+                TheRouter.build("/songlist/songListActivity")
+                    .withString("id", getItem(adapterPosition).resourceId)
+                    .withString("alTv",getItem(adapterPosition).uiElement.image.imageUrl)
+                    .navigation()
             }
         }
         fun bind(resource: Resource) {

@@ -1,6 +1,7 @@
 package com.sanhuzhen.module.recommend
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sanhuzhen.module.recommend.bean.HomeData
@@ -14,7 +15,7 @@ class RecommendViewModel: ViewModel() {
     init {
         getHomeData()
     }
-    val homeData: MutableLiveData<HomeData>
+    val homeData: LiveData<HomeData>
         get() = _homeData
 
     fun getHomeData(){
