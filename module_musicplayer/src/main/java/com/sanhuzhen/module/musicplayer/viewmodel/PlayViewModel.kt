@@ -22,11 +22,6 @@ class PlayViewModel:ViewModel() {
      * 通过LiveData实现数据共享，从而在Activity中接收到Fragment传来的数据，从而可以实现音乐的一些功能
      */
     private val _isPlay = MutableLiveData<Boolean>()
-//    private val _changeMusic = MutableLiveData<Int>()
-//    private val _currentPosition = MutableLiveData<Long>()
-
-//    private val _mutableStateFlow = MutableStateFlow<MusicUsdData?>(null)
-//    val mutableStateFlow get() = _mutableStateFlow.asStateFlow()
 
     val musicUrl: LiveData<List<Data>>
         get() = _musicUrl
@@ -38,23 +33,10 @@ class PlayViewModel:ViewModel() {
     //打碟的动画开关
     val isPlay: LiveData<Boolean>
         get() = _isPlay
-//    fun isPlay(isPlay: Boolean) {
-//        Log.d("PlayViewModel", "---------  $isPlay")
-//        _isPlay.value = isPlay
-//    }
-//    //下一首和上一首
-//    val changeMusic: MutableLiveData<Int>
-//        get() = _changeMusic
-//
-//    fun changeMusic(position: Int) {
-//        _changeMusic.value = position
-//    }
-//    //当前播放时间
-//    val currentPosition: MutableLiveData<Long>
-//        get() = _currentPosition
-//    fun getCurrentPosition(position: Long) {
-//        _currentPosition.value = position
-//    }
+    fun isPlay(isPlay: Boolean) {
+        Log.d("PlayViewModel", "---------  $isPlay")
+        _isPlay.value = isPlay
+    }
 
     fun getMusicUrl(id: String) {
         NetWork.getMusicUrl(id).subscribe(object : Observer<MusicUrlData> {
