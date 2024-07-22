@@ -17,14 +17,15 @@ abstract class BaseFragment<VB: ViewBinding> : Fragment() {
 
     abstract fun getViewBinding(): VB
     abstract fun afterCreate()
-    protected val mBinding by lazy {
-        getViewBinding()
-    }
+    private var _binding: VB? = null
+    protected val mBinding: VB
+        get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        _binding = getViewBinding()
         return mBinding.root
     }
 
@@ -32,5 +33,9 @@ abstract class BaseFragment<VB: ViewBinding> : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         TheRouter.inject(this)
         afterCreate()
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

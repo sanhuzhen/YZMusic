@@ -43,7 +43,6 @@ class DetailActivity :BaseActivity<ActivityDetailBinding>(){
         }
         val FromTOP=intent
         val Id=FromTOP.getLongExtra("id",0)
-        val name=FromTOP.getStringExtra("name")
         val Img=FromTOP.getStringExtra("img")
         if (Img!=null){
             Glide.with(this).load(Img)
