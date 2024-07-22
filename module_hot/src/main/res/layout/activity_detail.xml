@@ -19,10 +19,11 @@
             android:fitsSystemWindows="true"
             android:layout_height="match_parent"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:contentScrim="@color/light_grey"
+            app:contentScrim="@color/pink"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
+                android:transitionName="songList"
                 android:fitsSystemWindows="true"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="40dp"

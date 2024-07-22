@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -52,12 +53,12 @@ class HotListRvAdapter: ListAdapter<Playlists, HotListRvAdapter.HotListHolder>(o
             }
             hotListName.text = data.name
             hotList.setOnClickListener{
-//                点击事件 val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-//                        activity,
+//                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+//                        itemView.context as MainActivity,
 //                        // 这里需要是Activity中的ImageView，而不是Fragment中的（除非Fragment的根视图就是ImageView）
 //                        // 实际应用中，你可能需要在Activity中设置共享元素
-//                        imageViewInActivity, // 假设这是你在Activity中定义的ImageView
-//                        "example_transition")
+//                        hotListImg, // 假设这是你在Activity中定义的ImageView
+//                        "songList")
                 val IntentHot= Intent(itemView.context, DetailActivity::class.java)
                 IntentHot.putExtra("id",data.id)
                 IntentHot.putExtra("name",data.name)

@@ -28,7 +28,6 @@ abstract class BaseFragment<VB: ViewBinding> : Fragment() {
     ): View? {
         _binding = getViewBinding()
         return _binding?.root
-        return mBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

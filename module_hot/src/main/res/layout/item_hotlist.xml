@@ -10,6 +10,7 @@
         android:layout_height="100dp"
         >
         <ImageView
+            android:transitionName="songList"
             android:layout_marginLeft="10dp"
             android:id="@+id/iv_hotlist"
             android:layout_width="70dp"
