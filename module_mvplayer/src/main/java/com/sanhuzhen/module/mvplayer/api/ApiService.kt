@@ -1,24 +1,30 @@
 package com.sanhuzhen.module.mvplayer.api
 
+import com.sanhuzhen.module.mvplayer.bean.CommentData
 import com.sanhuzhen.module.mvplayer.bean.MvDetailData
-import com.sanhuzhen.module.mvplayer.bean.MvDetailInfoData
-import com.sanhuzhen.module.mvplayer.bean.MvUrlData
-import com.sanhuzhen.module.mvplayer.bean.SimiMvData
+import com.sanhuzhen.module.mvplayer.bean.OtherData
+import com.sanhuzhen.module.mvplayer.bean.SingerData
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ApiService {
-    //获取mv地址
-    @GET("mv/url")
-    fun getMvUrl(@Query("id")id: String) : Observable<MvUrlData>
-    //获取mv详情
-    @GET("mv/detail")
-    fun getMvDetail(@Query("mvid")id: String) : Observable<MvDetailData>
-    //获取 mv 点赞转发评论数数据
-    @GET("mv/detail/info")
-    fun getMvDetailInfo(@Query("mvid")id: String) : Observable<MvDetailInfoData>
-    //相似 mv
-    @GET("simi/mv")
-    fun getSimiMv(@Query("mvid")id: String) : Observable<SimiMvData>
+    @GET("/mv/url")
+    fun getMvUrl(
+        @Query("id") id: String,
+    ): Observable<MvDetailData>
+    @GET("/mv/detail")
+    fun getSinger(
+        @Query("mvid") mvid: String,
+    ): Observable<SingerData>
+    @GET("/comment/new")
+    fun getComment(
+        @Query("id") id: String,
+        @Query("type") type: Int,
+        @Query("sortType")sortType:Int
+    ): Observable<CommentData>
+    @GET("/mv/detail/info")
+    fun getMvDetail(
+        @Query("mvid") mvid: String,
+    ): Observable<OtherData>
 }

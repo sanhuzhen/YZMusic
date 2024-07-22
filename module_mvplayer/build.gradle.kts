@@ -46,7 +46,9 @@ dependencies {
     implementation(project(":lib_net"))
     kapt("cn.therouter:apt:1.2.2")
     implementation("cn.therouter:router:1.2.2")
-
+    implementation ("com.github.uaoan:DkPlayer:dkplayer-1.1")
+    implementation ("xyz.doikki.android.dkplayer:dkplayer-java:3.3.7")
+    implementation ("com.tencent:mmkv-static:1.3.0")
     //第三方播放库
     implementation("androidx.media3:media3-ui:1.3.1")
     implementation("androidx.media3:media3-session:1.3.1")

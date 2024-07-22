@@ -8,6 +8,7 @@
     android:id="@+id/ll_toplist"
     android:paddingTop="10dp">
     <ImageView
+        android:transitionName="songList"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:src="@drawable/ic_launcher_foreground"
