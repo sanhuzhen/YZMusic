@@ -1,22 +1,31 @@
 package com.sanhuzhen.module.musicplayer
 
+import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import android.util.Log
+import android.widget.SeekBar
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
-import androidx.media3.common.Player
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sanhuzhen.lib.base.BaseActivity
-import com.sanhuzhen.module.musicplayer.adapter.SingerAdapter
+import com.sanhuzhen.module.musicplayer.adapter.CommentAdapter
 import com.sanhuzhen.module.musicplayer.adapter.VpAdapter
 import com.sanhuzhen.module.musicplayer.databinding.ActivityMusicplayerBinding
 import com.sanhuzhen.module.musicplayer.fragment.PlayFragment
 import com.sanhuzhen.module.musicplayer.fragment.WordFragment
 import com.sanhuzhen.module.musicplayer.viewmodel.PlayViewModel
 import com.therouter.router.Autowired
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.util.ArrayList
 
 /**
@@ -26,20 +35,28 @@ import java.util.ArrayList
  */
 class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
 
-//    @Autowired
+    //    @Autowired
 //    @JvmField
     var musicIdList: ArrayList<String> = arrayListOf()
 
     //判断Service是否绑定
     private var isBind = false
 
+    //判断用户是否拖动SeekBar
+    private var isUserTouch = false
+
+    //用Handler来更新UI
+    private val handler = Handler(Looper.getMainLooper())
+
     private var BASE_URL: String? = ""
 
-    private lateinit var mBinder : MusicPlayerService.MusicBinder
+    private lateinit var mBinder: MusicPlayerService.MusicBinder
+
+    private lateinit var commentAdapter: CommentAdapter
+
     //一些要传递的量
     private var musicName = ""
     private var musicAuthor = ""
-    private var musicUrl = ""
     private var musicCoverUrl = ""
     private var currentPosition: Int = 0
     private var musicUrlList: ArrayList<String> = arrayListOf()
@@ -61,11 +78,32 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
             mBinder = service as MusicPlayerService.MusicBinder
             currentPosition = mBinder.getMusicPosition()
             mBinder.startPlay(musicUrlList[currentPosition])
+            updateSeekBar()
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
-
+            isBind = false
         }
+    }
+    private val updateSeekBarRunnable = object : Runnable {
+        override fun run() {
+            if (!isUserTouch && isBind) {
+                mBinder.let {
+                    val currentPosition = it.getCurrentPosition()
+                    val duration = it.getDuration()
+                    mBinding.seekBar.max = duration.toInt()
+                    mBinding.seekBar.progress = currentPosition.toInt()
+                    mBinding.musicTimeCurrent.text = formatTime(currentPosition)
+                    mBinding.musicTimeTotal.text = formatTime(duration)
+                }
+            }
+            //每隔1秒更新进度条
+            handler.postDelayed(this, 1000)
+        }
+    }
+
+    private fun updateSeekBar() {
+        handler.post(updateSeekBarRunnable)
     }
 
     override fun afterCreate() {
@@ -82,6 +120,7 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
                 }
             }
         }
+        commentAdapter = CommentAdapter()
         initBackPress()
         initVp()
         initNetwork()
@@ -95,15 +134,15 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
     private fun initNetwork() {
         playViewModel.apply {
             getMusicUrl(BASE_URL!!)
-            musicUrl.observe(this@MusicPlayerActivity){
-                for (i in it){
+            musicUrl.observe(this@MusicPlayerActivity) {
+                for (i in it) {
                     musicUrlList.add(i.url)
                 }
-                //在这里进行Service的绑定，当
+                //在这里进行Service的绑定，当musicUrlList不为空时，进行Service的绑定
                 getSongDetail(musicIdList[currentPosition])
-                songDetail.observe(this@MusicPlayerActivity){
+                songDetail.observe(this@MusicPlayerActivity) {
                     musicName = it.name
-                    for (i in it.ar){
+                    for (i in it.ar) {
                         musicAuthor = i.name + ' '
                     }
                     musicCoverUrl = it.al.picUrl
@@ -144,11 +183,11 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
             startActivity(Intent.createChooser(shareIntent, "选择分享应用"))
         }
         mBinding.musicPlay.setOnClickListener {
-            if (mBinder.getPlayWhenReady()){
+            if (mBinder.getPlayWhenReady()) {
                 mBinder.stopMusic()
                 mBinding.musicPlay.setImageResource(R.drawable.music_close)
                 playViewModel.isPlay(false)
-            }else{
+            } else {
                 mBinder.playMusic()
                 mBinding.musicPlay.setImageResource(R.drawable.music_open)
                 playViewModel.isPlay(true)
@@ -157,19 +196,73 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
         mBinding.musicNext.setOnClickListener {
             mBinder.nextMusic()
             currentPosition = mBinder.getMusicPosition()
-            if (!mBinder.getPlayWhenReady()){
+            if (!mBinder.getPlayWhenReady()) {
                 mBinding.musicPlay.setImageResource(R.drawable.music_open)
+                playViewModel.isPlay(true)
             }
             playViewModel.getSongDetail(musicIdList[currentPosition])
         }
         mBinding.musicFront.setOnClickListener {
             mBinder.preMusic()
             currentPosition = mBinder.getMusicPosition()
-            if (!mBinder.getPlayWhenReady()){
+            if (!mBinder.getPlayWhenReady()) {
                 mBinding.musicPlay.setImageResource(R.drawable.music_open)
+                playViewModel.isPlay(true)
             }
             playViewModel.getSongDetail(musicIdList[currentPosition])
         }
+        //对seekBar的监听
+        mBinding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                //进度条滑动
+                if (fromUser) {
+                    mBinder.seekTo(progress.toLong())
+                }
+                //进度条滑动结束，自动播放下一首
+                if (progress >= seekBar!!.max) {
+                    //更新Fragment中的数据
+                    currentPosition = mBinder.getMusicPosition()
+                    Log.d("TAG", "onProgressChanged: $currentPosition")
+                    playViewModel.getSongDetail(musicIdList[currentPosition])
+
+                }
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                isUserTouch = true
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                isUserTouch = false
+            }
+        })
+        mBinding.musicLike.setOnClickListener {
+
+        }
+
+        mBinding.musicComment.setOnClickListener {
+            showBottomSheetDialog()
+        }
+    }
+
+
+    private fun showBottomSheetDialog() {
+        val bottomSheetDialog = BottomSheetDialog(this)
+        val bottomSheetView = layoutInflater.inflate(R.layout.comment_bottom_sheet, null)
+
+        val recyclerView = bottomSheetView.findViewById<RecyclerView>(R.id.rv_comment)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = commentAdapter
+
+        currentPosition = mBinder.getMusicPosition()
+        lifecycleScope.launch {
+            playViewModel.getComments("0",musicIdList[currentPosition],"3").collectLatest { pagingData ->
+                commentAdapter.submitData(pagingData)
+            }
+        }
+
+        bottomSheetDialog.setContentView(bottomSheetView)
+        bottomSheetDialog.show()
     }
 
     //固定Vp2
@@ -196,6 +289,8 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
     override fun onDestroy() {
         super.onDestroy()
         unbindService(connection)
+        //移除更新进度条的任务，避免内存泄漏
+        handler.removeCallbacks(updateSeekBarRunnable)
     }
 
     //一些动画效果
@@ -208,6 +303,7 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
             }
         })
     }
+
     private fun handleCustomOnBackPressed() {
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out)
     }
@@ -215,6 +311,14 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
     override fun onPause() {
         super.onPause()
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out)
+    }
+
+    //格式化时间
+    @SuppressLint("DefaultLocale")
+    private fun formatTime(milliseconds: Long): String {
+        val minutes = (milliseconds / 1000) / 60
+        val seconds = (milliseconds / 1000) % 60
+        return String.format("%02d:%02d", minutes, seconds)
     }
 
 

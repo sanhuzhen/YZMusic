@@ -4,6 +4,10 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import com.sanhuzhen.module.musicplayer.bean.Comment
 import com.sanhuzhen.module.musicplayer.bean.Data
 import com.sanhuzhen.module.musicplayer.bean.MusicUrlData
 import com.sanhuzhen.module.musicplayer.bean.MusicUsedData
@@ -12,6 +16,7 @@ import com.sanhuzhen.module.musicplayer.bean.SongDetailData
 import com.sanhuzhen.module.musicplayer.repository.NetWork
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
+import kotlinx.coroutines.flow.Flow
 
 class PlayViewModel:ViewModel() {
     private val _musicUrl = MutableLiveData<List<Data>>()
@@ -107,5 +112,9 @@ class PlayViewModel:ViewModel() {
                 Log.d("Success", "---------  ${t}")
             }
         })
+    }
+
+    fun getComments(type: String, id: String, sortType: String) : Flow<PagingData<Comment>>{
+        return NetWork.getCommentsFlow(type, id, sortType).cachedIn(viewModelScope)
     }
 }
