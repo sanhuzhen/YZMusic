@@ -54,6 +54,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("androidx.viewpager2:viewpager2:1.1.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel:2.8.2")
+    implementation(project(":module_mine"))
     implementation(project(":lib_base"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

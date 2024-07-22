@@ -8,7 +8,9 @@ import com.example.module.login.databinding.ActivityLoginBinding
 import com.example.module.login.viewmodel.MyViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sanhuzhen.lib.base.BaseActivity
+import com.therouter.router.Route
 
+@Route(path = "/login/LoginActivity")
 class LoginActivity : BaseActivity <ActivityLoginBinding>() {
 val vpAdapter: VpAdapter by lazy { VpAdapter(this, listOf(1,2)) }
 
@@ -24,7 +26,7 @@ val vpAdapter: VpAdapter by lazy { VpAdapter(this, listOf(1,2)) }
         TabLayoutMediator(mBinding.tabChoice,mBinding.viewPager){ tab,position->
             when(position){
                 0->{
-                    tab.text="手机号/邮箱注册"
+                    tab.text="手机号/邮箱登录"
                 }
                 1 ->{
                     tab.text="短信验证码登录"

@@ -3,7 +3,9 @@
     <style name="Base.Theme.YZMusic" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-    </style>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
 
-    <style name="Theme.YZMusic" parent="Base.Theme.YZMusic" />
+
+    </style>
 </resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/iv_song_img"
+        android:src="@drawable/ic_launcher_foreground"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:textStyle="bold"
+        android:layout_marginLeft="70dp"
+        android:textSize="20sp"
+        android:id="@+id/tv_song_name"
+        android:text="歌曲名字"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="30dp"
+        android:id="@+id/tv_singer_name"
+        android:text="歌手名字"/>
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/____1_"
+        android:layout_marginLeft="300dp"
+        android:layout_marginTop="15dp"/>
+
+</FrameLayout>
