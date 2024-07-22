@@ -98,6 +98,12 @@ class MusicPlayerService : Service() {
             }
         }
 
+        fun changeMusicInfo(position: Int) {
+            player.stop()
+            currentPosition = position
+            musicBinder.startPlay(musicUrlList[position])
+        }
+
         //获取当前播放状态
         fun getPlayWhenReady(): Boolean {
             return player.isPlaying

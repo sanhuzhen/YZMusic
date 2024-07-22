@@ -18,7 +18,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sanhuzhen.lib.base.BaseActivity
 import com.sanhuzhen.module.musicplayer.adapter.CommentAdapter
+import com.sanhuzhen.module.musicplayer.adapter.SongListAdapter
 import com.sanhuzhen.module.musicplayer.adapter.VpAdapter
+import com.sanhuzhen.module.musicplayer.bean.Song
 import com.sanhuzhen.module.musicplayer.databinding.ActivityMusicplayerBinding
 import com.sanhuzhen.module.musicplayer.fragment.PlayFragment
 import com.sanhuzhen.module.musicplayer.fragment.WordFragment
@@ -55,13 +57,16 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
     private lateinit var mBinder: MusicPlayerService.MusicBinder
 
     private lateinit var commentAdapter: CommentAdapter
+    private lateinit var songListAdapter: SongListAdapter
+
 
     //一些要传递的量
     private var musicName = ""
-    private var musicAuthor = ""
+    private var musicAuthor= ""
     private var musicCoverUrl = ""
     private var currentPosition: Int = 0
     private var musicUrlList: ArrayList<String> = arrayListOf()
+    private var songList: ArrayList<Song> = arrayListOf()
 
     private val playViewModel by lazy {
         ViewModelProvider(this)[PlayViewModel::class.java]
@@ -119,8 +124,10 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
                 }
             }
         }
+
         commentAdapter = CommentAdapter()
-        initBackPress()
+        songListAdapter = SongListAdapter()
+
         initVp()
         initNetwork()
         initView()
@@ -240,12 +247,34 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
         }
 
         mBinding.musicComment.setOnClickListener {
-            showBottomSheetDialog()
+            showCommentBottomSheetDialog()
+        }
+
+        mBinding.musicList.setOnClickListener {
+            showSongListBottomSheetDialog()
         }
     }
 
 
-    private fun showBottomSheetDialog() {
+    private fun showSongListBottomSheetDialog() {
+        val bottomSheetDialog = BottomSheetDialog(this)
+        val bottomSheetView = layoutInflater.inflate(R.layout.songlist_bottom_sheet, null)
+
+        val recyclerView = bottomSheetView.findViewById<RecyclerView>(R.id.rv_singlist)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = songListAdapter
+        playViewModel.getSongDetail(BASE_URL!!)
+        playViewModel.AllSongDetail.observe(this@MusicPlayerActivity){
+            songListAdapter.submitList(it.songs)
+        }
+        currentPosition = mBinder.getMusicPosition()
+        Log.d("TAG", "showSongListBottomSheetDialog: $songList")
+        recyclerView.smoothScrollToPosition(currentPosition)
+        bottomSheetDialog.setContentView(bottomSheetView)
+        bottomSheetDialog.show()
+
+    }
+    private fun showCommentBottomSheetDialog() {
         val bottomSheetDialog = BottomSheetDialog(this)
         val bottomSheetView = layoutInflater.inflate(R.layout.comment_bottom_sheet, null)
 
@@ -293,17 +322,9 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
     }
 
     //一些动画效果
-    private fun initBackPress() {
-        // 添加返回按钮的回调函数
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                // 在这里处理返回按钮事件
-                handleCustomOnBackPressed()
-            }
-        })
-    }
 
-    private fun handleCustomOnBackPressed() {
+    override fun onBackPressed() {
+        super.onBackPressed()
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out)
     }
 

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/tv_songlist_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="红色高跟鞋"
+        android:textColor="@color/black"
+        android:textSize="15sp"/>
+    <TextView
+        android:id="@+id/tv_songlist_singer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="蔡健雅"
+        android:layout_toRightOf="@+id/tv_songlist_name"
+        android:layout_marginLeft="10dp"
+        android:textSize="10sp"
+        android:layout_centerVertical="true"
+        android:textColor="@color/Gainsboro"/>
+
+</RelativeLayout>

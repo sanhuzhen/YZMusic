@@ -22,6 +22,7 @@ class PlayViewModel:ViewModel() {
     private val _musicUrl = MutableLiveData<List<Data>>()
     private val _checkMusic = MutableLiveData<MusicUsedData>()
     private val _songDetail = MutableLiveData<Song>()
+    private val _AllSongDetail = MutableLiveData<SongDetailData>()
 
     /**
      * 通过LiveData实现数据共享，从而在Activity中接收到Fragment传来的数据，从而可以实现音乐的一些功能
@@ -34,6 +35,8 @@ class PlayViewModel:ViewModel() {
         get() = _checkMusic
     val songDetail: LiveData<Song>
         get() = _songDetail
+    val AllSongDetail: LiveData<SongDetailData>
+        get() = _AllSongDetail
 
     //打碟的动画开关
     val isPlay: LiveData<Boolean>
@@ -109,6 +112,7 @@ class PlayViewModel:ViewModel() {
 
             override fun onNext(t: SongDetailData) {
                 _songDetail.postValue(t.songs[0])
+                _AllSongDetail.postValue(t)
                 Log.d("Success", "---------  ${t}")
             }
         })

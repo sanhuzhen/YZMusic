@@ -10,7 +10,7 @@
         android:id="@+id/music_back"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:src="@drawable/back"
+        android:src="@drawable/xia"
         android:layout_margin="10dp"
         android:layout_alignParentLeft="true"/>
     <ImageView
@@ -137,6 +137,7 @@
         android:src="@drawable/next" />
 
     <ImageView
+        android:id="@+id/music_list"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignTop="@id/music_next"
@@ -145,6 +146,7 @@
         android:src="@drawable/music_list" />
 
     <ImageView
+        android:id="@+id/music_random"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignTop="@id/music_front"
