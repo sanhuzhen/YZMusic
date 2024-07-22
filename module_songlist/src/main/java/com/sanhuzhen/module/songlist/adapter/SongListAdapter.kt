@@ -8,6 +8,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sanhuzhen.module.songlist.R
 import com.sanhuzhen.module.songlist.bean.Track
+import com.therouter.TheRouter
 
 class SongListAdapter :
     ListAdapter<Track, SongListAdapter.SongListViewHolder>(object : DiffUtil.ItemCallback<Track>() {
@@ -34,6 +35,18 @@ class SongListAdapter :
         androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         private val mBinding =
             com.sanhuzhen.module.songlist.databinding.ItemSongRvBinding.bind(itemView)
+
+        init {
+            setOnClickListener()
+        }
+
+        fun setOnClickListener() {
+            itemView.setOnClickListener {
+                TheRouter.build("/musicplayer/musicplayerActivity")
+                    .withObject("SongList", arrayListOf(getItem(adapterPosition).id.toString()))
+                    .navigation()
+            }
+        }
 
         fun bind(track: Track) {
             mBinding.apply {

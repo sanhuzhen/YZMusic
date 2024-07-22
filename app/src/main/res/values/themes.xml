@@ -3,6 +3,7 @@
     <style name="Base.Theme.YZMusic" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
     <!-- Base application theme. -->

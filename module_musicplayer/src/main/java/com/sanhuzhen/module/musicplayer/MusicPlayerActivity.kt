@@ -24,6 +24,7 @@ import com.sanhuzhen.module.musicplayer.fragment.PlayFragment
 import com.sanhuzhen.module.musicplayer.fragment.WordFragment
 import com.sanhuzhen.module.musicplayer.viewmodel.PlayViewModel
 import com.therouter.router.Autowired
+import com.therouter.router.Route
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.ArrayList
@@ -33,10 +34,11 @@ import java.util.ArrayList
  * @date: 2024/7/21
  * @description: 音乐播放器
  */
+@Route(path = "/musicplayer/musicplayerActivity")
 class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
 
-    //    @Autowired
-//    @JvmField
+    @Autowired(name = "SongList")
+    @JvmField
     var musicIdList: ArrayList<String> = arrayListOf()
 
     //判断Service是否绑定
@@ -107,10 +109,7 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
     }
 
     override fun afterCreate() {
-        musicIdList.apply {
-            add("33894312")
-            add("33894311")
-        }
+        Log.d("SongListyou","$musicIdList")
         //拼接url，完成网络请求
         musicIdList.let {
             for (i in it) {

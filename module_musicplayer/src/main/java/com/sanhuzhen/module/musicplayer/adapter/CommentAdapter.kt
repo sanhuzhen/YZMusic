@@ -16,7 +16,7 @@ import com.sanhuzhen.module.musicplayer.bean.Comment
 class CommentAdapter : PagingDataAdapter<Comment, CommentAdapter.CommentViewHolder>(object :
     DiffUtil.ItemCallback<Comment>() {
     override fun areItemsTheSame(oldItem: Comment, newItem: Comment): Boolean {
-        return oldItem.content == newItem.content && oldItem.needDisplayTime == newItem.needDisplayTime
+        return oldItem.content == newItem.content
     }
 
     override fun areContentsTheSame(oldItem: Comment, newItem: Comment): Boolean {
