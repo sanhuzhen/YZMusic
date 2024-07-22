@@ -20,9 +20,6 @@ import com.sanhuzhen.module.musicplayer.viewmodel.PlayViewModel
 
 class PlayFragment : BaseFragment<FragmentPlayBinding>() {
 
-    private var isPlaying = true//播放状态
-    private var isUserSeeking = false//用户是否正在拖动SeekBar
-
     private lateinit var mAdapter: SingerAdapter
     private var singerList = mutableListOf<Ar>()
     private var animator: ObjectAnimator? = null//旋转动画

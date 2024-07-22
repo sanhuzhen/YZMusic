@@ -14,8 +14,8 @@
     "params": {}
   },
   {
-    "path": "/mine/MineFragment",
-    "className": "com.sanhuzhen.module.mine.ui.fragment.MineFragment",
+    "path": "/musicplayer/musicplayerActivity",
+    "className": "com.sanhuzhen.module.musicplayer.MusicPlayerActivity",
     "action": "",
     "description": "",
     "params": {}

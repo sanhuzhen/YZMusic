@@ -27,8 +27,6 @@ class MusicPlayerService : Service() {
     private lateinit var player: Player
     private val musicBinder = MusicBinder()
 
-    private val handler = Handler()
-    private val updateInterval: Long = 1000 // 更新间隔为1秒
 
     //得到音乐详细信息，为给MainActivity中的音乐播放器绑定
     private var musicName = ""
@@ -100,6 +98,12 @@ class MusicPlayerService : Service() {
             }
         }
 
+        fun changeMusicInfo(position: Int) {
+            player.stop()
+            currentPosition = position
+            musicBinder.startPlay(musicUrlList[position])
+        }
+
         //获取当前播放状态
         fun getPlayWhenReady(): Boolean {
             return player.isPlaying
@@ -126,21 +130,9 @@ class MusicPlayerService : Service() {
             addListener(object : Player.Listener {
                 override fun onPlaybackStateChanged(playbackState: Int) {
                     when (playbackState) {
-                        Player.STATE_READY -> {
-                            //播放器准备好了，可以播放了
-                        }
-
                         Player.STATE_ENDED -> {
                             //播放结束，自动播放下一首音乐
                             musicBinder.nextMusic()
-                        }
-
-                        Player.STATE_BUFFERING -> {
-                            //缓冲中
-                        }
-
-                        Player.STATE_IDLE -> {
-                            //空闲状态
                         }
                     }
                 }
@@ -167,8 +159,12 @@ class MusicPlayerService : Service() {
     //创建通知栏
     private fun createNoticeChannel() {
         val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            val channel = android.app.NotificationChannel("my_service", "前台Service通知", NotificationManager.IMPORTANCE_LOW)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = android.app.NotificationChannel(
+                "my_service",
+                "前台Service通知",
+                NotificationManager.IMPORTANCE_LOW
+            )
             manager.createNotificationChannel(channel)
         }
         val intent = Intent(this, MusicPlayerActivity::class.java)

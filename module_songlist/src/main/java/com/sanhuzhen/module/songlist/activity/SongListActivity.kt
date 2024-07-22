@@ -2,6 +2,7 @@ package com.sanhuzhen.module.songlist.activity
 
 import android.animation.ValueAnimator
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.view.animation.LinearInterpolator
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +16,7 @@ import com.sanhuzhen.module.songlist.bean.Playlist
 import com.sanhuzhen.module.songlist.bean.Track
 import com.sanhuzhen.module.songlist.databinding.ActivitySonglistBinding
 import com.sanhuzhen.module.songlist.viewmodel.SongListViewModel
+import com.therouter.TheRouter
 import com.therouter.router.Autowired
 import com.therouter.router.Route
 
@@ -33,6 +35,7 @@ class SongListActivity : BaseActivity<ActivitySonglistBinding>() {
     private val mViewModel by lazy {
         ViewModelProvider(this).get(SongListViewModel::class.java)
     }
+    private val SongLists = arrayListOf<String>()
 
     override fun afterCreate() {
         id?.let {
@@ -41,39 +44,43 @@ class SongListActivity : BaseActivity<ActivitySonglistBinding>() {
                 playList.observe(this@SongListActivity) {
                     if (it.tracks != null) {
                         SongList.addAll(it.tracks)
+                        mBinding.songNum.text = SongList.size.toString()
                         Log.d("SongListActivity", "${SongList}")
                         initSongList()
                         initToolBar(it)
-                        mBinding.hiddenTextview.text = it.name
+//                        mBinding.toolbar.isSelected = true // 启用跑马灯效果
+//                        val anim = ValueAnimator.ofInt(0, mBinding.toolbar.width)
+//                        anim.addUpdateListener { valueAnimator ->
+//                            val value = valueAnimator.animatedValue as Int
+//                            mBinding.toolbar.translationX = -value.toFloat()
+//                        }
+//                        anim.duration = 10000 // 设置滚动持续时间，单位为毫秒
+//                        anim.interpolator = LinearInterpolator()
+//                        anim.repeatCount = ValueAnimator.INFINITE
+//                        anim.start()
+                        mBinding.collapsingToolbar.title = it.name
+                        for (i in SongList) {
+                            SongLists.add(i.id.toString())
+                        }
                     }
 
                 }
             }
         }
-        mBinding.back.setOnClickListener {
+        setSupportActionBar(mBinding.toolbar)
+        supportActionBar?.setDisplayUseLogoEnabled(true)
+        mBinding.play.setOnClickListener {
+            TheRouter.build("/musicplayer/musicplayerActivity").withObject("SongList", SongLists)
+                .navigation()
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
             finish()
+            return true
         }
-        mBinding.appbar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-            if (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange()) {
-                // 完全折叠时显示 TextView
-                mBinding.hiddenTextview.setVisibility(View.VISIBLE)
-                mBinding.hiddenTextview.isSelected = true // 启用跑马灯效果
-
-                val anim = ValueAnimator.ofInt(0, mBinding.hiddenTextview.width)
-                anim.addUpdateListener { valueAnimator ->
-                    val value = valueAnimator.animatedValue as Int
-                    mBinding.hiddenTextview.translationX = -value.toFloat()
-                }
-                anim.duration = 10000 // 设置滚动持续时间，单位为毫秒
-                anim.interpolator = LinearInterpolator()
-                anim.repeatCount = ValueAnimator.INFINITE
-                anim.start()
-            } else {
-                // 非完全折叠时隐藏 TextView
-                mBinding.hiddenTextview.setVisibility(View.INVISIBLE)
-            }
-        }
-
+        return super.onOptionsItemSelected(item)
     }
 
     override fun getViewBinding(): ActivitySonglistBinding {
@@ -97,7 +104,7 @@ class SongListActivity : BaseActivity<ActivitySonglistBinding>() {
         mBinding.apply {
             songListName1.text = playList.name
             songListName2.text = playList.creator.nickname
-            hiddenTextview.text = playList.name
+//            mBinding.toolbar.title = playList.name
         }
     }
 

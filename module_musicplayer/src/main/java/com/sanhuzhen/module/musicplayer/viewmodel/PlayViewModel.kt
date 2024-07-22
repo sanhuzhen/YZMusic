@@ -4,6 +4,10 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import com.sanhuzhen.module.musicplayer.bean.Comment
 import com.sanhuzhen.module.musicplayer.bean.Data
 import com.sanhuzhen.module.musicplayer.bean.MusicUrlData
 import com.sanhuzhen.module.musicplayer.bean.MusicUsedData
@@ -12,11 +16,13 @@ import com.sanhuzhen.module.musicplayer.bean.SongDetailData
 import com.sanhuzhen.module.musicplayer.repository.NetWork
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
+import kotlinx.coroutines.flow.Flow
 
 class PlayViewModel:ViewModel() {
     private val _musicUrl = MutableLiveData<List<Data>>()
     private val _checkMusic = MutableLiveData<MusicUsedData>()
     private val _songDetail = MutableLiveData<Song>()
+    private val _AllSongDetail = MutableLiveData<SongDetailData>()
 
     /**
      * 通过LiveData实现数据共享，从而在Activity中接收到Fragment传来的数据，从而可以实现音乐的一些功能
@@ -29,6 +35,8 @@ class PlayViewModel:ViewModel() {
         get() = _checkMusic
     val songDetail: LiveData<Song>
         get() = _songDetail
+    val AllSongDetail: LiveData<SongDetailData>
+        get() = _AllSongDetail
 
     //打碟的动画开关
     val isPlay: LiveData<Boolean>
@@ -104,8 +112,13 @@ class PlayViewModel:ViewModel() {
 
             override fun onNext(t: SongDetailData) {
                 _songDetail.postValue(t.songs[0])
+                _AllSongDetail.postValue(t)
                 Log.d("Success", "---------  ${t}")
             }
         })
+    }
+
+    fun getComments(type: String, id: String, sortType: String) : Flow<PagingData<Comment>>{
+        return NetWork.getCommentsFlow(type, id, sortType).cachedIn(viewModelScope)
     }
 }
