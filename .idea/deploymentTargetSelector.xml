@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="module_musicplayer">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-07-21T12:39:55.472296700Z">
+        <DropdownSelection timestamp="2024-07-21T15:18:57.886006500Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="Default" identifier="serial=emulator-5554;connection=921769de" />
+              <DeviceId pluginId="PhysicalDevice" identifier="serial=df5b369" />
             </handle>
           </Target>
         </DropdownSelection>
