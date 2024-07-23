@@ -41,24 +41,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private lateinit var songListAdapter : SongListAdapter
 
-    lateinit var receiver : MusicCompleteReceiver
-
     /**
      * 音乐的信息
      */
     private var musicDetail = arrayListOf<Song>()
     private var currentPosition = 0
 
-    //广播接收器
-    inner class MusicCompleteReceiver : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            if (intent?.action == "com.sanhuzhen.module.musicplayer.MUSIC_COMPLETE") {
-                // 处理音乐播放完成事件
-                handleMusicPlaybackComplete()
-            }
-        }
-
-    }
 
     override fun getViewBinding(): ActivityMainBinding {
         return ActivityMainBinding.inflate(layoutInflater)
@@ -236,20 +224,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
     }
 
-    //注册广播
-    override fun onResume() {
-        super.onResume()
-        val intentFilter = IntentFilter()
-        intentFilter.addAction("com.sanhuzhen.module.musicplayer.MUSIC_COMPLETE")
-        receiver = MusicCompleteReceiver()
-        registerReceiver(receiver, intentFilter)
-    }
-
-    //注销广播
-    override fun onPause() {
-        super.onPause()
-        unregisterReceiver(receiver)
-    }
 
     //更新音乐结束后的播放栏的UI信息
     private fun handleMusicPlaybackComplete() {

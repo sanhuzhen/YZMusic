@@ -24,10 +24,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fitsSystemWindows="true"
+                android:layout_marginTop="5dp"
                 android:orientation="vertical">
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="60dp"
                     android:src="@drawable/search"/>
@@ -59,52 +60,64 @@
             </FrameLayout>
             <androidx.cardview.widget.CardView
                 android:id="@+id/main_card"
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
+
                 app:cardCornerRadius="10dp"
                 android:layout_gravity="center">
+
                 <RelativeLayout
-                    android:layout_width="300dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp">
+
                     <ImageView
                         android:id="@+id/music_iv"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
-                        android:src="@drawable/music"/>
+                        android:layout_marginStart="20dp"
+                        android:src="@drawable/music" />
+
                     <TextView
                         android:id="@+id/music_tv_name"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@id/music_iv"
+                        android:maxLines="1"
                         android:text="歌曲"
                         android:textColor="@color/black"
-                        android:layout_marginLeft="20dp"
-                        android:maxLines="1"
-                        android:layout_toRightOf="@id/music_iv"/>
+                        android:textSize="15dp" />
+
                     <TextView
                         android:id="@+id/music_tv_artist"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/music_tv_name"
                         android:layout_alignStart="@id/music_tv_name"
-                        android:text="歌手" />
+                        android:text="歌手"
+                        android:textSize="12dp" />
+
                     <ImageView
                         android:id="@+id/music_iv_list"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
+                        android:layout_marginEnd="15dp"
                         android:layout_marginRight="2dp"
-                        android:src="@drawable/music_list"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"/>
+                        android:src="@drawable/music_list" />
+
                     <ImageView
                         android:id="@+id/music_iv_play"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@id/music_iv_list"
-                        android:src="@drawable/music_open"
-                        android:layout_width="40dp"
+                        android:layout_marginEnd="20dp"
                         android:layout_marginRight="2dp"
-                        android:layout_height="40dp"/>
+                        android:layout_toLeftOf="@id/music_iv_list"
+                        android:src="@drawable/music_open" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
@@ -114,7 +127,8 @@
                 android:layout_height="0dp"
                 android:background="@color/white"
                 app:menu="@menu/menu_navigation"
-                app:itemPaddingTop= "10dp"
+                app:itemPaddingTop= "0dp"
+                app:itemPaddingBottom="10dp"
                 app:itemTextColor="@drawable/nav_color"
                 app:itemIconTint="@drawable/nav_color"
                 android:layout_weight="1"/>

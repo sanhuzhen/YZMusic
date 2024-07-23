@@ -34,7 +34,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding>() {
 
     override fun afterCreate() {
         RecordRotation()
-        mViewModel.isPlay.observe(requireActivity()){
+        mViewModel.isPlay.observe(requireActivity()) {
             if (it) {
                 animator?.resume()
             } else {
@@ -64,8 +64,14 @@ class PlayFragment : BaseFragment<FragmentPlayBinding>() {
             }
             Glide.with(this).load(MusicCoverUrl).transform(CenterCrop(), RoundedCorners(360))
                 .into(mBinding.musicImage)
+            if (MusicName.length > 5){
+                val marqueeTextView = mBinding.musicName
+                marqueeTextView.isSelected = true
+            }
+
         }
     }
+
     //旋转动画
     private fun RecordRotation() {
         //打碟效果

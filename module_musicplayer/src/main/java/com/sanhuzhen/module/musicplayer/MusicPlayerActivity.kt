@@ -140,7 +140,7 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
                     mBinding.musicTimeCurrent.text = formatTime(currentPosition)
                     if (musicIdList.isEmpty()){
                         mBinding.musicTimeTotal.text = "00:00"
-                    }else{
+                    }else if(formatTime(duration).length <= 5){
                         mBinding.musicTimeTotal.text = formatTime(duration)
                     }
                 }
@@ -210,23 +210,27 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
             finish()
         }
         mBinding.musicShare.setOnClickListener {
-            currentPosition = mBinder.getMusicPosition()
-            // 创建分享意图
-            val shareIntent = Intent().apply {
+            if (musicIdList.isEmpty()){
+                Toast.makeText(this@MusicPlayerActivity,"好像还没有歌单哟",Toast.LENGTH_SHORT).show()
+            }else{
                 currentPosition = mBinder.getMusicPosition()
-                val musicName = songList[currentPosition].name
-                var musicArtist = ""
-                for (i in songList[currentPosition].ar) {
-                    musicArtist = musicArtist + i.name + " "
+                // 创建分享意图
+                val shareIntent = Intent().apply {
+                    currentPosition = mBinder.getMusicPosition()
+                    val musicName = songList[currentPosition].name
+                    var musicArtist = ""
+                    for (i in songList[currentPosition].ar) {
+                        musicArtist = musicArtist + i.name + " "
+                    }
+                    val title =
+                        "分享音乐：\n $musicName--$musicArtist\n ${musicUrlList[currentPosition]}\n 点击链接即可享受哟"
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, title)
+                    type = "text/plain"
                 }
-                val title =
-                    "分享音乐：\n $musicName--$musicArtist\n ${musicUrlList[currentPosition]}\n 点击链接即可享受哟"
-                action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, title)
-                type = "text/plain"
+                // 启动分享活动
+                startActivity(Intent.createChooser(shareIntent, "选择分享应用"))
             }
-            // 启动分享活动
-            startActivity(Intent.createChooser(shareIntent, "选择分享应用"))
         }
         mBinding.musicPlay.setOnClickListener {
             if (mBinder.getPlayWhenReady()) {
@@ -321,12 +325,14 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = commentAdapter
 
-        currentPosition = mBinder.getMusicPosition()
-        lifecycleScope.launch {
-            playViewModel.getComments("0", musicIdList[currentPosition], "3")
-                .collectLatest { pagingData ->
-                    commentAdapter.submitData(pagingData)
-                }
+        if (musicIdList.isNotEmpty()){
+            currentPosition = mBinder.getMusicPosition()
+            lifecycleScope.launch {
+                playViewModel.getComments("0", musicIdList[currentPosition], "3")
+                    .collectLatest { pagingData ->
+                        commentAdapter.submitData(pagingData)
+                    }
+            }
         }
         bottomSheetDialog.setContentView(bottomSheetView)
         bottomSheetDialog.show()
