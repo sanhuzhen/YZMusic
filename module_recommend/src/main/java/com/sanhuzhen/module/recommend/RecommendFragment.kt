@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sanhuzhen.lib.base.BaseFragment
+import com.sanhuzhen.module.home.R
 import com.sanhuzhen.module.recommend.adapter.BannerAdapter
 import com.sanhuzhen.module.recommend.adapter.HomePlayListAdapter
 import com.sanhuzhen.module.recommend.adapter.SongListAdapter
@@ -19,6 +20,7 @@ import com.sanhuzhen.module.recommend.helper.ZoomOutPageTransformer
 import com.therouter.TheRouter
 import java.util.Timer
 import java.util.TimerTask
+import kotlin.concurrent.thread
 
 /**
  * @author: sanhuzhen
@@ -58,7 +60,11 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>() {
                 Toast.makeText(requireContext(), "请检查网络是否连接", Toast.LENGTH_SHORT).show()
             }
         }
-
+        mBinding.swipeRefresh.setColorSchemeResources(R.color.black)
+        mBinding.swipeRefresh.setOnRefreshListener {
+            mViewModel.getHomeData()
+            mBinding.swipeRefresh.isRefreshing = false
+        }
     }
 
     //分析数据
@@ -160,6 +166,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>() {
         }
         timer?.schedule(timerTask, delayTime, delayTime)
     }
+
     //销毁定时器,保证只有一组定时任务在运行
     private fun killDelayedTask() {
         if (timer != null) {
@@ -179,7 +186,6 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>() {
         timerTask = null
         timer = null
     }
-
 
 
 }

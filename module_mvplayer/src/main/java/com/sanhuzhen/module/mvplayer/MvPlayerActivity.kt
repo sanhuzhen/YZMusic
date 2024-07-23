@@ -1,9 +1,6 @@
 package com.sanhuzhen.module.mvplayer
-<<<<<<< HEAD
 
-=======
 import android.content.Intent
->>>>>>> origin/ZWT
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager

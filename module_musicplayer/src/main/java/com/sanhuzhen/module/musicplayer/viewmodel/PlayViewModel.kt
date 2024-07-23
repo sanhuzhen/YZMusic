@@ -112,8 +112,28 @@ class PlayViewModel:ViewModel() {
 
             override fun onNext(t: SongDetailData) {
                 _songDetail.postValue(t.songs[0])
-                _AllSongDetail.postValue(t)
                 Log.d("Success", "---------  ${t}")
+            }
+        })
+    }
+
+    fun getAllSongDetail(ids:String){
+        NetWork.getSongDetail(ids).subscribe(object : Observer<SongDetailData> {
+            override fun onSubscribe(d: Disposable) {
+
+            }
+
+            override fun onError(e: Throwable) {
+                Log.d("Error", "---------  ${e.message}")
+            }
+
+            override fun onComplete() {
+
+            }
+
+            override fun onNext(t: SongDetailData) {
+                _AllSongDetail.postValue(t)
+               Log.d("Success", "---------  ${t}")
             }
         })
     }

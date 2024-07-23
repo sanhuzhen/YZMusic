@@ -53,6 +53,9 @@ dependencies {
     implementation(project(":module_mvplayer"))
     implementation(project(":module_musicplayer"))
 
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
+    implementation("com.github.bumptech.glide:compiler:4.12.0")
+
     kapt("cn.therouter:apt:1.2.2")
     implementation("cn.therouter:router:1.2.2")
     implementation(libs.androidx.core.ktx)

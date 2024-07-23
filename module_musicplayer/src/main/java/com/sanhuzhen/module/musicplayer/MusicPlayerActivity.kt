@@ -8,12 +8,16 @@ import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
 import android.util.Log
+import android.widget.FrameLayout
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sanhuzhen.lib.base.BaseActivity
@@ -30,6 +34,7 @@ import com.therouter.router.Route
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.ArrayList
+import kotlin.math.log
 
 /**
  * @author: sanhuzhen
@@ -61,9 +66,6 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
 
 
     //一些要传递的量
-    private var musicName = ""
-    private var musicAuthor= ""
-    private var musicCoverUrl = ""
     private var currentPosition: Int = 0
     private var musicUrlList: ArrayList<String> = arrayListOf()
     private var songList: ArrayList<Song> = arrayListOf()
@@ -83,9 +85,44 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             // 获取Service的Binder对象
             mBinder = service as MusicPlayerService.MusicBinder
-            currentPosition = mBinder.getMusicPosition()
-            mBinder.startPlay(musicUrlList[currentPosition])
             updateSeekBar()
+            isBind = true
+            /**
+             * 这里要判断一下，是否是要播放新的歌单，如果不需要，直接从Service中拿到数据，进行之前的播放
+             *
+             * 在这里进行初始化，是为了防止mBinder没有被初始化
+             */
+            if (musicIdList.isEmpty()) {
+                musicIdList = mBinder.returnMusicId()
+                songList = mBinder.returnMusic()
+                musicUrlList = mBinder.returnMusicUrl()
+                Log.d("TAG", "onServiceConnected: $songList")
+                if (mBinder.getPlayWhenReady()){
+                    mBinding.musicPlay.setImageResource(R.drawable.music_open)
+                }else{
+                    mBinding.musicPlay.setImageResource(R.drawable.music_close)
+                    playViewModel.isPlay(false)
+                }
+                currentPosition = mBinder.getMusicPosition()
+                if (musicIdList.isEmpty()){
+                    Toast.makeText(this@MusicPlayerActivity,"好像还没有歌单哟",Toast.LENGTH_SHORT).show()
+                }else{
+                    playViewModel.getSongDetail(musicIdList[currentPosition])
+                }
+            } else if (musicIdList.isNotEmpty()) {
+                //拼接url，完成网络请求
+                musicIdList.let {
+                    for (i in it) {
+                        BASE_URL = BASE_URL + i
+                        if (i != it[it.size - 1]) {
+                            BASE_URL = BASE_URL + ","
+                        }
+                    }
+                }
+                initNetwork()
+                currentPosition = mBinder.getMusicPosition()
+                playViewModel.getSongDetail(musicIdList[currentPosition])
+            }
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
@@ -94,14 +131,18 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
     }
     private val updateSeekBarRunnable = object : Runnable {
         override fun run() {
-            if (!isUserTouch && isBind) {
+            if (!isUserTouch) {
                 mBinder.let {
                     val currentPosition = it.getCurrentPosition()
                     val duration = it.getDuration()
                     mBinding.seekBar.max = duration.toInt()
                     mBinding.seekBar.progress = currentPosition.toInt()
                     mBinding.musicTimeCurrent.text = formatTime(currentPosition)
-                    mBinding.musicTimeTotal.text = formatTime(duration)
+                    if (musicIdList.isEmpty()){
+                        mBinding.musicTimeTotal.text = "00:00"
+                    }else{
+                        mBinding.musicTimeTotal.text = formatTime(duration)
+                    }
                 }
             }
             //每隔1秒更新进度条
@@ -114,29 +155,28 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
     }
 
     override fun afterCreate() {
-        Log.d("SongListyou","$musicIdList")
-        //拼接url，完成网络请求
-        musicIdList.let {
-            for (i in it) {
-                BASE_URL = BASE_URL + i
-                if (i != it[it.size - 1]) {
-                    BASE_URL = BASE_URL + ","
-                }
-            }
-        }
-
+        Log.d("you", "afterCreate: $musicIdList")
+        initService()
         commentAdapter = CommentAdapter()
         songListAdapter = SongListAdapter()
-
         initVp()
-        initNetwork()
         initView()
+
+    }
+
+    fun initService() {
+        val intent = Intent(this@MusicPlayerActivity, MusicPlayerService::class.java)
+        startService(intent)
+        bindService(intent, connection, Context.BIND_AUTO_CREATE)
     }
 
     override fun getViewBinding(): ActivityMusicplayerBinding {
         return ActivityMusicplayerBinding.inflate(layoutInflater)
     }
 
+    /**
+     * 进行网络请求，并将数据传给Service
+     */
     private fun initNetwork() {
         playViewModel.apply {
             getMusicUrl(BASE_URL!!)
@@ -144,28 +184,21 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
                 for (i in it) {
                     musicUrlList.add(i.url)
                 }
-                //在这里进行Service的绑定，当musicUrlList不为空时，进行Service的绑定
-                getSongDetail(musicIdList[currentPosition])
-                songDetail.observe(this@MusicPlayerActivity) {
-                    musicName = it.name
-                    for (i in it.ar) {
-                        musicAuthor = i.name + ' '
+                getAllSongDetail(BASE_URL!!)
+                AllSongDetail.observe(this@MusicPlayerActivity) {
+                    Log.d("AllSongDetail", "$it")
+                    for (i in it.songs) {
+                        songList.add(i)
                     }
-                    musicCoverUrl = it.al.picUrl
-                    val intent = Intent(this@MusicPlayerActivity, MusicPlayerService::class.java)
-                    if (!isBind) {
-                        intent.apply {
-                            putStringArrayListExtra("MusicUrlList", musicUrlList)
-                            putExtra("MusicName", musicName)
-                            putExtra("MusicAuthor", musicAuthor)
-                            putExtra("MusicCoverUrl", musicCoverUrl)
-                        }
-                        startService(intent)
-                        bindService(intent, connection, Context.BIND_AUTO_CREATE)
-                        isBind = true
-                    }
+                    Log.d("SongListyou", "$songList")
+                    currentPosition = mBinder.getMusicPosition()
+                    mBinder.startPlay(musicUrlList[currentPosition])
                 }
-                Log.d("TAG", "initNetwork: $musicUrlList")
+            }
+            mBinder.apply {
+                setMusicInfo(songList)
+                setMusicUrl(musicUrlList)
+                setMusicId(musicIdList)
             }
 
         }
@@ -180,7 +213,14 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
             currentPosition = mBinder.getMusicPosition()
             // 创建分享意图
             val shareIntent = Intent().apply {
-                val title = "$musicName -- $musicAuthor\n ${musicUrlList[currentPosition]}"
+                currentPosition = mBinder.getMusicPosition()
+                val musicName = songList[currentPosition].name
+                var musicArtist = ""
+                for (i in songList[currentPosition].ar) {
+                    musicArtist = musicArtist + i.name + " "
+                }
+                val title =
+                    "分享音乐：\n $musicName--$musicArtist\n ${musicUrlList[currentPosition]}\n 点击链接即可享受哟"
                 action = Intent.ACTION_SEND
                 putExtra(Intent.EXTRA_TEXT, title)
                 type = "text/plain"
@@ -194,9 +234,13 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
                 mBinding.musicPlay.setImageResource(R.drawable.music_close)
                 playViewModel.isPlay(false)
             } else {
-                mBinder.playMusic()
-                mBinding.musicPlay.setImageResource(R.drawable.music_open)
-                playViewModel.isPlay(true)
+                if (musicIdList.isEmpty()){
+                    Toast.makeText(this@MusicPlayerActivity,"好像还没有歌单哟",Toast.LENGTH_SHORT).show()
+                }else{
+                    mBinder.playMusic()
+                    mBinding.musicPlay.setImageResource(R.drawable.music_open)
+                    playViewModel.isPlay(true)
+                }
             }
         }
         mBinding.musicNext.setOnClickListener {
@@ -230,7 +274,6 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
                     currentPosition = mBinder.getMusicPosition()
                     Log.d("TAG", "onProgressChanged: $currentPosition")
                     playViewModel.getSongDetail(musicIdList[currentPosition])
-
                 }
             }
 
@@ -263,17 +306,13 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
         val recyclerView = bottomSheetView.findViewById<RecyclerView>(R.id.rv_singlist)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = songListAdapter
-        playViewModel.getSongDetail(BASE_URL!!)
-        playViewModel.AllSongDetail.observe(this@MusicPlayerActivity){
-            songListAdapter.submitList(it.songs)
-        }
+        songListAdapter.submitList(mBinder.returnMusic())
         currentPosition = mBinder.getMusicPosition()
-        Log.d("TAG", "showSongListBottomSheetDialog: $songList")
-        recyclerView.smoothScrollToPosition(currentPosition)
         bottomSheetDialog.setContentView(bottomSheetView)
         bottomSheetDialog.show()
 
     }
+
     private fun showCommentBottomSheetDialog() {
         val bottomSheetDialog = BottomSheetDialog(this)
         val bottomSheetView = layoutInflater.inflate(R.layout.comment_bottom_sheet, null)
@@ -284,11 +323,11 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
 
         currentPosition = mBinder.getMusicPosition()
         lifecycleScope.launch {
-            playViewModel.getComments("0",musicIdList[currentPosition],"3").collectLatest { pagingData ->
-                commentAdapter.submitData(pagingData)
-            }
+            playViewModel.getComments("0", musicIdList[currentPosition], "3")
+                .collectLatest { pagingData ->
+                    commentAdapter.submitData(pagingData)
+                }
         }
-
         bottomSheetDialog.setContentView(bottomSheetView)
         bottomSheetDialog.show()
     }
@@ -325,12 +364,12 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        overridePendingTransition(R.anim.slide_in, R.anim.slide_out)
+        overridePendingTransition(0, R.anim.slide_out)
     }
 
     override fun onPause() {
         super.onPause()
-        overridePendingTransition(R.anim.slide_in, R.anim.slide_out)
+        overridePendingTransition(0, R.anim.slide_out)
     }
 
     //格式化时间

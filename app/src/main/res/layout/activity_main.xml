@@ -58,6 +58,7 @@
 
             </FrameLayout>
             <androidx.cardview.widget.CardView
+                android:id="@+id/main_card"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
@@ -69,40 +70,41 @@
                     android:padding="5dp">
                     <ImageView
                         android:id="@+id/music_iv"
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:background="@color/white"
-                        android:src="@drawable/ic_launcher_background"/>
-                    <SeekBar
-                        android:id="@+id/seekBar"
-                        android:layout_width="190dp"
-                        android:layout_height="15dp"
-                        android:progressTint="@color/black"
-                        android:paddingRight="5dp"
-                        android:thumbTint="@color/black"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:src="@drawable/music"/>
+                    <TextView
+                        android:id="@+id/music_tv_name"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="歌曲"
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="20dp"
+                        android:maxLines="1"
                         android:layout_toRightOf="@id/music_iv"/>
                     <TextView
-                        android:id="@+id/music_time"
+                        android:id="@+id/music_tv_artist"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/seekBar"
-                        android:text="00:00"/>
-                    <TextView
-                        android:id="@+id/music_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/music_iv"
-                        android:text="音乐"
-                        android:layout_marginLeft="10dp"
-                        android:layout_below="@id/seekBar"
-                        android:textColor="@color/black"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/music_name"
-                        android:layout_alignStart="@id/music_name"
-                        android:text="歌手"/>
-
+                        android:layout_below="@id/music_tv_name"
+                        android:layout_alignStart="@id/music_tv_name"
+                        android:text="歌手" />
+                    <ImageView
+                        android:id="@+id/music_iv_list"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="2dp"
+                        android:src="@drawable/music_list"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"/>
+                    <ImageView
+                        android:id="@+id/music_iv_play"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/music_iv_list"
+                        android:src="@drawable/music_open"
+                        android:layout_width="40dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_height="40dp"/>
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
