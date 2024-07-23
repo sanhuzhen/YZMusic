@@ -1,15 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.fragment.MusicFragment"
     android:id="@+id/fragment_music">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/iv_all"
+            android:src="@drawable/player"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:text="播放全部"
+            android:id="@+id/tv_all"
+            android:textSize="20sp"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:id="@+id/recyclerView"
         />
 
-</FrameLayout>
+</LinearLayout>

@@ -23,6 +23,25 @@
             android:textSize="20sp"
             android:text="我的收藏"/>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/iv_all"
+            android:src="@drawable/music_play"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:text="播放全部"
+            android:id="@+id/tv_all"
+            android:textSize="20sp"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"

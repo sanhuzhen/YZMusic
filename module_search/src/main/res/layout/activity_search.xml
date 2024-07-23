@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/second_background"
+    android:background="@color/pink"
     tools:context=".ui.activity.SearchActivity">
 
     <LinearLayout
@@ -49,13 +49,13 @@
         android:layout_height="40dp"
         app:tabGravity="center"
         app:tabMode="scrollable"
-        android:background="@drawable/second_background"
+        android:background="@color/pink"
         />
     <androidx.cardview.widget.CardView
-        android:layout_width="350dp"
+        android:layout_width="330dp"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginLeft="5dp">
+        android:layout_marginLeft="12dp">
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
