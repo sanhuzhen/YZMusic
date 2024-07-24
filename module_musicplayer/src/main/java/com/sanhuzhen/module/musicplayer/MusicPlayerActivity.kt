@@ -204,7 +204,7 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
                     Player.STATE_ENDED -> {
                         if (mBinder.getPlayer().repeatMode == Player.REPEAT_MODE_OFF){
                             //播放结束，自动播放下一首音乐
-                            mBinder.nextMusic()
+//                            mBinder.nextMusic()
                             currentPosition = mBinder.getMusicPosition()
                             // 播放结束，可以开始下一首
                             playViewModel.getSongDetail(musicIdList[currentPosition])

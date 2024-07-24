@@ -71,7 +71,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     when (playbackState) {
                         Player.STATE_ENDED -> {
                             if (mBinder.getPlayer().repeatMode == Player.REPEAT_MODE_OFF) {
-                                mBinder.nextMusic()
+//                                mBinder.nextMusic()
                                 currentPosition = mBinder.getMusicPosition()
                                 mBinding.apply {
                                     Glide.with(this@MainActivity)
@@ -85,14 +85,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                                     musicTvArtist.text = musicart
                                 }
                             } else {
-                                mBinder.getPlayer().seekTo(0)
+                                mBinder.seekTo(0)
                             }
 
                         }
                     }
                 }
             })
-
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
@@ -141,9 +140,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         mBinding.musicIvList.setOnClickListener {
             showSongListBottomSheetDialog()
         }
-
-
-
 
     }
 
