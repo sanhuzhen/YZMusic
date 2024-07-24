@@ -38,7 +38,6 @@ class MusicPlayerService : Service() {
     private var musicDetail = arrayListOf<Song>()
     private var currentPosition: Int = 0 //当前音乐播放播放位置
 
-
     //实现通信
     inner class MusicBinder : Binder() {
         fun startPlay(musicUrl: String) {
@@ -156,6 +155,42 @@ class MusicPlayerService : Service() {
             }
         }
 
+        //设置播放模式
+        fun setPlayMode(mode: Int) {
+            when (mode) {
+                0 -> {
+                    //列表循环
+                    player.repeatMode = Player.REPEAT_MODE_OFF
+                }
+                1 -> {
+                    //单曲循环
+                    player.repeatMode = Player.REPEAT_MODE_ONE
+                }
+                2 -> {
+                    //随机播放
+                    player.repeatMode = Player.REPEAT_MODE_ALL
+                }
+            }
+        }
+
+        //return 播放模式
+        fun getPlayMode(): Int {
+            return when (player.repeatMode) {
+                Player.REPEAT_MODE_OFF -> {
+                    0
+                }
+                Player.REPEAT_MODE_ONE -> {
+                    1
+                }
+                Player.REPEAT_MODE_ALL -> {
+                    2
+                }
+                else -> {
+                    0
+                }
+            }
+        }
+
     }
 
     override fun onCreate() {
@@ -169,12 +204,13 @@ class MusicPlayerService : Service() {
                 override fun onPlaybackStateChanged(playbackState: Int) {
                     when (playbackState) {
                         Player.STATE_ENDED -> {
-                            //播放结束，自动播放下一首音乐
-                            musicBinder.nextMusic()
-                            //在音乐播放结束时发送广播
-                            val intent = Intent("com.sanhuzhen.module.musicplayer.MUSIC_COMPLETE")
-                            intent.setPackage(packageName)
-                            sendBroadcast(intent)
+                            if (player.repeatMode == Player.REPEAT_MODE_OFF){
+                                //播放结束，自动播放下一首音乐
+                                musicBinder.nextMusic()
+                            }else{
+                                player.seekTo(0)
+                                player.playWhenReady = true
+                            }
                         }
                     }
                 }

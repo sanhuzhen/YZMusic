@@ -64,7 +64,15 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>() {
         }
         mBinding.swipeRefresh.setColorSchemeResources(R.color.black)
         mBinding.swipeRefresh.setOnRefreshListener {
+            SongList.clear()
+            songList.clear()
+            homePageSlidePlayList.clear()
+            MySongList.clear()
             mViewModel.getHomeData()
+            initHomeList()
+            initSongList()
+            initMyList()
+            initClick()
             mBinding.swipeRefresh.isRefreshing = false
         }
     }

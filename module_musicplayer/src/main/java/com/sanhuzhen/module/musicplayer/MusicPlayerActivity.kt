@@ -127,6 +127,11 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
                 currentPosition = mBinder.getMusicPosition()
                 playViewModel.getSongDetail(musicIdList[currentPosition])
             }
+            if (mBinder.getPlayMode()==0){
+                mBinding.musicRandom.setImageResource(R.drawable.shunxu)
+            }else{
+                mBinding.musicRandom.setImageResource(R.drawable.xunhuan)
+            }
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
@@ -165,6 +170,13 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
         songListAdapter = SongListAdapter()
         initVp()
         initView()
+        val prefs = getPreferences(Context.MODE_PRIVATE)
+        val isLike = prefs.getBoolean("${musicIdList[currentPosition]}", false)
+        if(isLike == true){
+            mBinding.musicLike.setImageResource(R.drawable.red_heart)
+        }else{
+            mBinding.musicLike.setImageResource(R.drawable.heart)
+        }
 
     }
 
@@ -277,7 +289,10 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
                     mBinder.seekTo(progress.toLong())
                 }
                 //进度条滑动结束，自动播放下一首
-                if (progress >= seekBar!!.max) {
+                /**
+                 * 这里由于有一点误差转换的时候，所以需要减一点
+                 */
+                if (progress >= seekBar!!.max - 10000) {
                     //更新Fragment中的数据
                     currentPosition = mBinder.getMusicPosition()
                     Log.d("TAG", "onProgressChanged: $currentPosition")
@@ -294,7 +309,19 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
             }
         })
         mBinding.musicLike.setOnClickListener {
-
+            currentPosition = mBinder.getMusicPosition()
+            val prefs = getPreferences(Context.MODE_PRIVATE)
+            val editor = prefs.edit()
+            val isLike = prefs.getBoolean("${musicIdList[currentPosition]}", false)
+            if(isLike == true){
+                mBinding.musicLike.setImageResource(R.drawable.heart)
+                editor.putBoolean("${musicIdList[currentPosition]}", false)
+                editor.apply()
+            }else{
+                mBinding.musicLike.setImageResource(R.drawable.red_heart)
+                editor.putBoolean("${musicIdList[currentPosition]}", true)
+                editor.apply()
+            }
         }
 
         mBinding.musicComment.setOnClickListener {
@@ -303,6 +330,18 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
 
         mBinding.musicList.setOnClickListener {
             showSongListBottomSheetDialog()
+        }
+
+        mBinding.musicRandom.setOnClickListener {
+            if (mBinder.getPlayMode() == 0) {
+                mBinder.setPlayMode(1)
+                mBinding.musicRandom.setImageResource(R.drawable.xunhuan)
+                Toast.makeText(this@MusicPlayerActivity,"单曲循环",Toast.LENGTH_SHORT).show()
+            } else {
+                mBinder.setPlayMode(0)
+                mBinding.musicRandom.setImageResource(R.drawable.shunxu)
+                Toast.makeText(this@MusicPlayerActivity,"顺序播放",Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

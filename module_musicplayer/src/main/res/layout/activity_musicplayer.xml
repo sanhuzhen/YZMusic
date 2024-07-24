@@ -164,7 +164,7 @@
             android:layout_alignTop="@id/music_front"
             android:layout_marginRight="25dp"
             android:layout_toLeftOf="@id/music_front"
-            android:src="@drawable/suiji" />
+            android:src="@drawable/shunxu" />
 
 
     </RelativeLayout>
