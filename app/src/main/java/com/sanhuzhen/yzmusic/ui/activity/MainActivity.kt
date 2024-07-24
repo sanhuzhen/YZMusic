@@ -9,9 +9,11 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.ServiceConnection
 import android.os.IBinder
+import android.util.Log
 import android.view.animation.LinearInterpolator
 import android.widget.Toast
 import androidx.core.view.GravityCompat
+import androidx.media3.common.Player
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -39,7 +41,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private var animator: ObjectAnimator? = null//旋转动画
 
-    private lateinit var songListAdapter : SongListAdapter
+    private lateinit var songListAdapter: SongListAdapter
 
     /**
      * 音乐的信息
@@ -63,6 +65,33 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             } else {
                 mBinding.musicIvPlay.setImageResource(R.drawable.music_close)
             }
+            mBinder.getPlayer().addListener(object : Player.Listener {
+                override fun onPlaybackStateChanged(playbackState: Int) {
+                    Log.d("MusicPlayerService", "onPlaybackStateChanged: $playbackState")
+                    when (playbackState) {
+                        Player.STATE_ENDED -> {
+                            if (mBinder.getPlayer().repeatMode == Player.REPEAT_MODE_OFF) {
+                                mBinder.nextMusic()
+                                currentPosition = mBinder.getMusicPosition()
+                                mBinding.apply {
+                                    Glide.with(this@MainActivity)
+                                        .load(musicDetail[currentPosition].al.picUrl)
+                                        .transform(CenterCrop(), RoundedCorners(360)).into(musicIv)
+                                    musicTvName.text = musicDetail[currentPosition].name
+                                    var musicart = ""
+                                    for (i in musicDetail[currentPosition].ar){
+                                        musicart = musicart + i.name + " "
+                                    }
+                                    musicTvArtist.text = musicart
+                                }
+                            } else {
+                                mBinder.getPlayer().seekTo(0)
+                            }
+
+                        }
+                    }
+                }
+            })
 
         }
 
@@ -91,9 +120,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 mBinder.stopMusic()
                 animator?.pause()
             } else {
-                if (musicDetail.isEmpty()){
-                    Toast.makeText(this@MainActivity,"请先添加歌曲",Toast.LENGTH_SHORT).show()
-                }else{
+                if (musicDetail.isEmpty()) {
+                    Toast.makeText(this@MainActivity, "请先添加歌曲", Toast.LENGTH_SHORT).show()
+                } else {
                     mBinding.musicIvPlay.setImageResource(R.drawable.music_open)
                     mBinder.playMusic()
                     if (animator == null) {
@@ -106,7 +135,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
         mBinding.mainCard.setOnClickListener {
             TheRouter.build("/musicplayer/musicplayerActivity").navigation()
-            overridePendingTransition(R.anim.slide_in,0)
+            overridePendingTransition(R.anim.slide_in, 0)
         }
 
         mBinding.musicIvList.setOnClickListener {
@@ -114,12 +143,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
 
 
+
+
     }
+
     private fun showSongListBottomSheetDialog() {
         val bottomSheetDialog = BottomSheetDialog(this)
-        val bottomSheetView = layoutInflater.inflate(com.sanhuzhen.module.musicplayer.R.layout.songlist_bottom_sheet, null)
+        val bottomSheetView = layoutInflater.inflate(
+            com.sanhuzhen.module.musicplayer.R.layout.songlist_bottom_sheet,
+            null
+        )
 
-        val recyclerView = bottomSheetView.findViewById<RecyclerView>(com.sanhuzhen.module.musicplayer.R.id.rv_singlist)
+        val recyclerView =
+            bottomSheetView.findViewById<RecyclerView>(com.sanhuzhen.module.musicplayer.R.id.rv_singlist)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = songListAdapter
         songListAdapter.submitList(mBinder.returnMusic())
@@ -201,9 +237,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
         if (mBinder.getPlayWhenReady()) {
             mBinding.musicIvPlay.setImageResource(R.drawable.music_open)
-            if (animator == null){
+            if (animator == null) {
                 RecordRotation()
-            }else{
+            } else {
                 animator?.resume()
             }
         } else {
