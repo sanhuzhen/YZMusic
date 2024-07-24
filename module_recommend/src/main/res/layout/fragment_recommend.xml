@@ -62,6 +62,14 @@
                     android:layout_marginLeft="5dp"
                     android:textStyle="bold"
                     android:textSize="15sp"/>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/recommend_songList_allPlay"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="250dp"
+                    android:background="#00000054"
+                    android:drawableLeft="@drawable/boastcast"
+                    android:text="全部播放"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recommend_songList_rv"

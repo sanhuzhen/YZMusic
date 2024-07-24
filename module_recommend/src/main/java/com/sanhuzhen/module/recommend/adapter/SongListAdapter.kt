@@ -12,6 +12,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sanhuzhen.module.home.R
 import com.sanhuzhen.module.recommend.bean.SongData
+import com.therouter.TheRouter
 
 class SongListAdapter :
     ListAdapter<SongData, SongListAdapter.mViewHolder>(object : DiffUtil.ItemCallback<SongData>() {
@@ -36,6 +37,17 @@ class SongListAdapter :
         private val songNameTv: TextView = itemView.findViewById(R.id.song_name)
         private val songSingerTv: TextView = itemView.findViewById(R.id.song_singer)
 
+        init {
+            setOnClickListener()
+        }
+
+        fun setOnClickListener() {
+            itemView.setOnClickListener {
+                TheRouter.build("/musicplayer/musicplayerActivity")
+                    .withObject("SongList", arrayListOf(getItem(adapterPosition).id.toString()))
+                    .navigation()
+            }
+        }
         fun bind(item: SongData) {
             Glide.with(itemView.context).load(item.album.blurPicUrl)
                 .transform(CenterCrop(), RoundedCorners(10)).into(songIv)

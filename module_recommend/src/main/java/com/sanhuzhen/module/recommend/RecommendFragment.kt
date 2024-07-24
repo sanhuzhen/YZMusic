@@ -36,6 +36,8 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>() {
     private var MySongList: MutableList<Resource> = mutableListOf()
     private var MySongListTitle: String? = null
 
+    private var songList = arrayListOf<String>()
+
     //自动轮播
     private var timer: Timer? = null
     private var timerTask: TimerTask? = null
@@ -87,6 +89,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>() {
                 for (j in i.creatives) {
                     for (z in j.resources) {
                         SongList.add(z.resourceExtInfo.songData)
+                        songList.add(z.resourceExtInfo.songData.id.toString())
                     }
                 }
             } else if (i.blockCode == "HOMEPAGE_BLOCK_MGC_PLAYLIST") {
@@ -105,6 +108,19 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>() {
         initHomeList()
         initSongList()
         initMyList()
+        initClick()
+    }
+
+    private fun initClick() {
+        mBinding.recommendSongListAllPlay.setOnClickListener {
+            if (songList.size > 0) {
+                TheRouter.build("/musicplayer/musicplayerActivity")
+                    .withObject("SongList", songList)
+                    .navigation()
+            } else {
+                Toast.makeText(requireContext(), "暂无歌曲", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun initMyList() {
