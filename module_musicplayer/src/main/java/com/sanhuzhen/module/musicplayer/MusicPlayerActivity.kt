@@ -110,6 +110,10 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
                     playViewModel.getSongDetail(musicIdList[currentPosition])
                 }
             } else if (musicIdList.isNotEmpty()) {
+                /**
+                 * 这里是要判断一下，是否是切换歌单，如果是，则需要重新请求数据，先清空数据，不然会崩
+                 */
+                mBinder.clear()
                 //拼接url，完成网络请求
                 musicIdList.let {
                     for (i in it) {

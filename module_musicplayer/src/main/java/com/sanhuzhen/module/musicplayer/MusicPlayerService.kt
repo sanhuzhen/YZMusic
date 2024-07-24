@@ -144,6 +144,18 @@ class MusicPlayerService : Service() {
             return musicId
         }
 
+        //清空数据
+        fun clear() {
+            if (musicId.isNotEmpty()&&player.isPlaying){
+                player.stop()
+                player.clearMediaItems()
+                currentPosition = 0
+            }else if (musicId.isNotEmpty()&&!player.isPlaying){
+                player.clearMediaItems()
+                currentPosition = 0
+            }
+        }
+
     }
 
     override fun onCreate() {

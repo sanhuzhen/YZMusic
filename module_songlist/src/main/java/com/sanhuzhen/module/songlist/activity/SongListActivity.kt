@@ -68,10 +68,10 @@ class SongListActivity : BaseActivity<ActivitySonglistBinding>() {
                 }
             }
         }
-        setSupportActionBar(mBinding.toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
-            mBinding.toolbar.setNavigationIcon(R.drawable.back); // 使用自定义的图标
+        setSupportActionBar(mBinding.toolbar)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeButtonEnabled(true)
         }
         mBinding.toolbar.setNavigationOnClickListener {
             finish()
