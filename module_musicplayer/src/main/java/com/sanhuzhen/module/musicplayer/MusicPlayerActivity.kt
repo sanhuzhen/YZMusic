@@ -89,80 +89,9 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
             updateSeekBar()
             isBind = true
             /**
-             * 这里要判断一下，是否是要播放新的歌单，如果不需要，直接从Service中拿到数据，进行之前的播放
-             *
              * 在这里进行初始化，是为了防止mBinder没有被初始化
              */
-            if (musicIdList.isEmpty()) {
-                musicIdList = mBinder.returnMusicId()
-                songList = mBinder.returnMusic()
-                musicUrlList = mBinder.returnMusicUrl()
-                Log.d("TAG", "onServiceConnected: $songList")
-                if (mBinder.getPlayWhenReady()) {
-                    mBinding.musicPlay.setImageResource(R.drawable.music_open)
-                } else {
-                    mBinding.musicPlay.setImageResource(R.drawable.music_close)
-                    playViewModel.isPlay(false)
-                }
-                currentPosition = mBinder.getMusicPosition()
-                if (musicIdList.isEmpty()) {
-                    Toast.makeText(this@MusicPlayerActivity, "好像还没有歌单哟", Toast.LENGTH_SHORT)
-                        .show()
-                } else {
-                    playViewModel.getSongDetail(musicIdList[currentPosition])
-                }
-            } else if (musicIdList.isNotEmpty()) {
-                /**
-                 * 这里是要判断一下，是否是切换歌单，如果是，则需要重新请求数据，先清空数据，不然会崩
-                 */
-                mBinder.clear()
-                //拼接url，完成网络请求
-                musicIdList.let {
-                    for (i in it) {
-                        BASE_URL = BASE_URL + i
-                        if (i != it[it.size - 1]) {
-                            BASE_URL = BASE_URL + ","
-                        }
-                    }
-                }
-                initNetwork()
-                currentPosition = mBinder.getMusicPosition()
-                playViewModel.getSongDetail(musicIdList[currentPosition])
-            }
-            if (mBinder.getPlayMode() == 0) {
-                mBinding.musicRandom.setImageResource(R.drawable.shunxu)
-            } else {
-                mBinding.musicRandom.setImageResource(R.drawable.xunhuan)
-            }
-            if (musicIdList.isNotEmpty()){
-                val prefs = getPreferences(Context.MODE_PRIVATE)
-                val isLike = prefs.getBoolean("${musicIdList[currentPosition]}", false)
-                if(isLike == true){
-                    mBinding.musicLike.setImageResource(R.drawable.red_heart)
-                }else{
-                    mBinding.musicLike.setImageResource(R.drawable.heart)
-                }
-            }
-            // 添加 ExoPlayer 播放状态监听器
-            mBinder.getPlayer().addListener(object : Player.Listener {
-                override fun onPlaybackStateChanged(playbackState: Int) {
-                    when (playbackState) {
-                        Player.STATE_ENDED -> {
-                            if (mBinder.getPlayer().repeatMode == Player.REPEAT_MODE_OFF){
-                                //播放结束，自动播放下一首音乐
-                                mBinder.nextMusic()
-                                currentPosition = mBinder.getMusicPosition()
-                                // 播放结束，可以开始下一首
-                                playViewModel.getSongDetail(musicIdList[currentPosition])
-                            }else{
-                                mBinder.getPlayer().seekTo(0)
-                                mBinder.getPlayer().playWhenReady = true
-                            }
-
-                        }
-                    }
-                }
-            })
+            initPlay()
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
@@ -212,6 +141,82 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
 
     override fun getViewBinding(): ActivityMusicplayerBinding {
         return ActivityMusicplayerBinding.inflate(layoutInflater)
+    }
+
+    private fun initPlay() {
+        /**
+         * 这里要判断一下，是否是要播放新的歌单，如果不需要，直接从Service中拿到数据，进行之前的播放
+         */
+        if (musicIdList.isEmpty()) {
+            musicIdList = mBinder.returnMusicId()
+            songList = mBinder.returnMusic()
+            musicUrlList = mBinder.returnMusicUrl()
+            Log.d("TAG", "onServiceConnected: $songList")
+            if (mBinder.getPlayWhenReady()) {
+                mBinding.musicPlay.setImageResource(R.drawable.music_open)
+            } else {
+                mBinding.musicPlay.setImageResource(R.drawable.music_close)
+                playViewModel.isPlay(false)
+            }
+            currentPosition = mBinder.getMusicPosition()
+            if (musicIdList.isEmpty()) {
+                Toast.makeText(this@MusicPlayerActivity, "好像还没有歌单哟", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                playViewModel.getSongDetail(musicIdList[currentPosition])
+            }
+        } else if (musicIdList.isNotEmpty()) {
+            /**
+             * 这里是要判断一下，是否是切换歌单，如果是，则需要重新请求数据，先清空数据，不然会崩
+             */
+            mBinder.clear()
+            //拼接url，完成网络请求
+            musicIdList.let {
+                for (i in it) {
+                    BASE_URL = BASE_URL + i
+                    if (i != it[it.size - 1]) {
+                        BASE_URL = BASE_URL + ","
+                    }
+                }
+            }
+            initNetwork()
+            currentPosition = mBinder.getMusicPosition()
+            playViewModel.getSongDetail(musicIdList[currentPosition])
+        }
+        if (mBinder.getPlayMode() == 0) {
+            mBinding.musicRandom.setImageResource(R.drawable.shunxu)
+        } else {
+            mBinding.musicRandom.setImageResource(R.drawable.xunhuan)
+        }
+        if (musicIdList.isNotEmpty()){
+            val prefs = getPreferences(Context.MODE_PRIVATE)
+            val isLike = prefs.getBoolean("${musicIdList[currentPosition]}", false)
+            if(isLike == true){
+                mBinding.musicLike.setImageResource(R.drawable.red_heart)
+            }else{
+                mBinding.musicLike.setImageResource(R.drawable.heart)
+            }
+        }
+        // 添加 ExoPlayer 播放状态监听器
+        mBinder.getPlayer().addListener(object : Player.Listener {
+            override fun onPlaybackStateChanged(playbackState: Int) {
+                when (playbackState) {
+                    Player.STATE_ENDED -> {
+                        if (mBinder.getPlayer().repeatMode == Player.REPEAT_MODE_OFF){
+                            //播放结束，自动播放下一首音乐
+                            mBinder.nextMusic()
+                            currentPosition = mBinder.getMusicPosition()
+                            // 播放结束，可以开始下一首
+                            playViewModel.getSongDetail(musicIdList[currentPosition])
+                        }else{
+                            mBinder.getPlayer().seekTo(0)
+                            mBinder.getPlayer().playWhenReady = true
+                        }
+
+                    }
+                }
+            }
+        })
     }
 
     /**
