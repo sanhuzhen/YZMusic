@@ -1,4 +1,4 @@
-package com.sanhuzhen.module.songlist.activity
+package com.sanhuzhen.module.songlist.ui.activity
 
 import android.animation.ValueAnimator
 import android.util.Log

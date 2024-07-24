@@ -15,6 +15,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.media3.common.Player
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -97,16 +98,17 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
                 songList = mBinder.returnMusic()
                 musicUrlList = mBinder.returnMusicUrl()
                 Log.d("TAG", "onServiceConnected: $songList")
-                if (mBinder.getPlayWhenReady()){
+                if (mBinder.getPlayWhenReady()) {
                     mBinding.musicPlay.setImageResource(R.drawable.music_open)
-                }else{
+                } else {
                     mBinding.musicPlay.setImageResource(R.drawable.music_close)
                     playViewModel.isPlay(false)
                 }
                 currentPosition = mBinder.getMusicPosition()
-                if (musicIdList.isEmpty()){
-                    Toast.makeText(this@MusicPlayerActivity,"好像还没有歌单哟",Toast.LENGTH_SHORT).show()
-                }else{
+                if (musicIdList.isEmpty()) {
+                    Toast.makeText(this@MusicPlayerActivity, "好像还没有歌单哟", Toast.LENGTH_SHORT)
+                        .show()
+                } else {
                     playViewModel.getSongDetail(musicIdList[currentPosition])
                 }
             } else if (musicIdList.isNotEmpty()) {
@@ -127,11 +129,40 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
                 currentPosition = mBinder.getMusicPosition()
                 playViewModel.getSongDetail(musicIdList[currentPosition])
             }
-            if (mBinder.getPlayMode()==0){
+            if (mBinder.getPlayMode() == 0) {
                 mBinding.musicRandom.setImageResource(R.drawable.shunxu)
-            }else{
+            } else {
                 mBinding.musicRandom.setImageResource(R.drawable.xunhuan)
             }
+            if (musicIdList.isNotEmpty()){
+                val prefs = getPreferences(Context.MODE_PRIVATE)
+                val isLike = prefs.getBoolean("${musicIdList[currentPosition]}", false)
+                if(isLike == true){
+                    mBinding.musicLike.setImageResource(R.drawable.red_heart)
+                }else{
+                    mBinding.musicLike.setImageResource(R.drawable.heart)
+                }
+            }
+            // 添加 ExoPlayer 播放状态监听器
+            mBinder.getPlayer().addListener(object : Player.Listener {
+                override fun onPlaybackStateChanged(playbackState: Int) {
+                    when (playbackState) {
+                        Player.STATE_ENDED -> {
+                            if (mBinder.getPlayer().repeatMode == Player.REPEAT_MODE_OFF){
+                                //播放结束，自动播放下一首音乐
+                                mBinder.nextMusic()
+                                currentPosition = mBinder.getMusicPosition()
+                                // 播放结束，可以开始下一首
+                                playViewModel.getSongDetail(musicIdList[currentPosition])
+                            }else{
+                                mBinder.getPlayer().seekTo(0)
+                                mBinder.getPlayer().playWhenReady = true
+                            }
+
+                        }
+                    }
+                }
+            })
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
@@ -147,9 +178,9 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
                     mBinding.seekBar.max = duration.toInt()
                     mBinding.seekBar.progress = currentPosition.toInt()
                     mBinding.musicTimeCurrent.text = formatTime(currentPosition)
-                    if (musicIdList.isEmpty()){
+                    if (musicIdList.isEmpty()) {
                         mBinding.musicTimeTotal.text = "00:00"
-                    }else if(formatTime(duration).length <= 5){
+                    } else if (formatTime(duration).length <= 5) {
                         mBinding.musicTimeTotal.text = formatTime(duration)
                     }
                 }
@@ -170,13 +201,6 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
         songListAdapter = SongListAdapter()
         initVp()
         initView()
-        val prefs = getPreferences(Context.MODE_PRIVATE)
-        val isLike = prefs.getBoolean("${musicIdList[currentPosition]}", false)
-        if(isLike == true){
-            mBinding.musicLike.setImageResource(R.drawable.red_heart)
-        }else{
-            mBinding.musicLike.setImageResource(R.drawable.heart)
-        }
 
     }
 
@@ -226,9 +250,10 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
             finish()
         }
         mBinding.musicShare.setOnClickListener {
-            if (musicIdList.isEmpty()){
-                Toast.makeText(this@MusicPlayerActivity,"好像还没有歌单哟",Toast.LENGTH_SHORT).show()
-            }else{
+            if (musicIdList.isEmpty()) {
+                Toast.makeText(this@MusicPlayerActivity, "好像还没有歌单哟", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
                 currentPosition = mBinder.getMusicPosition()
                 // 创建分享意图
                 val shareIntent = Intent().apply {
@@ -254,9 +279,10 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
                 mBinding.musicPlay.setImageResource(R.drawable.music_close)
                 playViewModel.isPlay(false)
             } else {
-                if (musicIdList.isEmpty()){
-                    Toast.makeText(this@MusicPlayerActivity,"好像还没有歌单哟",Toast.LENGTH_SHORT).show()
-                }else{
+                if (musicIdList.isEmpty()) {
+                    Toast.makeText(this@MusicPlayerActivity, "好像还没有歌单哟", Toast.LENGTH_SHORT)
+                        .show()
+                } else {
                     mBinder.playMusic()
                     mBinding.musicPlay.setImageResource(R.drawable.music_open)
                     playViewModel.isPlay(true)
@@ -264,22 +290,34 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
             }
         }
         mBinding.musicNext.setOnClickListener {
-            mBinder.nextMusic()
-            currentPosition = mBinder.getMusicPosition()
-            if (!mBinder.getPlayWhenReady()) {
-                mBinding.musicPlay.setImageResource(R.drawable.music_open)
-                playViewModel.isPlay(true)
+            if (musicIdList.isEmpty()){
+                Toast.makeText(this@MusicPlayerActivity, "没有下一首歌曲哟", Toast.LENGTH_SHORT)
+                    .show()
+                return@setOnClickListener
+            }else{
+                mBinder.nextMusic()
+                currentPosition = mBinder.getMusicPosition()
+                if (!mBinder.getPlayWhenReady()) {
+                    mBinding.musicPlay.setImageResource(R.drawable.music_open)
+                    playViewModel.isPlay(true)
+                }
+                playViewModel.getSongDetail(musicIdList[currentPosition])
             }
-            playViewModel.getSongDetail(musicIdList[currentPosition])
         }
         mBinding.musicFront.setOnClickListener {
-            mBinder.preMusic()
-            currentPosition = mBinder.getMusicPosition()
-            if (!mBinder.getPlayWhenReady()) {
-                mBinding.musicPlay.setImageResource(R.drawable.music_open)
-                playViewModel.isPlay(true)
+            if (musicIdList.isEmpty()){
+                Toast.makeText(this@MusicPlayerActivity, "没有上一首歌曲哟", Toast.LENGTH_SHORT)
+                    .show()
+                return@setOnClickListener
+            }else{
+                mBinder.preMusic()
+                currentPosition = mBinder.getMusicPosition()
+                if (!mBinder.getPlayWhenReady()) {
+                    mBinding.musicPlay.setImageResource(R.drawable.music_open)
+                    playViewModel.isPlay(true)
+                }
+                playViewModel.getSongDetail(musicIdList[currentPosition])
             }
-            playViewModel.getSongDetail(musicIdList[currentPosition])
         }
         //对seekBar的监听
         mBinding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -287,16 +325,6 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
                 //进度条滑动
                 if (fromUser) {
                     mBinder.seekTo(progress.toLong())
-                }
-                //进度条滑动结束，自动播放下一首
-                /**
-                 * 这里由于有一点误差转换的时候，所以需要减一点
-                 */
-                if (progress >= seekBar!!.max - 10000) {
-                    //更新Fragment中的数据
-                    currentPosition = mBinder.getMusicPosition()
-                    Log.d("TAG", "onProgressChanged: $currentPosition")
-                    playViewModel.getSongDetail(musicIdList[currentPosition])
                 }
             }
 
@@ -309,18 +337,23 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
             }
         })
         mBinding.musicLike.setOnClickListener {
-            currentPosition = mBinder.getMusicPosition()
-            val prefs = getPreferences(Context.MODE_PRIVATE)
-            val editor = prefs.edit()
-            val isLike = prefs.getBoolean("${musicIdList[currentPosition]}", false)
-            if(isLike == true){
-                mBinding.musicLike.setImageResource(R.drawable.heart)
-                editor.putBoolean("${musicIdList[currentPosition]}", false)
-                editor.apply()
-            }else{
-                mBinding.musicLike.setImageResource(R.drawable.red_heart)
-                editor.putBoolean("${musicIdList[currentPosition]}", true)
-                editor.apply()
+            if (musicIdList.isEmpty()) {
+                Toast.makeText(this@MusicPlayerActivity, "好像还没有歌曲播放哟", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                currentPosition = mBinder.getMusicPosition()
+                val prefs = getPreferences(Context.MODE_PRIVATE)
+                val editor = prefs.edit()
+                val isLike = prefs.getBoolean("${musicIdList[currentPosition]}", false)
+                if (isLike == true) {
+                    mBinding.musicLike.setImageResource(R.drawable.heart)
+                    editor.putBoolean("${musicIdList[currentPosition]}", false)
+                    editor.apply()
+                } else {
+                    mBinding.musicLike.setImageResource(R.drawable.red_heart)
+                    editor.putBoolean("${musicIdList[currentPosition]}", true)
+                    editor.apply()
+                }
             }
         }
 
@@ -336,13 +369,14 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
             if (mBinder.getPlayMode() == 0) {
                 mBinder.setPlayMode(1)
                 mBinding.musicRandom.setImageResource(R.drawable.xunhuan)
-                Toast.makeText(this@MusicPlayerActivity,"单曲循环",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MusicPlayerActivity, "单曲循环", Toast.LENGTH_SHORT).show()
             } else {
                 mBinder.setPlayMode(0)
                 mBinding.musicRandom.setImageResource(R.drawable.shunxu)
-                Toast.makeText(this@MusicPlayerActivity,"顺序播放",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MusicPlayerActivity, "顺序播放", Toast.LENGTH_SHORT).show()
             }
         }
+
     }
 
 
@@ -368,7 +402,7 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = commentAdapter
 
-        if (musicIdList.isNotEmpty()){
+        if (musicIdList.isNotEmpty()) {
             currentPosition = mBinder.getMusicPosition()
             lifecycleScope.launch {
                 playViewModel.getComments("0", musicIdList[currentPosition], "3")

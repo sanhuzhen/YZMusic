@@ -1,7 +1,14 @@
 [
   {
     "path": "/songlist/songListActivity",
-    "className": "com.sanhuzhen.module.songlist.activity.SongListActivity",
+    "className": "com.sanhuzhen.module.songlist.ui.activity.SongListActivity",
+    "action": "",
+    "description": "",
+    "params": {}
+  },
+  {
+    "path": "/songlist/singer",
+    "className": "com.sanhuzhen.module.songlist.ui.activity.SingerListActivity",
     "action": "",
     "description": "",
     "params": {}

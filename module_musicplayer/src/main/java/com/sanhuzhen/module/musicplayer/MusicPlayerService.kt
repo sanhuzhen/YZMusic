@@ -191,6 +191,10 @@ class MusicPlayerService : Service() {
             }
         }
 
+        fun getPlayer(): Player {
+            return player
+        }
+
     }
 
     override fun onCreate() {
@@ -199,23 +203,7 @@ class MusicPlayerService : Service() {
         /**
          * 创建播放器
          */
-        player = ExoPlayer.Builder(this).build().apply {
-            addListener(object : Player.Listener {
-                override fun onPlaybackStateChanged(playbackState: Int) {
-                    when (playbackState) {
-                        Player.STATE_ENDED -> {
-                            if (player.repeatMode == Player.REPEAT_MODE_OFF){
-                                //播放结束，自动播放下一首音乐
-                                musicBinder.nextMusic()
-                            }else{
-                                player.seekTo(0)
-                                player.playWhenReady = true
-                            }
-                        }
-                    }
-                }
-            })
-        }
+        player = ExoPlayer.Builder(this).build()
 
     }
 
