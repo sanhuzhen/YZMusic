@@ -163,6 +163,7 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
                 Toast.makeText(this@MusicPlayerActivity, "好像还没有歌单哟", Toast.LENGTH_SHORT)
                     .show()
             } else {
+                playViewModel.getSongLyric(musicIdList[currentPosition])
                 playViewModel.getSongDetail(musicIdList[currentPosition])
             }
         } else if (musicIdList.isNotEmpty()) {
@@ -181,6 +182,7 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
             }
             initNetwork()
             currentPosition = mBinder.getMusicPosition()
+            playViewModel.getSongLyric(musicIdList[currentPosition])
             playViewModel.getSongDetail(musicIdList[currentPosition])
         }
         if (mBinder.getPlayMode() == 0) {
@@ -209,6 +211,7 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
                             if (currentPosition >=0 && currentPosition < musicIdList.size){
                                 // 播放结束，可以开始下一首
                                 playViewModel.getSongDetail(musicIdList[currentPosition])
+                                playViewModel.getSongLyric(musicIdList[currentPosition])
                             }
                         }else{
                             mBinder.getPlayer().seekTo(0)
@@ -309,6 +312,7 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
                     playViewModel.isPlay(true)
                 }
                 playViewModel.getSongDetail(musicIdList[currentPosition])
+                playViewModel.getSongLyric(musicIdList[currentPosition])
             }
         }
         mBinding.musicFront.setOnClickListener {
@@ -324,6 +328,7 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
                     playViewModel.isPlay(true)
                 }
                 playViewModel.getSongDetail(musicIdList[currentPosition])
+                playViewModel.getSongLyric(musicIdList[currentPosition])
             }
         }
         //对seekBar的监听
