@@ -12,6 +12,8 @@ class SongFragment : BaseFragment<FragmentSongBinding>() {
 
     private val songListId = arrayListOf<String>()
 
+    private var songList = arrayListOf<String>()
+
     private val singerSongAdapter by lazy {
         SimiSongListAdapter()
     }
@@ -29,6 +31,7 @@ class SongFragment : BaseFragment<FragmentSongBinding>() {
                 for (i in it) {
                     songListId.add(i.id.toString())
                 }
+                songList = songListId
                 mBinding.tvSingerSongNum.text = songListId.size.toString()
                 singerSongAdapter.submitList(it)
                 mBinding.singerRecyclerView.apply {
@@ -37,11 +40,15 @@ class SongFragment : BaseFragment<FragmentSongBinding>() {
                 }
                 mBinding.btSingerPlay.setOnClickListener {
                     TheRouter.build("/musicplayer/musicplayerActivity")
-                        .withObject("SongList", songListId)
+                        .withObject("SongList", songList)
                         .navigation()
                 }
             }
         }
+    }
+    override fun onResume() {
+        super.onResume()
+        songList = songListId
     }
 
 }

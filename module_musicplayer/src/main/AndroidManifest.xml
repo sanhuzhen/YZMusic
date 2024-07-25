@@ -17,8 +17,9 @@
             android:foregroundServiceType="mediaPlayback"/>
         <activity
             android:name="com.sanhuzhen.module.musicplayer.MusicPlayerActivity"
+            android:launchMode="singleTask"
             android:exported="true">
-            
+
         </activity>
     </application>
 

@@ -1,17 +1,12 @@
 package com.sanhuzhen.module.songlist.ui.activity
 
-import android.animation.ValueAnimator
 import android.util.Log
-import android.view.MenuItem
-import android.view.View
-import android.view.animation.LinearInterpolator
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sanhuzhen.lib.base.BaseActivity
-import com.sanhuzhen.module.songlist.R
 import com.sanhuzhen.module.songlist.adapter.SongListAdapter
 import com.sanhuzhen.module.songlist.bean.Playlist
 import com.sanhuzhen.module.songlist.bean.Track
@@ -84,6 +79,13 @@ class SongListActivity : BaseActivity<ActivitySonglistBinding>() {
 
     override fun getViewBinding(): ActivitySonglistBinding {
         return ActivitySonglistBinding.inflate(layoutInflater)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        for (i in SongList) {
+            SongLists.add(i.id.toString())
+        }
     }
 
     private fun initSongList() {
