@@ -42,9 +42,6 @@ class FavouriteActivity : BaseActivity<ActivityFavouriteBinding>(){
     }
     fun playall(){
         mBinding.ivAll.setOnClickListener {
-            for (i in SongList) {
-                SongLists.add(i.id.toString())
-            }
             TheRouter.build("/musicplayer/musicplayerActivity").withObject("SongList", SongLists)
                 .navigation()
         }
@@ -59,6 +56,9 @@ class FavouriteActivity : BaseActivity<ActivityFavouriteBinding>(){
             mViewModel.getFavourite(it.playlist[0].id)
             mViewModel.mFavourite.observe(this){
                 rvAdapter.submitList(it.playlist.tracks)
+                for (i in SongList) {
+                    SongLists.add(i.id.toString())
+                }
             }
         }
     }

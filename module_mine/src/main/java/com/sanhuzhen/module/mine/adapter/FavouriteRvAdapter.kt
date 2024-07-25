@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
@@ -46,6 +47,7 @@ class FavouriteRvAdapter:ListAdapter<Track,FavouriteRvAdapter.FavHolder>(object 
         val FavSong: TextView =itemView.findViewById(R.id.tv_song_name)
         val FavSinger: TextView =itemView.findViewById(R.id.tv_singer_name)
         val FavElse: ImageView =itemView.findViewById(R.id.iv_else)
+        val FavItem:FrameLayout=itemView.findViewById(R.id.song_fav)
         fun favouriteData(favouriteData: Track){
             if (favouriteData.al.picUrl.isNotEmpty()){
                 Glide.with(itemView.context).load(favouriteData.al.picUrl)
@@ -54,7 +56,7 @@ class FavouriteRvAdapter:ListAdapter<Track,FavouriteRvAdapter.FavHolder>(object 
             else{
                 FavImg.setImageResource(R.drawable.ic_launcher_foreground)
             }
-            FavImg.setOnClickListener {
+            FavItem.setOnClickListener {
                 TheRouter.build("/musicplayer/musicplayerActivity")
                     .withObject("SongList",getItem(adapterPosition).id.toString())
             }

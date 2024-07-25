@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -14,6 +15,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.module.search.R
 import com.example.module.search.bean.Artist
 import com.example.module.search.bean.ArtistsData
+import com.therouter.TheRouter
 
 class ArtistsRvAdapter : ListAdapter <Artist, ArtistsRvAdapter.OneHolder>(object :
     DiffUtil.ItemCallback<Artist>(){
@@ -39,8 +41,11 @@ class ArtistsRvAdapter : ListAdapter <Artist, ArtistsRvAdapter.OneHolder>(object
     inner class OneHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val ArtistImg:ImageView=itemView.findViewById(R.id.artist_image)
         private val ArtistName:TextView=itemView.findViewById(R.id.artist_name)
-
+        private val Artists:LinearLayout=itemView.findViewById(R.id.singer_item)
         fun artistData(artistData: Artist){
+            Artists.setOnClickListener{
+                TheRouter.build("/songlist/songListActivity").withString("id",artistData.id.toString()).navigation()
+            }
             ArtistName.text=artistData.name
             if(artistData.picUrl.isNotEmpty()){
                 Glide.with(itemView.context).load(artistData.picUrl)

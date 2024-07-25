@@ -11,11 +11,14 @@ import com.sanhuzhen.lib.base.helper.SongDataHelper
 import com.sanhuzhen.module.mine.R
 import com.sanhuzhen.module.mine.adapter.DownloadsRvAdapter
 import com.sanhuzhen.module.mine.bean.SongData
+import com.sanhuzhen.module.mine.bean.WeekData
 import com.sanhuzhen.module.mine.databinding.ActivityDownloadsBinding
 import com.therouter.TheRouter
 
 class DownloadsActivity : BaseActivity<ActivityDownloadsBinding>(){
     val mRvAdapter:DownloadsRvAdapter by lazy { DownloadsRvAdapter() }
+    private val SongList:MutableList<SongData> = mutableListOf()
+    private val SongLists = arrayListOf<String>()
     override fun afterCreate() {
         setRv()
         getData()
@@ -28,10 +31,6 @@ class DownloadsActivity : BaseActivity<ActivityDownloadsBinding>(){
     }
     fun playall(){
         mBinding.ivAll.setOnClickListener {
-            val SongList= mutableListOf<String>()
-            for (i in mRvAdapter.currentList){
-                SongList.add(i.id)
-            }
             TheRouter.build("/musicplayer/musicplayerActivity").withObject("SongList", SongList)
                 .navigation()
         }
@@ -58,6 +57,9 @@ class DownloadsActivity : BaseActivity<ActivityDownloadsBinding>(){
             }
             cursor.close()
             mRvAdapter.submitList(contacts)
+            for (i in SongList) {
+                SongLists.add(i.id)
+            }
     }
     fun getback(){
         mBinding.ivBack.setOnClickListener {

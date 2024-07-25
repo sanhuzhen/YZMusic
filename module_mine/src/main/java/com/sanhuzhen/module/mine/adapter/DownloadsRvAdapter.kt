@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
@@ -42,21 +43,17 @@ class DownloadsRvAdapter:ListAdapter<SongData, DownloadsRvAdapter.SongViewHolder
         private val songName: TextView =itemView.findViewById(R.id.song_name)
         private val singerName: TextView =itemView.findViewById(R.id.song_singer)
         private val delete: ImageView =itemView.findViewById(R.id.delete)
+        private val songItem:FrameLayout=itemView.findViewById(R.id.song_downloads)
         @SuppressLint("NotifyDataSetChanged")
         fun songData(songData: SongData){
+            songItem.setOnClickListener {
+                TheRouter.build("/musicplayer/musicplayerActivity").withString("songId",songData.id).navigation()
+            }
             songName.apply {
                 text=songData.name
-                setOnClickListener{
-                    TheRouter.build("/musicplayer/musicplayerActivity")
-                        .withObject("SongList",getItem(adapterPosition).id)
-                }
             }
             singerName.apply {
                 text=songData.singer
-                setOnClickListener {
-                    TheRouter.build("/musicplayer/musicplayerActivity")
-                        .withObject("SongList",getItem(adapterPosition).id)
-                }
             }
             delete.setOnClickListener {
                 val dbHelper= SongDataHelper(itemView.context,"song",1)

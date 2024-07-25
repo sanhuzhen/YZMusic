@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.module.search.R
 import com.example.module.search.bean.Song
 import com.sanhuzhen.lib.base.helper.SongDataHelper
+import com.therouter.TheRouter
 
 class MusicRvAdapter:ListAdapter<Song,MusicRvAdapter.ViewHolder>(object :
     DiffUtil.ItemCallback<Song>() {
@@ -39,11 +41,15 @@ class MusicRvAdapter:ListAdapter<Song,MusicRvAdapter.ViewHolder>(object :
         private val musicArtist: TextView =itemView.findViewById(R.id.music_singer)
         private val musicAlbum: TextView =itemView.findViewById(R.id.music_album)
         private val musicElse:ImageView=itemView.findViewById(R.id.music_else)
+        private val musicItem:FrameLayout=itemView.findViewById(R.id.search_song)
         fun songData(musicData: Song){
             musicName.text=musicData.name
             musicAlbum.text=musicData.album.name
             musicAlbum.maxLines=1
             musicArtist.text=musicData.artists[0].name
+            musicItem.setOnClickListener {
+                TheRouter.build("/musicplayer/musicplayerActivity").withObject("SongList", arrayOf(musicData.id.toString())).navigation()
+            }
             musicElse.setOnClickListener{
                 val popup = PopupMenu(itemView.context, musicElse)
                 popup.menuInflater.inflate(R.menu.sample, popup.menu)
