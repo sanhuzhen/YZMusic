@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/pick"
+    android:background="@color/pink"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -17,24 +17,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:contentScrim="@color/pick"
+            app:contentScrim="@color/pink"
             android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
 
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                app:layout_collapseMode="pin"/>
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/pick"
-                app:layout_anchor="@+id/appbar"
+                android:background="@color/pink"
                 android:fitsSystemWindows="true"
-                app:layout_anchorGravity="center">
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax">
 
                 <ImageView
                     android:id="@+id/songList_iv"
@@ -76,11 +71,15 @@
                         android:textSize="13sp"
                         android:textStyle="italic" />
                 </RelativeLayout>
-
             </FrameLayout>
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:layout_scrollFlags="scroll|enterAlways"/>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.cardview.widget.CardView
@@ -131,8 +130,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:text=")"/>
-
         </RelativeLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_marginTop="45dp"
@@ -140,6 +139,4 @@
             android:layout_height="match_parent"
             android:scrollbars="none" />
     </androidx.cardview.widget.CardView>
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

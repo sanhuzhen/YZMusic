@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <!--targetSdk34开始需要添加此权限-->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <application
         android:networkSecurityConfig="@xml/network_security_config"
         >
@@ -16,6 +17,7 @@
             android:foregroundServiceType="mediaPlayback"/>
         <activity
             android:name="com.sanhuzhen.module.musicplayer.MusicPlayerActivity"
+            android:launchMode="singleInstance"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

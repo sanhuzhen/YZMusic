@@ -4,6 +4,7 @@ import com.sanhuzhen.module.musicplayer.bean.CommentData
 import com.sanhuzhen.module.musicplayer.bean.MusicUrlData
 import com.sanhuzhen.module.musicplayer.bean.MusicUsedData
 import com.sanhuzhen.module.musicplayer.bean.SongDetailData
+import com.sanhuzhen.module.musicplayer.bean.SongWordData
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -34,4 +35,8 @@ interface ApiService {
         @Query("pageSize") pageSize: Int,
         @Query("pageNo") pageNo: Int
     ): CommentData
+
+    //获取歌曲歌词
+    @GET("lyric")
+    fun getSongLyric(@Query("id") id: String): Observable<SongWordData>
 }

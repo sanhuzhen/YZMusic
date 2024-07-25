@@ -9,6 +9,7 @@ import com.sanhuzhen.module.musicplayer.bean.Comment
 import com.sanhuzhen.module.musicplayer.bean.MusicUrlData
 import com.sanhuzhen.module.musicplayer.bean.MusicUsedData
 import com.sanhuzhen.module.musicplayer.bean.SongDetailData
+import com.sanhuzhen.module.musicplayer.bean.SongWordData
 import com.sanhuzhen.module.musicplayer.helper.CommentPagingSource
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -42,5 +43,11 @@ object NetWork {
             config = PagingConfig(20, enablePlaceholders = false),
             pagingSourceFactory = { CommentPagingSource(apiService, type, id, sortType) }
         ).flow
+    }
+
+    fun getSongLyric(id: String): Observable<SongWordData> {
+        return apiService.getSongLyric(id)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
     }
 }

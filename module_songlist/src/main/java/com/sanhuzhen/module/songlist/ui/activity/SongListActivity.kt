@@ -1,4 +1,4 @@
-package com.sanhuzhen.module.songlist.activity
+package com.sanhuzhen.module.songlist.ui.activity
 
 import android.animation.ValueAnimator
 import android.util.Log
@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sanhuzhen.lib.base.BaseActivity
+import com.sanhuzhen.module.songlist.R
 import com.sanhuzhen.module.songlist.adapter.SongListAdapter
 import com.sanhuzhen.module.songlist.bean.Playlist
 import com.sanhuzhen.module.songlist.bean.Track
@@ -68,7 +69,13 @@ class SongListActivity : BaseActivity<ActivitySonglistBinding>() {
             }
         }
         setSupportActionBar(mBinding.toolbar)
-        supportActionBar?.setDisplayUseLogoEnabled(true)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeButtonEnabled(true)
+        }
+        mBinding.toolbar.setNavigationOnClickListener {
+            finish()
+        }
         mBinding.play.setOnClickListener {
             TheRouter.build("/musicplayer/musicplayerActivity").withObject("SongList", SongLists)
                 .navigation()

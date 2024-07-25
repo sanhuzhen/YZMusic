@@ -53,6 +53,14 @@ dependencies {
     implementation(project(":module_mvplayer"))
     implementation(project(":module_musicplayer"))
 
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
+    implementation("com.github.bumptech.glide:compiler:4.12.0")
+
+    //第三方播放库
+    implementation("androidx.media3:media3-ui:1.3.1")
+    implementation("androidx.media3:media3-session:1.3.1")
+    implementation("androidx.media3:media3-exoplayer:1.3.1")
+
     kapt("cn.therouter:apt:1.2.2")
     implementation("cn.therouter:router:1.2.2")
     implementation(libs.androidx.core.ktx)

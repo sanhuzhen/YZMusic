@@ -2,27 +2,11 @@
 <project version="4">
   <component name="deploymentTargetSelector">
     <selectionStates>
-      <SelectionState runConfigName="module_musicplayer">
-        <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-07-22T07:29:56.700061Z">
-          <Target type="DEFAULT_BOOT">
-            <handle>
-              <DeviceId pluginId="PhysicalDevice" identifier="serial=df5b369" />
-            </handle>
-          </Target>
-        </DropdownSelection>
-        <DialogSelection />
-      </SelectionState>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-07-22T08:50:04.655898900Z">
+        <DropdownSelection timestamp="2024-07-25T01:23:25.778178900Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="Default" identifier="serial=emulator-5554;connection=bcc827ed" />
-        <DropdownSelection timestamp="2024-07-19T14:55:11.851396900Z">
-          <Target type="DEFAULT_BOOT">
-            <handle>
-              <DeviceId pluginId="Default" identifier="serial=emulator-5554;connection=52196e64" />
               <DeviceId pluginId="PhysicalDevice" identifier="serial=df5b369" />
             </handle>
           </Target>

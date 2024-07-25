@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sanhuzhen.lib.base.BaseFragment
+import com.sanhuzhen.module.home.R
 import com.sanhuzhen.module.recommend.adapter.BannerAdapter
 import com.sanhuzhen.module.recommend.adapter.HomePlayListAdapter
 import com.sanhuzhen.module.recommend.adapter.SongListAdapter
@@ -19,6 +20,7 @@ import com.sanhuzhen.module.recommend.helper.ZoomOutPageTransformer
 import com.therouter.TheRouter
 import java.util.Timer
 import java.util.TimerTask
+import kotlin.concurrent.thread
 
 /**
  * @author: sanhuzhen
@@ -33,6 +35,8 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>() {
     private var SongListTitle: String? = null
     private var MySongList: MutableList<Resource> = mutableListOf()
     private var MySongListTitle: String? = null
+
+    private var songList = arrayListOf<String>()
 
     //自动轮播
     private var timer: Timer? = null
@@ -58,7 +62,19 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>() {
                 Toast.makeText(requireContext(), "请检查网络是否连接", Toast.LENGTH_SHORT).show()
             }
         }
-
+        mBinding.swipeRefresh.setColorSchemeResources(R.color.black)
+        mBinding.swipeRefresh.setOnRefreshListener {
+            SongList.clear()
+            songList.clear()
+            homePageSlidePlayList.clear()
+            MySongList.clear()
+            mViewModel.getHomeData()
+            initHomeList()
+            initSongList()
+            initMyList()
+            initClick()
+            mBinding.swipeRefresh.isRefreshing = false
+        }
     }
 
     //分析数据
@@ -81,6 +97,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>() {
                 for (j in i.creatives) {
                     for (z in j.resources) {
                         SongList.add(z.resourceExtInfo.songData)
+                        songList.add(z.resourceExtInfo.songData.id.toString())
                     }
                 }
             } else if (i.blockCode == "HOMEPAGE_BLOCK_MGC_PLAYLIST") {
@@ -99,6 +116,19 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>() {
         initHomeList()
         initSongList()
         initMyList()
+        initClick()
+    }
+
+    private fun initClick() {
+        mBinding.recommendSongListAllPlay.setOnClickListener {
+            if (songList.size > 0) {
+                TheRouter.build("/musicplayer/musicplayerActivity")
+                    .withObject("SongList", songList)
+                    .navigation()
+            } else {
+                Toast.makeText(requireContext(), "暂无歌曲", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun initMyList() {
@@ -160,6 +190,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>() {
         }
         timer?.schedule(timerTask, delayTime, delayTime)
     }
+
     //销毁定时器,保证只有一组定时任务在运行
     private fun killDelayedTask() {
         if (timer != null) {
@@ -179,7 +210,6 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>() {
         timerTask = null
         timer = null
     }
-
 
 
 }

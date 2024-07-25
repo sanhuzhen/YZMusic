@@ -58,6 +58,7 @@ dependencies {
     implementation ("androidx.browser:browser:1.4.0")
     kapt("cn.therouter:apt:1.2.2")
     implementation("cn.therouter:router:1.2.2")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

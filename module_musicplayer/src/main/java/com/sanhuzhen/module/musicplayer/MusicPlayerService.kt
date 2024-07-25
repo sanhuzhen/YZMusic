@@ -9,12 +9,16 @@ import android.os.Binder
 import android.os.Build
 import android.os.Handler
 import android.os.IBinder
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
+import com.sanhuzhen.module.musicplayer.bean.Song
 import com.sanhuzhen.module.musicplayer.viewmodel.PlayViewModel
 import java.util.ArrayList
 
@@ -25,16 +29,14 @@ import java.util.ArrayList
  */
 class MusicPlayerService : Service() {
     private lateinit var player: Player
-    private val musicBinder = MusicBinder()
+    val musicBinder = MusicBinder()
 
 
     //得到音乐详细信息，为给MainActivity中的音乐播放器绑定
-    private var musicName = ""
+    private var musicId = arrayListOf<String>()
     private var musicUrlList = arrayListOf<String>()
-    private var musicAuthor = ""
-    private var musicCoverUrl = ""
+    private var musicDetail = arrayListOf<Song>()
     private var currentPosition: Int = 0 //当前音乐播放播放位置
-
 
     //实现通信
     inner class MusicBinder : Binder() {
@@ -43,6 +45,7 @@ class MusicPlayerService : Service() {
             player.setMediaItem(mediaItem)
             player.prepare()
             player.playWhenReady = true
+
         }
 
         //播放音乐
@@ -104,14 +107,28 @@ class MusicPlayerService : Service() {
             musicBinder.startPlay(musicUrlList[position])
         }
 
+        //获取音乐URL
+        fun setMusicUrl(MusicUrl: ArrayList<String>) {
+            musicUrlList = MusicUrl
+        }
+
+        fun returnMusicUrl(): ArrayList<String> {
+            return musicUrlList
+        }
+
         //获取当前播放状态
         fun getPlayWhenReady(): Boolean {
             return player.isPlaying
         }
 
         //获取音乐信息
-        fun getMusicInfo(): Triple<String, String, String> {
-            return Triple(musicName, musicAuthor, musicCoverUrl)
+        fun setMusicInfo(MusicDetail: ArrayList<Song>) {
+            musicDetail = MusicDetail
+        }
+
+        //返回当前音乐信息
+        fun returnMusic(): ArrayList<Song> {
+            return musicDetail
         }
 
         //获取音乐position，后面获取音乐的详细信息
@@ -119,38 +136,113 @@ class MusicPlayerService : Service() {
             return currentPosition
         }
 
+        fun setMusicId(MusicId: ArrayList<String>) {
+            musicId = MusicId
+        }
+
+        fun returnMusicId(): ArrayList<String> {
+            return musicId
+        }
+
+        //清空数据
+        fun clear() {
+            if (musicId.isNotEmpty() && player.isPlaying) {
+                player.stop()
+                player.clearMediaItems()
+                musicId.clear()
+                musicUrlList.clear()
+                musicDetail.clear()
+                currentPosition = 0
+            } else if (musicId.isNotEmpty() && !player.isPlaying) {
+                player.clearMediaItems()
+                musicId.clear()
+                musicUrlList.clear()
+                musicDetail.clear()
+                currentPosition = 0
+            }
+        }
+
+        //设置播放模式
+        fun setPlayMode(mode: Int) {
+            when (mode) {
+                0 -> {
+                    //列表循环
+                    player.repeatMode = Player.REPEAT_MODE_OFF
+                }
+
+                1 -> {
+                    //单曲循环
+                    player.repeatMode = Player.REPEAT_MODE_ONE
+                }
+
+                2 -> {
+                    //随机播放
+                    player.repeatMode = Player.REPEAT_MODE_ALL
+                }
+            }
+        }
+
+        //return 播放模式
+        fun getPlayMode(): Int {
+            return when (player.repeatMode) {
+                Player.REPEAT_MODE_OFF -> {
+                    0
+                }
+
+                Player.REPEAT_MODE_ONE -> {
+                    1
+                }
+
+                Player.REPEAT_MODE_ALL -> {
+                    2
+                }
+
+                else -> {
+                    0
+                }
+            }
+        }
+
+        fun getPlayer(): Player {
+            return player
+        }
+
     }
 
     override fun onCreate() {
         super.onCreate()
+        createNoticeChannel()
         /**
          * 创建播放器
          */
+
         player = ExoPlayer.Builder(this).build().apply {
             addListener(object : Player.Listener {
                 override fun onPlaybackStateChanged(playbackState: Int) {
                     when (playbackState) {
+                        Player.STATE_BUFFERING -> {
+                            //缓冲中
+                        }
+
                         Player.STATE_ENDED -> {
-                            //播放结束，自动播放下一首音乐
+                            //播放结束
                             musicBinder.nextMusic()
+                        }
+
+                        Player.STATE_IDLE -> {
+                            //空闲状态
+                        }
+
+                        Player.STATE_READY -> {
+                            //就绪
                         }
                     }
                 }
             })
         }
-
+        player.repeatMode = Player.REPEAT_MODE_OFF
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        intent?.let {
-            musicUrlList = it.getStringArrayListExtra("MusicUrlList") as ArrayList<String>
-            musicName = it.getStringExtra("MusicName").toString()
-            musicCoverUrl = it.getStringExtra("MusicCoverUrl").toString()
-            musicAuthor = it.getStringExtra("MusicAuthor").toString()
-        }
-        createNoticeChannel()
-        return START_STICKY
-    }
 
     override fun onBind(intent: Intent?): IBinder {
         return musicBinder
@@ -171,7 +263,7 @@ class MusicPlayerService : Service() {
         val pi = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         val notification = NotificationCompat.Builder(this, "my_service")
             .setContentTitle("YZMusic")
-            .setContentText("$musicName - $musicAuthor \n 正在播放")
+            .setContentText("音乐正在后台为你服务")
             .setSmallIcon(R.drawable.music)
             .setContentIntent(pi)
             .setAutoCancel(true)
