@@ -13,14 +13,18 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sanhuzhen.lib.base.BaseActivity
 import com.sanhuzhen.module.hot.R
 import com.sanhuzhen.module.hot.adapter.SongRvAdapter
+import com.sanhuzhen.module.hot.bean.Track
 import com.sanhuzhen.module.hot.databinding.ActivityDetailBinding
 import com.sanhuzhen.module.hot.viewmodel.BaseViewModel
+import com.therouter.TheRouter
 
 class DetailActivity :BaseActivity<ActivityDetailBinding>(){
     private val mViewModel: BaseViewModel by lazy { ViewModelProvider(this)[BaseViewModel::class.java]}
     private val mRvAdapter: SongRvAdapter by lazy { SongRvAdapter() }
+    private val SongList:MutableList<Track> = mutableListOf()
+    private val SongLists = arrayListOf<String>()
     override fun afterCreate() {
-
+        playAll()
         getfirst()
     }
 
@@ -53,5 +57,14 @@ class DetailActivity :BaseActivity<ActivityDetailBinding>(){
             mRvAdapter.submitList(it.playlist.tracks)
         }
     }
+    fun playAll(){
+        mBinding.ivAll.setOnClickListener {
+            for (i in SongList) {
+                SongLists.add(i.id.toString())
+            }
+            TheRouter.build("/musicplayer/musicplayerActivity").withObject("SongList", SongLists)
+                .navigation()
+        }
 
+    }
 }

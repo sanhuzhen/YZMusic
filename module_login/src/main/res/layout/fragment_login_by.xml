@@ -42,8 +42,6 @@
             android:text="获得验证码"
             android:textSize="20sp"
             android:paddingLeft="30dp"
-
-
             android:layout_weight="2"
             />
     </LinearLayout>

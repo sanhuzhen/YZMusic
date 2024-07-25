@@ -42,13 +42,35 @@
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-        </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    </com.google.android.material.appbar.AppBarLayout>
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/iv_all"
+            android:src="@drawable/music_play"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="50dp"
+            android:text="播放全部"
+            android:id="@+id/tv_all"
+            android:textSize="20sp"
+            android:textColor="@color/black"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="700dp"
+            android:layout_marginTop="30dp"
+            />
+
+    </androidx.cardview.widget.CardView>
+
+
+
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

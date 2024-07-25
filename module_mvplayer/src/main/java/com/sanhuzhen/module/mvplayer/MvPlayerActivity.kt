@@ -65,7 +65,9 @@ class MvPlayerActivity : BaseActivity<ActivityMvplayerBinding>() {
         }
     }
     fun clickGood(){
-        Toast.makeText(this,"功能开发中",Toast.LENGTH_SHORT).show()
+        mBinding.mvGood.setOnClickListener {
+            Toast.makeText(this,"功能开发中",Toast.LENGTH_SHORT).show()
+    }
     }
     fun clickComment(){
         mBinding.mvComment.setOnClickListener {

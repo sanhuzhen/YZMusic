@@ -14,24 +14,38 @@ import com.sanhuzhen.lib.base.BaseActivity
 import com.sanhuzhen.module.mine.R
 import com.sanhuzhen.module.mine.adapter.HistoryRvAdapter
 import com.sanhuzhen.module.mine.bean.BaseData
+import com.sanhuzhen.module.mine.bean.WeekData
 import com.sanhuzhen.module.mine.databinding.ActivityHistoryBinding
 import com.sanhuzhen.module.mine.viewmodel.BaseViewModel
+import com.therouter.TheRouter
 
 class HistoryActivity :BaseActivity<ActivityHistoryBinding>(){
 
     private var MyId :Long?=null
     val mViewModel: BaseViewModel by lazy { ViewModelProvider(this)[BaseViewModel::class.java] }
     val rvAdapter : HistoryRvAdapter by lazy { HistoryRvAdapter() }
+    private val SongList:MutableList<WeekData> = mutableListOf()
+    private val SongLists = arrayListOf<String>()
     override fun afterCreate() {
 
         getsp()
         getitem()
         getback()
+        playall()
 
     }
 
     override fun getViewBinding(): ActivityHistoryBinding {
         return ActivityHistoryBinding.inflate(layoutInflater)
+    }
+    fun playall(){
+        mBinding.ivAll.setOnClickListener {
+            for (i in SongList){
+                SongLists.add(i.song.id.toString())
+            }
+            TheRouter.build("/musicplayer/musicplayerActivity").withObject("SongList", SongLists)
+                .navigation()
+        }
     }
     fun getsp(){
         val sp=this.getSharedPreferences("user", Context.MODE_PRIVATE)

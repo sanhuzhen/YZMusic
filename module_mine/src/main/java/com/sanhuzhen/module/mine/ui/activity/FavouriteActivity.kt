@@ -10,17 +10,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.sanhuzhen.lib.base.BaseActivity
 import com.sanhuzhen.module.mine.R
 import com.sanhuzhen.module.mine.adapter.FavouriteRvAdapter
+import com.sanhuzhen.module.mine.bean.Track
 import com.sanhuzhen.module.mine.databinding.ActivityFavouriteBinding
 import com.sanhuzhen.module.mine.viewmodel.BaseViewModel
+import com.therouter.TheRouter
 
 class FavouriteActivity : BaseActivity<ActivityFavouriteBinding>(){
     private var MyId :Long?=null
     private val mViewModel: BaseViewModel by lazy { ViewModelProvider(this)[BaseViewModel::class.java] }
     private val rvAdapter: FavouriteRvAdapter by lazy { FavouriteRvAdapter() }
+    private val SongList:MutableList<Track> = mutableListOf()
+    private val SongLists = arrayListOf<String>()
     override fun afterCreate() {
         getsp()
         getitem()
         getback()
+        playall()
     }
 
     override fun getViewBinding(): ActivityFavouriteBinding {
@@ -33,6 +38,15 @@ class FavouriteActivity : BaseActivity<ActivityFavouriteBinding>(){
     fun getback(){
         mBinding.ivBack.setOnClickListener {
             finish()
+        }
+    }
+    fun playall(){
+        mBinding.ivAll.setOnClickListener {
+            for (i in SongList) {
+                SongLists.add(i.id.toString())
+            }
+            TheRouter.build("/musicplayer/musicplayerActivity").withObject("SongList", SongLists)
+                .navigation()
         }
     }
     fun getitem(){

@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -40,6 +41,7 @@ class VisitFragment : BaseFragment<FragmentVisitBinding>() {
                 if (it.code == 200) {
                     Toast.makeText(this.requireContext(), "登录成功", Toast.LENGTH_SHORT).show()
                     sp.putLong("id", it.profile.userId).apply()
+                    Log.d("want","${it.profile.userId}")
                     activity?.finish()
                 } else {
                     Toast.makeText(this.requireContext(), "账号或密码错误", Toast.LENGTH_SHORT)
