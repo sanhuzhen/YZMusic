@@ -21,6 +21,7 @@
             android:layout_height="30dp"
             android:layout_marginLeft="10dp"
             android:text="播放全部"
+            android:soundEffectsEnabled="false"
             android:id="@+id/tv_all"
             android:textSize="20sp"
             android:textColor="@color/black"/>

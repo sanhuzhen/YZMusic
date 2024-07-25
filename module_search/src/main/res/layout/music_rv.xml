@@ -10,6 +10,7 @@
         android:layout_height="40dp"
         android:id="@+id/music_name"
         android:text="Music Name"
+        android:soundEffectsEnabled="false"
         android:gravity="bottom"
         android:textStyle="bold"
         android:textSize="20sp"/>
