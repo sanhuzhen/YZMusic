@@ -1,15 +1,9 @@
 package com.sanhuzhen.module.songlist.ui.fragment
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.sanhuzhen.lib.base.BaseFragment
-import com.sanhuzhen.module.songlist.R
 import com.sanhuzhen.module.songlist.adapter.MvAdapter
 import com.sanhuzhen.module.songlist.databinding.FragmentMvBinding
 import com.sanhuzhen.module.songlist.viewmodel.SingerViewModel
@@ -33,6 +27,9 @@ class MvFragment : BaseFragment<FragmentMvBinding>() {
             mBinding.rvMv.apply {
                 adapter = mvAdapter
                 layoutManager = LinearLayoutManager(this.context)
+            }
+            if (it.isEmpty()){
+                Toast.makeText(this.context,"这个人很神秘，\n他什么都没有留下",Toast.LENGTH_SHORT).show()
             }
         }
     }

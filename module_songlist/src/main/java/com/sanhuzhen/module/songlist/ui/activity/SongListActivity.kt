@@ -74,20 +74,12 @@ class SongListActivity : BaseActivity<ActivitySonglistBinding>() {
             setHomeButtonEnabled(true)
         }
         mBinding.toolbar.setNavigationOnClickListener {
-            finish()
+            finishAfterTransition()
         }
         mBinding.play.setOnClickListener {
             TheRouter.build("/musicplayer/musicplayerActivity").withObject("SongList", SongLists)
                 .navigation()
         }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            finish()
-            return true
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun getViewBinding(): ActivitySonglistBinding {
@@ -113,6 +105,11 @@ class SongListActivity : BaseActivity<ActivitySonglistBinding>() {
             songListName2.text = playList.creator.nickname
 //            mBinding.toolbar.title = playList.name
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finishAfterTransition()
     }
 
 }

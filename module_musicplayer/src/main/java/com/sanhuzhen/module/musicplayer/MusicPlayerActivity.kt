@@ -460,14 +460,15 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
-        finish()
-    }
-
-
-    override fun finish() {
-        super.finish()
         overridePendingTransition(0,R.anim.slide_out)
     }
+
+
+    override fun onPause() {
+        super.onPause()
+        overridePendingTransition(0,R.anim.slide_out)
+    }
+
 
 
     //格式化时间

@@ -6,4 +6,9 @@
     </style>
 
     <style name="Theme.YZMusic" parent="Base.Theme.YZMusic" />
+    <style name="BigImageTranslateTheme" parent="Base.Theme.YZMusic">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
 </resources>

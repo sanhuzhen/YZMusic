@@ -125,8 +125,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         }
         mBinding.mainCard.setOnClickListener {
-            TheRouter.build("/musicplayer/musicplayerActivity").withInAnimation(R.anim.slide_in)
-                .withOutAnimation(0).navigation()
+            TheRouter.build("/musicplayer/musicplayerActivity").navigation()
+            overridePendingTransition(R.anim.slide_in,0)
         }
 
         mBinding.musicIvList.setOnClickListener {
