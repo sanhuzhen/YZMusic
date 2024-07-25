@@ -56,7 +56,7 @@ class LoginByFragment : BaseFragment<FragmentLoginByBinding>() {
             mViewmodel.getVerify(phone!!, captcha!!)
             val sp: SharedPreferences.Editor =
                 requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE).edit()
-            mViewmodel._num.observe(this) {
+            mViewmodel._num.observe(viewLifecycleOwner) {
                 if (it.code == 200) {
                     Toast.makeText(this.requireContext(), "登录成功", Toast.LENGTH_SHORT).show()
                     sp.putLong("id", it.profile.userId).apply()

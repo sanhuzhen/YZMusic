@@ -37,7 +37,7 @@ class VisitFragment : BaseFragment<FragmentVisitBinding>() {
         mBinding.btnVisit.setOnClickListener {
             val sp: SharedPreferences.Editor = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE).edit()
             mViewmodel.getVisit()
-            mViewmodel._num.observe(this) {
+            mViewmodel._num.observe(viewLifecycleOwner) {
                 if (it.code == 200) {
                     Toast.makeText(this.requireContext(), "登录成功", Toast.LENGTH_SHORT).show()
                     sp.putLong("id", it.profile.userId).apply()

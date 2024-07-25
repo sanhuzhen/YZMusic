@@ -55,6 +55,7 @@ class FavouriteActivity : BaseActivity<ActivityFavouriteBinding>(){
         mViewModel.mPL.observe(this){
             mViewModel.getFavourite(it.playlist[0].id)
             mViewModel.mFavourite.observe(this){
+                SongList.addAll(it.playlist.tracks)
                 rvAdapter.submitList(it.playlist.tracks)
                 for (i in SongList) {
                     SongLists.add(i.id.toString())

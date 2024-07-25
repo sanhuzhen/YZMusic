@@ -47,7 +47,9 @@ class DownloadsRvAdapter:ListAdapter<SongData, DownloadsRvAdapter.SongViewHolder
         @SuppressLint("NotifyDataSetChanged")
         fun songData(songData: SongData){
             songItem.setOnClickListener {
-                TheRouter.build("/musicplayer/musicplayerActivity").withString("songId",songData.id).navigation()
+                TheRouter.build("/musicplayer/musicplayerActivity")
+                    .withObject("SongList", arrayListOf(getItem(adapterPosition).id))
+                    .navigation()
             }
             songName.apply {
                 text=songData.name

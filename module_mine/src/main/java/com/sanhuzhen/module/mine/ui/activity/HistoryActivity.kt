@@ -40,7 +40,6 @@ class HistoryActivity :BaseActivity<ActivityHistoryBinding>(){
     }
     fun playall(){
         mBinding.ivAll.setOnClickListener {
-
             TheRouter.build("/musicplayer/musicplayerActivity").withObject("SongList", SongLists)
                 .navigation()
         }
@@ -56,6 +55,7 @@ class HistoryActivity :BaseActivity<ActivityHistoryBinding>(){
         }
         mViewModel.getHistory(MyId!!,1)
         mViewModel.mHistory.observe(this){
+            SongList.addAll(it.weekData)
             rvAdapter.submitList(it.weekData)
             for (i in SongList){
                 SongLists.add(i.song.id.toString())

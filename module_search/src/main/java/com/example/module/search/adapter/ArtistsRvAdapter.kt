@@ -44,7 +44,7 @@ class ArtistsRvAdapter : ListAdapter <Artist, ArtistsRvAdapter.OneHolder>(object
         private val Artists:LinearLayout=itemView.findViewById(R.id.singer_item)
         fun artistData(artistData: Artist){
             Artists.setOnClickListener{
-                TheRouter.build("/songlist/songListActivity").withString("id",artistData.id.toString()).navigation()
+                TheRouter.build("/songlist/singer").withString("SingerId",artistData.id.toString()).navigation()
             }
             ArtistName.text=artistData.name
             if(artistData.picUrl.isNotEmpty()){

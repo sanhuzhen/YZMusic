@@ -1,6 +1,7 @@
 package com.sanhuzhen.module.mine.ui.activity
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -31,8 +32,13 @@ class DownloadsActivity : BaseActivity<ActivityDownloadsBinding>(){
     }
     fun playall(){
         mBinding.ivAll.setOnClickListener {
-            TheRouter.build("/musicplayer/musicplayerActivity").withObject("SongList", SongList)
+            if (SongLists.isEmpty()){
+                Toast.makeText(this,"你还没有下载歌曲",Toast.LENGTH_SHORT).show()
+            }
+            else {
+                TheRouter.build("/musicplayer/musicplayerActivity").withObject("SongList", SongList)
                 .navigation()
+            }
         }
     }
     fun setRv(){
@@ -56,6 +62,7 @@ class DownloadsActivity : BaseActivity<ActivityDownloadsBinding>(){
                 }
             }
             cursor.close()
+            SongList.addAll(contacts)
             mRvAdapter.submitList(contacts)
             for (i in SongList) {
                 SongLists.add(i.id)

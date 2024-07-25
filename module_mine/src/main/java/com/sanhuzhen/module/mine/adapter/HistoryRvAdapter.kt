@@ -56,9 +56,10 @@ class HistoryRvAdapter : ListAdapter<WeekData,HistoryRvAdapter.HistoryHolder>(ob
             else{
                 HistoryImg.setImageResource(R.drawable.ic_launcher_foreground)
             }
-            HistoryItem.setOnClickListener {
+            itemView.setOnClickListener {
                 TheRouter.build("/musicplayer/musicplayerActivity")
-                    .withObject("SongList",getItem(adapterPosition).song.id.toString())
+                    .withObject("SongList", arrayListOf(getItem(adapterPosition).song.id.toString()))
+                    .navigation()
             }
             HistorySong.text=historyData.song.name
             HistorySinger.text=historyData.song.ar[0].name
