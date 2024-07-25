@@ -35,11 +35,9 @@ import com.therouter.TheRouter
  * @description:
  */
 class MainActivity : BaseActivity<ActivityMainBinding>() {
-
-
     private lateinit var mBinder: MusicPlayerService.MusicBinder
 
-    private var animator: ObjectAnimator? = null//旋转动画
+    private var animator: ObjectAnimator? = null // 旋转动画
 
     private lateinit var songListAdapter: SongListAdapter
 
@@ -48,7 +46,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
      */
     private var musicDetail = arrayListOf<Song>()
     private var currentPosition = 0
-
 
     override fun getViewBinding(): ActivityMainBinding {
         return ActivityMainBinding.inflate(layoutInflater)
@@ -71,47 +68,42 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     when (playbackState) {
                         Player.STATE_ENDED -> {
                             if (mBinder.getPlayer().repeatMode == Player.REPEAT_MODE_OFF) {
-//                                mBinder.nextMusic()
+                                musicDetail = mBinder.returnMusic()
+                                Log.d("MainActivity", "onPlaybackStateChanged: ${musicDetail}")
                                 currentPosition = mBinder.getMusicPosition()
-                                mBinding.apply {
-                                    Glide.with(this@MainActivity)
-                                        .load(musicDetail[currentPosition].al.picUrl)
-                                        .transform(CenterCrop(), RoundedCorners(360)).into(musicIv)
-                                    musicTvName.text = musicDetail[currentPosition].name
-                                    var musicart = ""
-                                    for (i in musicDetail[currentPosition].ar){
-                                        musicart = musicart + i.name + " "
-                                    }
-                                    musicTvArtist.text = musicart
+                                if (musicDetail.isNotEmpty() && currentPosition >= 0 && currentPosition < musicDetail.size) {
+                                    handleMusicPlaybackComplete()
+                                } else {
+                                    Log.e(
+                                        "MainActivity",
+                                        "Invalid currentPosition or empty musicDetail list."
+                                    )
                                 }
                             } else {
                                 mBinder.seekTo(0)
                             }
-
                         }
                     }
                 }
             })
-        }
-
-        override fun onServiceDisconnected(name: ComponentName?) {
 
         }
 
+        override fun onServiceDisconnected(name: ComponentName?) {}
     }
 
     override fun afterCreate() {
         songListAdapter = SongListAdapter()
-        //底部导航栏
+        // 底部导航栏
         initBottomNav()
-        //抽屉式菜单
+        // 抽屉式菜单
         initNavigationView()
         initEvent()
         bindService()
         initMusic()
     }
 
-    //固定一下播放栏的一些UI点击事件
+    // 固定一下播放栏的一些UI点击事件
     private fun initMusic() {
         mBinding.musicIvPlay.setOnClickListener {
             if (mBinder.getPlayWhenReady()) {
@@ -133,8 +125,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         }
         mBinding.mainCard.setOnClickListener {
-            TheRouter.build("/musicplayer/musicplayerActivity").navigation()
-            overridePendingTransition(R.anim.slide_in, 0)
+            TheRouter.build("/musicplayer/musicplayerActivity").withInAnimation(R.anim.slide_in)
+                .withOutAnimation(0).navigation()
         }
 
         mBinding.musicIvList.setOnClickListener {
@@ -158,10 +150,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         currentPosition = mBinder.getMusicPosition()
         bottomSheetDialog.setContentView(bottomSheetView)
         bottomSheetDialog.show()
-
     }
 
-    //Service绑定
+    // Service绑定
     private fun bindService() {
         val intent = Intent(this, MusicPlayerService::class.java)
         startService(intent)
@@ -169,7 +160,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     private fun initBottomNav() {
-        //Vp2设置
+        // Vp2设置
         mBinding.mainVp2.apply {
             adapter = VpAdapter(this@MainActivity)
             registerOnPageChangeCallback(object :
@@ -179,10 +170,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     mBinding.mainNav.menu.getItem(position).isChecked = true
                 }
             })
-            //禁止滑动
+            // 禁止滑动
             isUserInputEnabled = false
         }
-        //Nav设置
+        // Nav设置
         mBinding.mainNav.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.menu_nav_home -> mBinding.mainVp2.currentItem = 0
@@ -216,9 +207,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun onRestart() {
         super.onRestart()
         musicDetail = mBinder.returnMusic()
-        if (musicDetail.isEmpty()) {
-            return@onRestart
-        } else {
+        Log.d("onRestart", "$musicDetail")
+        if (musicDetail.isNotEmpty()) {
             currentPosition = mBinder.getMusicPosition()
             mBinding.apply {
                 musicTvName.text = musicDetail[currentPosition].name
@@ -244,9 +234,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
     }
 
-    //旋转动画
+    // 旋转动画
     private fun RecordRotation() {
-        //打碟效果
+        // 打碟效果
         animator = ObjectAnimator.ofFloat(mBinding.musicIv, "rotation", 0f, 360f).apply {
             duration = 20000 // 旋转时间
             interpolator = LinearInterpolator() // 匀速
@@ -256,19 +246,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
     }
 
-
-    //更新音乐结束后的播放栏的UI信息
+    // 更新音乐结束后的播放栏的UI信息
     private fun handleMusicPlaybackComplete() {
-        currentPosition = mBinder.getMusicPosition()
-        mBinding.apply {
-            musicTvName.text = musicDetail[currentPosition].name
-            var musicAr = ""
-            for (i in musicDetail[currentPosition].ar) {
-                musicAr += i.name + " "
+        if (musicDetail.isNotEmpty() && currentPosition >= 0 && currentPosition < musicDetail.size) {
+            mBinding.apply {
+                musicTvName.text = musicDetail[currentPosition].name
+                var musicAr = ""
+                for (i in musicDetail[currentPosition].ar) {
+                    musicAr += i.name + " "
+                }
+                musicTvArtist.text = musicAr
+                Glide.with(this@MainActivity).load(musicDetail[currentPosition].al.picUrl)
+                    .transform(CenterCrop(), RoundedCorners(360)).into(musicIv)
             }
-            musicTvArtist.text = musicAr
-            Glide.with(this@MainActivity).load(musicDetail[currentPosition].al.picUrl)
-                .transform(CenterCrop(), RoundedCorners(360)).into(musicIv)
+        } else {
+            Log.e("MainActivity", "Invalid currentPosition or empty musicDetail list.")
         }
     }
 }

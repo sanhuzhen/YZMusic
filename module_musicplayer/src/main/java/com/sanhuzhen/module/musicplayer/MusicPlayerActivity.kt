@@ -206,8 +206,10 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
                             //播放结束，自动播放下一首音乐
 //                            mBinder.nextMusic()
                             currentPosition = mBinder.getMusicPosition()
-                            // 播放结束，可以开始下一首
-                            playViewModel.getSongDetail(musicIdList[currentPosition])
+                            if (currentPosition >=0 && currentPosition < musicIdList.size){
+                                // 播放结束，可以开始下一首
+                                playViewModel.getSongDetail(musicIdList[currentPosition])
+                            }
                         }else{
                             mBinder.getPlayer().seekTo(0)
                             mBinder.getPlayer().playWhenReady = true
@@ -450,15 +452,18 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
 
     //一些动画效果
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
-        overridePendingTransition(0, R.anim.slide_out)
+        finish()
     }
 
-    override fun onPause() {
-        super.onPause()
-        overridePendingTransition(0, R.anim.slide_out)
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(0,R.anim.slide_out)
     }
+
 
     //格式化时间
     @SuppressLint("DefaultLocale")

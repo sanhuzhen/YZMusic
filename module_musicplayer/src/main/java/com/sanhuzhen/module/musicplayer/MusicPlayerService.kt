@@ -139,18 +139,25 @@ class MusicPlayerService : Service() {
         fun setMusicId(MusicId: ArrayList<String>) {
             musicId = MusicId
         }
+
         fun returnMusicId(): ArrayList<String> {
             return musicId
         }
 
         //清空数据
         fun clear() {
-            if (musicId.isNotEmpty()&&player.isPlaying){
+            if (musicId.isNotEmpty() && player.isPlaying) {
                 player.stop()
                 player.clearMediaItems()
+                musicId.clear()
+                musicUrlList.clear()
+                musicDetail.clear()
                 currentPosition = 0
-            }else if (musicId.isNotEmpty()&&!player.isPlaying){
+            } else if (musicId.isNotEmpty() && !player.isPlaying) {
                 player.clearMediaItems()
+                musicId.clear()
+                musicUrlList.clear()
+                musicDetail.clear()
                 currentPosition = 0
             }
         }
@@ -162,10 +169,12 @@ class MusicPlayerService : Service() {
                     //列表循环
                     player.repeatMode = Player.REPEAT_MODE_OFF
                 }
+
                 1 -> {
                     //单曲循环
                     player.repeatMode = Player.REPEAT_MODE_ONE
                 }
+
                 2 -> {
                     //随机播放
                     player.repeatMode = Player.REPEAT_MODE_ALL
@@ -179,12 +188,15 @@ class MusicPlayerService : Service() {
                 Player.REPEAT_MODE_OFF -> {
                     0
                 }
+
                 Player.REPEAT_MODE_ONE -> {
                     1
                 }
+
                 Player.REPEAT_MODE_ALL -> {
                     2
                 }
+
                 else -> {
                     0
                 }
@@ -211,13 +223,16 @@ class MusicPlayerService : Service() {
                         Player.STATE_BUFFERING -> {
                             //缓冲中
                         }
+
                         Player.STATE_ENDED -> {
                             //播放结束
                             musicBinder.nextMusic()
                         }
+
                         Player.STATE_IDLE -> {
                             //空闲状态
                         }
+
                         Player.STATE_READY -> {
                             //就绪
                         }
