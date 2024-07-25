@@ -12,6 +12,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sanhuzhen.module.hot.R
 import com.sanhuzhen.module.hot.bean.Artist
+import com.therouter.TheRouter
 
 class SingerRvAdapter:ListAdapter<Artist,SingerRvAdapter.ThisHolder> (object :
     DiffUtil.ItemCallback<Artist>(){
@@ -37,6 +38,9 @@ class SingerRvAdapter:ListAdapter<Artist,SingerRvAdapter.ThisHolder> (object :
         private val artistName: TextView =itemView.findViewById(R.id.tv_singer)
         private val artistImg: ImageView =itemView.findViewById(R.id.iv_singer)
         fun artistData(data: Artist){
+            itemView.setOnClickListener {
+                TheRouter.build("/songlist/singer").withString("SingerId",data.id.toString()).navigation()
+            }
             artistName.text=data.name
             if (data.picUrl.isNotEmpty()){
                 Glide.with(itemView.context)

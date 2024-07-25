@@ -81,7 +81,7 @@ class MineFragment : BaseFragment<FragmentMineBinding>() {
         getSp()
         if (MyId?.toInt() != 0) {
             mBaseViewModel.getBase(MyId!!)
-            mBaseViewModel.mBase.observe(this) {
+            mBaseViewModel.mBase.observe(viewLifecycleOwner) {
                 if (it.profile.avatarUrl != null) {
                     Glide.with(this.requireContext())
                         .load(it.profile.avatarUrl)

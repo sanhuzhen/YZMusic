@@ -30,7 +30,7 @@ class HotSingerFragment :BaseFragment<FragmentHotSingerBinding>(){
             layoutManager= LinearLayoutManager(this@HotSingerFragment.context)
         }
         mViewModel.getSinger()
-        mViewModel.mSinger.observe(this){
+        mViewModel.mSinger.observe(viewLifecycleOwner){
             mRvAdapter.submitList(it.list.artists)
         }
 

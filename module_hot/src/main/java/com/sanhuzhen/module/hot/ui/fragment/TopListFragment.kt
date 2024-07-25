@@ -29,7 +29,7 @@ class TopListFragment : BaseFragment<FragmentTopListBinding>() {
         val layoutManager=StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
         mBinding.rvTopList.layoutManager=layoutManager
         mViewModel.getTopList()
-        mViewModel.mTopList.observe(this){
+        mViewModel.mTopList.observe(viewLifecycleOwner){
             mAdapter.submitList(it.list)
         }
 

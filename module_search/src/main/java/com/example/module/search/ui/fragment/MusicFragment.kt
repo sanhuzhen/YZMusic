@@ -10,16 +10,20 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.module.search.R
 import com.example.module.search.adapter.MusicRvAdapter
+import com.example.module.search.bean.Song
 import com.example.module.search.databinding.FragmentMusicBinding
 import com.example.module.search.viewmodel.MusicViewModel
 import com.example.module.search.viewmodel.SharedVIewModel
 import com.sanhuzhen.lib.base.BaseFragment
+import com.therouter.TheRouter
 
 
 class MusicFragment : BaseFragment<FragmentMusicBinding>(){
     private val rvAdapter: MusicRvAdapter by lazy {MusicRvAdapter() }
     private val sharedVIewModel: SharedVIewModel by lazy { ViewModelProvider(requireActivity())[SharedVIewModel::class.java] }
     private val musicViewModel: MusicViewModel by lazy { ViewModelProvider(this)[MusicViewModel::class.java] }
+    private val SongList:MutableList<Song> = mutableListOf()
+    private val SongLists = arrayListOf<String>()
     override fun getViewBinding(): FragmentMusicBinding {
         return FragmentMusicBinding.inflate(layoutInflater)
     }
@@ -30,7 +34,9 @@ class MusicFragment : BaseFragment<FragmentMusicBinding>(){
     }
     fun playall(){
         mBinding.ivAll.setOnClickListener {
-
+            TheRouter.build("/musicplayer/musicplayerActivity")
+                .withObject("SongList", SongLists)
+                .navigation()
         }
     }
     fun initRv(){
@@ -42,8 +48,12 @@ class MusicFragment : BaseFragment<FragmentMusicBinding>(){
             musicViewModel.getMusicData(sharedVIewModel.someData.value!!,100)
             Log.d("MusicFragment", "onViewCreated: ${sharedVIewModel.someData.value}")
             musicViewModel.musicData.observe(viewLifecycleOwner) {
+                SongList.addAll(it.result.songs)
                 Log.d("Music", "${it}")
                 rvAdapter.submitList(it.result.songs)
+                for (i in SongList) {
+                    SongLists.add(i.id.toString())
+                }
             }
 
         }

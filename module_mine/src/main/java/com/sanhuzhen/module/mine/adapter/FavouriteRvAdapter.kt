@@ -56,9 +56,10 @@ class FavouriteRvAdapter:ListAdapter<Track,FavouriteRvAdapter.FavHolder>(object 
             else{
                 FavImg.setImageResource(R.drawable.ic_launcher_foreground)
             }
-            FavItem.setOnClickListener {
+            itemView.setOnClickListener {
                 TheRouter.build("/musicplayer/musicplayerActivity")
-                    .withObject("SongList",getItem(adapterPosition).id.toString())
+                    .withObject("SongList", arrayListOf(getItem(adapterPosition).id.toString()))
+                    .navigation()
             }
             FavSong.text=favouriteData.name
             FavSinger.text=favouriteData.ar[0].name

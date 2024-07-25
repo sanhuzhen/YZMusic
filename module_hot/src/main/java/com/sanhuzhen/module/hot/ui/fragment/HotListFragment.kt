@@ -30,7 +30,7 @@ class HotListFragment : BaseFragment<FragmentHotListBinding>(){
             layoutManager=LayoutManager
         }
         mViewModel.getHotList(90)
-        mViewModel.mHotList.observe(this){
+        mViewModel.mHotList.observe(viewLifecycleOwner){
             mAdapter.submitList(it.playlists)
         }
     }

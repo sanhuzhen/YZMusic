@@ -54,6 +54,7 @@ class DetailActivity :BaseActivity<ActivityDetailBinding>(){
         }
         mViewModel.getSongList(Id)
         mViewModel.mSongList.observe(this){
+            SongList.addAll(it.playlist.tracks)
             mRvAdapter.submitList(it.playlist.tracks)
             for (i in SongList) {
                 SongLists.add(i.id.toString())

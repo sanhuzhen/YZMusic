@@ -47,8 +47,10 @@ class MusicRvAdapter:ListAdapter<Song,MusicRvAdapter.ViewHolder>(object :
             musicAlbum.text=musicData.album.name
             musicAlbum.maxLines=1
             musicArtist.text=musicData.artists[0].name
-            musicItem.setOnClickListener {
-                TheRouter.build("/musicplayer/musicplayerActivity").withObject("SongList", arrayOf(musicData.id.toString())).navigation()
+            itemView.setOnClickListener {
+                TheRouter.build("/musicplayer/musicplayerActivity")
+                    .withObject("SongList", arrayListOf(getItem(adapterPosition).id.toString()))
+                    .navigation()
             }
             musicElse.setOnClickListener{
                 val popup = PopupMenu(itemView.context, musicElse)
