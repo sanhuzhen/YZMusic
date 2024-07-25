@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet.Constraint
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -44,6 +46,7 @@ class SongRvAdapter: ListAdapter<Track, SongRvAdapter.SongHolder>(object :
         private val songSinger:TextView=itemView.findViewById(R.id.song_singer)
         private val songImg:ImageView=itemView.findViewById(R.id.song_img)
         private val songElse:ImageView=itemView.findViewById(R.id.song_else)
+        private val songList:ConstraintLayout=itemView.findViewById(R.id.song_list)
         fun bind(track: Track){
             if (track.al.picUrl.isNotEmpty()){
                 Glide.with(itemView.context)
@@ -53,9 +56,9 @@ class SongRvAdapter: ListAdapter<Track, SongRvAdapter.SongHolder>(object :
             }else{
                 songImg.setImageResource(R.drawable.ic_launcher_background)
             }
-            songImg.setOnClickListener {
+            songList.setOnClickListener {
                 TheRouter.build("/musicplayer/musicplayerActivity")
-                    .withObject("SongList", arrayOf(getItem(adapterPosition).id.toString()))
+                    .withObject("SongList", arrayOf(getItem(adapterPosition).id.toString())).navigation()
             }
             songName.text=track.name
             songSinger.text=track.ar[0].name

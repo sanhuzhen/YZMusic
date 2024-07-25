@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
@@ -46,6 +47,7 @@ class HistoryRvAdapter : ListAdapter<WeekData,HistoryRvAdapter.HistoryHolder>(ob
         private val HistorySong: TextView =itemView.findViewById(R.id.tv_song_name)
         private val HistorySinger: TextView =itemView.findViewById(R.id.tv_singer_name)
         private val HistoryElse:ImageView=itemView.findViewById(R.id.his_else)
+        private val HistoryItem:FrameLayout=itemView.findViewById(R.id.song_fav)
         fun historyData(historyData: WeekData){
             if (historyData.song.al.picUrl.isNotEmpty()){
                 Glide.with(itemView.context).load(historyData.song.al.picUrl)
@@ -54,7 +56,7 @@ class HistoryRvAdapter : ListAdapter<WeekData,HistoryRvAdapter.HistoryHolder>(ob
             else{
                 HistoryImg.setImageResource(R.drawable.ic_launcher_foreground)
             }
-            HistoryImg.setOnClickListener {
+            HistoryItem.setOnClickListener {
                 TheRouter.build("/musicplayer/musicplayerActivity")
                     .withObject("SongList",getItem(adapterPosition).song.id.toString())
             }

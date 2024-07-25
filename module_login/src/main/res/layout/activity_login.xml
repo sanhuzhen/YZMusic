@@ -12,6 +12,7 @@
     <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        app:tabIndicatorColor="@color/black"
         android:background="@color/white"
         android:id="@+id/tab_choice"
         app:tabMode="scrollable"

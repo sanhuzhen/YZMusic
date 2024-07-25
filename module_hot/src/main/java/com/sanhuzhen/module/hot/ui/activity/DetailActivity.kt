@@ -55,13 +55,13 @@ class DetailActivity :BaseActivity<ActivityDetailBinding>(){
         mViewModel.getSongList(Id)
         mViewModel.mSongList.observe(this){
             mRvAdapter.submitList(it.playlist.tracks)
+            for (i in SongList) {
+                SongLists.add(i.id.toString())
+            }
         }
     }
     fun playAll(){
         mBinding.ivAll.setOnClickListener {
-            for (i in SongList) {
-                SongLists.add(i.id.toString())
-            }
             TheRouter.build("/musicplayer/musicplayerActivity").withObject("SongList", SongLists)
                 .navigation()
         }

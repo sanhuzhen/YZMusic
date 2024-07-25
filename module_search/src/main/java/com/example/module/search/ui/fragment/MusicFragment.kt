@@ -26,6 +26,12 @@ class MusicFragment : BaseFragment<FragmentMusicBinding>(){
 
     override fun afterCreate() {
         initRv()
+        playall()
+    }
+    fun playall(){
+        mBinding.ivAll.setOnClickListener {
+
+        }
     }
     fun initRv(){
         mBinding.recyclerView.apply {
