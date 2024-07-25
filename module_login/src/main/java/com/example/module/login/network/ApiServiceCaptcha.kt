@@ -10,7 +10,7 @@ interface ApiServiceCaptchaSend {
     fun getSearchDataSend(
         @Query("phone")phone:String
     ): Observable<MyData>
-    @GET("/captcha/verify")
+    @GET("/login/cellphone")
     fun getSearchDataVerify(
         @Query("phone")phone:String,
         @Query("captcha")captcha:String
