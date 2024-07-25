@@ -1,10 +1,12 @@
 package com.sanhuzhen.module.recommend.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -16,17 +18,18 @@ import com.sanhuzhen.module.home.R
 import com.sanhuzhen.module.recommend.bean.Resource
 import com.therouter.TheRouter
 
-class HomePlayListAdapter(private val fragment: Fragment) : ListAdapter<Resource, HomePlayListAdapter.mViewHolder>(object :
-    DiffUtil.ItemCallback<Resource>() {
-    override fun areItemsTheSame(oldItem: Resource, newItem: Resource): Boolean {
-        return oldItem.uiElement == newItem.uiElement
-    }
+class HomePlayListAdapter(private val fragment: Fragment) :
+    ListAdapter<Resource, HomePlayListAdapter.mViewHolder>(object :
+        DiffUtil.ItemCallback<Resource>() {
+        override fun areItemsTheSame(oldItem: Resource, newItem: Resource): Boolean {
+            return oldItem.uiElement == newItem.uiElement
+        }
 
-    override fun areContentsTheSame(oldItem: Resource, newItem: Resource): Boolean {
-        return oldItem.resourceId == newItem.resourceId
-    }
+        override fun areContentsTheSame(oldItem: Resource, newItem: Resource): Boolean {
+            return oldItem.resourceId == newItem.resourceId
+        }
 
-}) {
+    }) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -52,14 +55,16 @@ class HomePlayListAdapter(private val fragment: Fragment) : ListAdapter<Resource
         init {
             initListener()
         }
+
         fun initListener() {
             itemView.setOnClickListener {
                 TheRouter.build("/songlist/songListActivity")
                     .withString("id", getItem(adapterPosition).resourceId)
-                    .withString("alTv",getItem(adapterPosition).uiElement.image.imageUrl)
+                    .withString("alTv", getItem(adapterPosition).uiElement.image.imageUrl)
                     .navigation()
             }
         }
+
         fun bind(resource: Resource) {
             playlistNameTv.text = resource.uiElement.mainTitle.title
             Glide.with(itemView.context).load(resource.uiElement.image.imageUrl)

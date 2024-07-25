@@ -10,7 +10,8 @@
 
 
         </activity>
-        <activity android:name=".ui.activity.SingerListActivity">
+        <activity android:name=".ui.activity.SingerListActivity"
+            android:theme="@style/BigImageTranslateTheme">
 
         </activity>
     </application>

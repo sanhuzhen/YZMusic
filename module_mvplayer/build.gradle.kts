@@ -44,6 +44,7 @@ dependencies {
 
     implementation(project(":lib_base"))
     implementation(project(":lib_net"))
+    implementation(project(":module_musicplayer"))
     kapt("cn.therouter:apt:1.2.2")
     implementation("cn.therouter:router:1.2.2")
     implementation ("com.github.uaoan:DkPlayer:dkplayer-1.1")
