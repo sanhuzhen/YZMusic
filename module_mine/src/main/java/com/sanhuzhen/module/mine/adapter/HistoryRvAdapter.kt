@@ -47,7 +47,6 @@ class HistoryRvAdapter : ListAdapter<WeekData,HistoryRvAdapter.HistoryHolder>(ob
         private val HistorySong: TextView =itemView.findViewById(R.id.tv_song_name)
         private val HistorySinger: TextView =itemView.findViewById(R.id.tv_singer_name)
         private val HistoryElse:ImageView=itemView.findViewById(R.id.his_else)
-        private val HistoryItem:FrameLayout=itemView.findViewById(R.id.song_fav)
         fun historyData(historyData: WeekData){
             if (historyData.song.al.picUrl.isNotEmpty()){
                 Glide.with(itemView.context).load(historyData.song.al.picUrl)
