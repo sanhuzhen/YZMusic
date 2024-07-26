@@ -29,6 +29,7 @@ import com.sanhuzhen.module.mine.viewmodel.BaseViewModel
 import com.sanhuzhen.module.musicplayer.MusicPlayerService
 import com.sanhuzhen.module.musicplayer.adapter.SongListAdapter
 import com.sanhuzhen.module.musicplayer.bean.Song
+import com.sanhuzhen.module.musicplayer.helper.OnItemClickListener
 import com.sanhuzhen.yzmusic.R
 import com.sanhuzhen.yzmusic.adapter.VpAdapter
 import com.sanhuzhen.yzmusic.databinding.ActivityMainBinding
@@ -39,7 +40,7 @@ import com.therouter.TheRouter
  * @date: 2024/7/14
  * @description:
  */
-class MainActivity : BaseActivity<ActivityMainBinding>() {
+class MainActivity : BaseActivity<ActivityMainBinding>(),OnItemClickListener {
     private lateinit var mBinder: MusicPlayerService.MusicBinder
 
     private var animator: ObjectAnimator? = null // 旋转动画
@@ -102,7 +103,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun afterCreate() {
-        songListAdapter = SongListAdapter()
+        songListAdapter = SongListAdapter(this)
         // 底部导航栏
         initBottomNav()
         // 抽屉式菜单
@@ -306,6 +307,25 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     // 更新音乐结束后的播放栏的UI信息
     private fun handleMusicPlaybackComplete() {
+        if (musicDetail.isNotEmpty() && currentPosition >= 0 && currentPosition < musicDetail.size) {
+            mBinding.apply {
+                musicTvName.text = musicDetail[currentPosition].name
+                var musicAr = ""
+                for (i in musicDetail[currentPosition].ar) {
+                    musicAr += i.name + " "
+                }
+                musicTvArtist.text = musicAr
+                Glide.with(this@MainActivity).load(musicDetail[currentPosition].al.picUrl)
+                    .transform(CenterCrop(), RoundedCorners(360)).into(musicIv)
+            }
+        } else {
+            Log.e("MainActivity", "Invalid currentPosition or empty musicDetail list.")
+        }
+    }
+
+    override fun onItemClick(position: Int) {
+        mBinder.changeMusicInfo(position)
+        currentPosition = position
         if (musicDetail.isNotEmpty() && currentPosition >= 0 && currentPosition < musicDetail.size) {
             mBinding.apply {
                 musicTvName.text = musicDetail[currentPosition].name
