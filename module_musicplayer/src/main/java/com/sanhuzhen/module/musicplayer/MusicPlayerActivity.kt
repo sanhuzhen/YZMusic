@@ -30,6 +30,7 @@ import com.sanhuzhen.module.musicplayer.bean.Song
 import com.sanhuzhen.module.musicplayer.databinding.ActivityMusicplayerBinding
 import com.sanhuzhen.module.musicplayer.fragment.PlayFragment
 import com.sanhuzhen.module.musicplayer.fragment.WordFragment
+import com.sanhuzhen.module.musicplayer.helper.OnItemClickListener
 import com.sanhuzhen.module.musicplayer.viewmodel.PlayViewModel
 import com.therouter.router.Autowired
 import com.therouter.router.Route
@@ -44,7 +45,7 @@ import kotlin.math.log
  * @description: 音乐播放器
  */
 @Route(path = "/musicplayer/musicplayerActivity")
-class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
+class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>(),OnItemClickListener {
 
     @Autowired(name = "SongList")
     @JvmField
@@ -137,7 +138,7 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
         instance = this
         initService()
         commentAdapter = CommentAdapter()
-        songListAdapter = SongListAdapter()
+        songListAdapter = SongListAdapter(this)
         initVp()
         initView()
 
@@ -176,7 +177,7 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
                 playViewModel.getSongLyric(musicIdList[currentPosition])
                 playViewModel.getSongDetail(musicIdList[currentPosition])
             }
-        } else if (musicIdList.isNotEmpty()) {
+        } else if (musicIdList.isNotEmpty() && musicIdList != mBinder.returnMusicId()) {
             /**
              * 这里是要判断一下，是否是切换歌单，如果是，则需要重新请求数据，先清空数据，不然会崩
              */
@@ -194,18 +195,33 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
             currentPosition = mBinder.getMusicPosition()
             playViewModel.getSongLyric(musicIdList[currentPosition])
             playViewModel.getSongDetail(musicIdList[currentPosition])
+        } else if (musicIdList.isNotEmpty() && musicIdList == mBinder.returnMusicId()) {
+            musicIdList = mBinder.returnMusicId()
+            songList = mBinder.returnMusic()
+            musicUrlList = mBinder.returnMusicUrl()
+            Log.d("TAG", "onServiceConnected: $songList")
+            if (mBinder.getPlayWhenReady()) {
+                mBinding.musicPlay.setImageResource(R.drawable.music_open)
+            } else {
+                mBinding.musicPlay.setImageResource(R.drawable.music_close)
+                playViewModel.isPlay(false)
+            }
+            currentPosition = mBinder.getMusicPosition()
+            playViewModel.getSongLyric(musicIdList[currentPosition])
+            playViewModel.getSongDetail(musicIdList[currentPosition])
+            Toast.makeText(this@MusicPlayerActivity, "正在播放中", Toast.LENGTH_SHORT).show()
         }
         if (mBinder.getPlayMode() == 0) {
             mBinding.musicRandom.setImageResource(R.drawable.shunxu)
         } else {
             mBinding.musicRandom.setImageResource(R.drawable.xunhuan)
         }
-        if (musicIdList.isNotEmpty()){
+        if (musicIdList.isNotEmpty()) {
             val prefs = getPreferences(Context.MODE_PRIVATE)
             val isLike = prefs.getBoolean("${musicIdList[currentPosition]}", false)
-            if(isLike == true){
+            if (isLike == true) {
                 mBinding.musicLike.setImageResource(R.drawable.red_heart)
-            }else{
+            } else {
                 mBinding.musicLike.setImageResource(R.drawable.heart)
             }
         }
@@ -214,16 +230,16 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
             override fun onPlaybackStateChanged(playbackState: Int) {
                 when (playbackState) {
                     Player.STATE_ENDED -> {
-                        if (mBinder.getPlayer().repeatMode == Player.REPEAT_MODE_OFF){
+                        if (mBinder.getPlayer().repeatMode == Player.REPEAT_MODE_OFF) {
                             //播放结束，自动播放下一首音乐
 //                            mBinder.nextMusic()
                             currentPosition = mBinder.getMusicPosition()
-                            if (currentPosition >=0 && currentPosition < musicIdList.size){
+                            if (currentPosition >= 0 && currentPosition < musicIdList.size) {
                                 // 播放结束，可以开始下一首
                                 playViewModel.getSongDetail(musicIdList[currentPosition])
                                 playViewModel.getSongLyric(musicIdList[currentPosition])
                             }
-                        }else{
+                        } else {
                             mBinder.getPlayer().seekTo(0)
                             mBinder.getPlayer().playWhenReady = true
                         }
@@ -310,11 +326,11 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
             }
         }
         mBinding.musicNext.setOnClickListener {
-            if (musicIdList.isEmpty()){
+            if (musicIdList.isEmpty()) {
                 Toast.makeText(this@MusicPlayerActivity, "没有下一首歌曲哟", Toast.LENGTH_SHORT)
                     .show()
                 return@setOnClickListener
-            }else{
+            } else {
                 mBinder.nextMusic()
                 currentPosition = mBinder.getMusicPosition()
                 if (!mBinder.getPlayWhenReady()) {
@@ -326,11 +342,11 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
             }
         }
         mBinding.musicFront.setOnClickListener {
-            if (musicIdList.isEmpty()){
+            if (musicIdList.isEmpty()) {
                 Toast.makeText(this@MusicPlayerActivity, "没有上一首歌曲哟", Toast.LENGTH_SHORT)
                     .show()
                 return@setOnClickListener
-            }else{
+            } else {
                 mBinder.preMusic()
                 currentPosition = mBinder.getMusicPosition()
                 if (!mBinder.getPlayWhenReady()) {
@@ -482,15 +498,14 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
-        overridePendingTransition(0,R.anim.slide_out)
+        overridePendingTransition(0, R.anim.slide_out)
     }
 
 
     override fun onPause() {
         super.onPause()
-        overridePendingTransition(0,R.anim.slide_out)
+        overridePendingTransition(0, R.anim.slide_out)
     }
-
 
 
     //格式化时间
@@ -499,6 +514,17 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
         val minutes = (milliseconds / 1000) / 60
         val seconds = (milliseconds / 1000) % 60
         return String.format("%02d:%02d", minutes, seconds)
+    }
+
+    override fun onItemClick(position: Int) {
+        mBinder.changeMusicInfo(position)
+        currentPosition = position
+        if (!mBinder.getPlayWhenReady()) {
+            mBinding.musicPlay.setImageResource(R.drawable.music_open)
+            playViewModel.isPlay(true)
+        }
+        playViewModel.getSongDetail(musicIdList[currentPosition])
+        playViewModel.getSongLyric(musicIdList[currentPosition])
     }
 
 
