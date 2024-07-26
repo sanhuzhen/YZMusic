@@ -2,6 +2,7 @@ package com.sanhuzhen.module.mine.ui.activity
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -45,8 +46,15 @@ class FavouriteActivity : BaseActivity<ActivityFavouriteBinding>(){
     }
     fun playall(){
         mBinding.ivAll.setOnClickListener {
-            TheRouter.build("/musicplayer/musicplayerActivity").withObject("SongList", SongLists)
-                .navigation()
+            mViewModel.mFavourite.observe(this){
+                if (it.playlist.tracks.isNotEmpty()){
+                    TheRouter.build("/musicplayer/musicplayerActivity").withObject("SongList", SongLists)
+                        .navigation()
+                }
+                else {
+                    Toast.makeText(this,"你还没有收藏歌曲",Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
     fun getitem(){

@@ -1,6 +1,7 @@
 package com.sanhuzhen.module.mine.ui.activity
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -32,11 +33,12 @@ class DownloadsActivity : BaseActivity<ActivityDownloadsBinding>(){
     }
     fun playall(){
         mBinding.ivAll.setOnClickListener {
+            Log.d("TAG", "${SongLists}")
             if (SongLists.isEmpty()){
                 Toast.makeText(this,"你还没有下载歌曲",Toast.LENGTH_SHORT).show()
             }
             else {
-                TheRouter.build("/musicplayer/musicplayerActivity").withObject("SongList", SongList)
+                TheRouter.build("/musicplayer/musicplayerActivity").withObject("SongList", SongLists)
                 .navigation()
             }
         }
@@ -48,25 +50,25 @@ class DownloadsActivity : BaseActivity<ActivityDownloadsBinding>(){
         }
     }
     fun getData(){
-            val databaseHelper=SongDataHelper(this,"song",1)
-            val db = databaseHelper.readableDatabase
-            val cursor = db.query("Book", null, null, null, null, null, null)
-            val contacts = mutableListOf<SongData>()
+        val databaseHelper=SongDataHelper(this,"song",1)
+        val db = databaseHelper.readableDatabase
+        val cursor = db.query("Book", null, null, null, null, null, null)
+        val contacts = mutableListOf<SongData>()
 
-            with(cursor) {
-                while (moveToNext()) {
-                    val id = getString(getColumnIndexOrThrow("songId"))
-                    val name = getString(getColumnIndexOrThrow("name"))
-                    val singer = getString(getColumnIndexOrThrow("singer"))
-                    contacts.add(SongData(id, name,singer,"0"))
-                }
+        with(cursor) {
+            while (moveToNext()) {
+                val id = getString(getColumnIndexOrThrow("songId"))
+                val name = getString(getColumnIndexOrThrow("name"))
+                val singer = getString(getColumnIndexOrThrow("singer"))
+                contacts.add(SongData(id, name,singer,"0"))
             }
-            cursor.close()
-            SongList.addAll(contacts)
-            mRvAdapter.submitList(contacts)
-            for (i in SongList) {
-                SongLists.add(i.id)
-            }
+        }
+        cursor.close()
+        SongList.addAll(contacts)
+        mRvAdapter.submitList(contacts)
+        for (i in SongList) {
+            SongLists.add(i.id)
+        }
     }
     fun getback(){
         mBinding.ivBack.setOnClickListener {
@@ -75,8 +77,6 @@ class DownloadsActivity : BaseActivity<ActivityDownloadsBinding>(){
     }
     override fun onResume() {
         super.onResume()
-        for (i in SongList) {
-            SongLists.add(i.id)
-        }
+        getData()
     }
 }
