@@ -219,6 +219,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 musicTvArtist.text = musicAr
                 Glide.with(this@MainActivity).load(musicDetail[currentPosition].al.picUrl)
                     .transform(CenterCrop(), RoundedCorners(360)).into(musicIv)
+                if (mBinding.musicTvName.length() > 5){
+                    val marqueeTextView = mBinding.musicTvName
+                    marqueeTextView.isSelected = true
+                }
             }
         }
         if (mBinder.getPlayWhenReady()) {

@@ -87,6 +87,12 @@
                         android:layout_toRightOf="@id/music_iv"
                         android:maxLines="1"
                         android:text="歌曲"
+                        android:singleLine="true"
+                        android:ellipsize="marquee"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:scrollHorizontally="true"
                         android:textColor="@color/black"
                         android:textSize="15dp" />
 
