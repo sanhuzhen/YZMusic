@@ -27,7 +27,15 @@
             android:textColor="@color/black"/>
 
     </LinearLayout>
-
+    <ProgressBar
+        android:layout_marginTop="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/CustomIndeterminateProgressBar"
+        android:progress="0"
+        android:visibility="gone"
+        android:max="100"
+        android:id="@+id/pb_loading"/>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"

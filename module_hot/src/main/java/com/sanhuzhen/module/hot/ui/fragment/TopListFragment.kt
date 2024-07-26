@@ -22,6 +22,8 @@ class TopListFragment : BaseFragment<FragmentTopListBinding>() {
     }
 
     override fun afterCreate() {
+        mBinding.pbLoading.progress=0
+        mBinding.pbLoading.visibility=View.VISIBLE
         getFirst()
     }
     fun getFirst(){
@@ -31,6 +33,8 @@ class TopListFragment : BaseFragment<FragmentTopListBinding>() {
         mViewModel.getTopList()
         mViewModel.mTopList.observe(viewLifecycleOwner){
             mAdapter.submitList(it.list)
+            mBinding.pbLoading.progress=100
+            mBinding.pbLoading.visibility=View.GONE
         }
 
     }

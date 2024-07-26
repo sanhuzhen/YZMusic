@@ -29,6 +29,7 @@ class MusicFragment : BaseFragment<FragmentMusicBinding>(){
     }
 
     override fun afterCreate() {
+
         initRv()
         playall()
     }
@@ -45,12 +46,19 @@ class MusicFragment : BaseFragment<FragmentMusicBinding>(){
             adapter = rvAdapter
         }
         sharedVIewModel.someData.observe(viewLifecycleOwner) {
+            mBinding.pbLoading.progress = 0
+            mBinding.pbLoading.visibility = View.VISIBLE
             musicViewModel.getMusicData(sharedVIewModel.someData.value!!,100)
             Log.d("MusicFragment", "onViewCreated: ${sharedVIewModel.someData.value}")
             musicViewModel.musicData.observe(viewLifecycleOwner) {
+                if (it.result.songs.isNotEmpty()){
+                    mBinding.pbLoading.visibility=View.GONE
+                }
                 SongList.addAll(it.result.songs)
                 Log.d("Music", "${it}")
                 rvAdapter.submitList(it.result.songs)
+                mBinding.pbLoading.progress=100
+                mBinding.pbLoading.visibility=View.GONE
                 for (i in SongList) {
                     SongLists.add(i.id.toString())
                 }
@@ -58,5 +66,10 @@ class MusicFragment : BaseFragment<FragmentMusicBinding>(){
 
         }
     }
-
+    override fun onResume() {
+        super.onResume()
+        for (i in SongList) {
+            SongLists.add(i.id.toString())
+        }
+    }
 }

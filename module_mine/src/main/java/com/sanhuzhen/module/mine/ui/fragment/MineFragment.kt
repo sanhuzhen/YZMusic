@@ -91,6 +91,10 @@ class MineFragment : BaseFragment<FragmentMineBinding>() {
                 mBinding.textView.text = it.profile.nickname
             }
         }
+        else {
+            mBinding.imageView.setImageResource(R.drawable.ic_my)
+            mBinding.textView.text = "游客"
+        }
     }
 
     fun getSp() {

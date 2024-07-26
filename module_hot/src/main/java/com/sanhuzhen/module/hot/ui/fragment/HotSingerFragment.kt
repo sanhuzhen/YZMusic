@@ -22,6 +22,8 @@ class HotSingerFragment :BaseFragment<FragmentHotSingerBinding>(){
     }
 
     override fun afterCreate() {
+        mBinding.pbLoading.visibility=View.VISIBLE
+        mBinding.pbLoading.progress=0
         getData()
     }
     fun getData(){
@@ -32,6 +34,8 @@ class HotSingerFragment :BaseFragment<FragmentHotSingerBinding>(){
         mViewModel.getSinger()
         mViewModel.mSinger.observe(viewLifecycleOwner){
             mRvAdapter.submitList(it.list.artists)
+            mBinding.pbLoading.progress=100
+            mBinding.pbLoading.visibility=View.GONE
         }
 
     }

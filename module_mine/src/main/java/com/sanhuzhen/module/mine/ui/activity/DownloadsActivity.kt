@@ -73,4 +73,10 @@ class DownloadsActivity : BaseActivity<ActivityDownloadsBinding>(){
             finish()
         }
     }
+    override fun onResume() {
+        super.onResume()
+        for (i in SongList) {
+            SongLists.add(i.id)
+        }
+    }
 }

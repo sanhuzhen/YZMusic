@@ -24,6 +24,7 @@ class MvFragment : BaseFragment<FragmentMvBinding>(){
     }
 
     override fun afterCreate() {
+
         initRv()
     }
     fun initRv(){
@@ -32,10 +33,16 @@ class MvFragment : BaseFragment<FragmentMvBinding>(){
             adapter = mvAdapter
         }
         sharedVIewModel.someData.observe(viewLifecycleOwner) {
+            mBinding.pbLoading.visibility = View.VISIBLE
             mvViewModel.getMvData(sharedVIewModel.someData.value!!,1004,100)
             Log.d("MvFragment", "onViewCreated: ${sharedVIewModel.someData.value}")
             mvViewModel.mvData.observe(viewLifecycleOwner) {
+               if (it.result.mvs.isNotEmpty()){
+                   mBinding.pbLoading.visibility=View.GONE
+               }
                 mvAdapter.submitList(it.result.mvs)
+                mBinding.pbLoading.progress=100
+                mBinding.pbLoading.visibility=View.GONE
             }
         }
     }
