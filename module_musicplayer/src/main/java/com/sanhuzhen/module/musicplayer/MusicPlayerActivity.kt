@@ -22,6 +22,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sanhuzhen.lib.base.BaseActivity
+import com.sanhuzhen.lib.base.helper.SongDataHelper
 import com.sanhuzhen.module.musicplayer.adapter.CommentAdapter
 import com.sanhuzhen.module.musicplayer.adapter.SongListAdapter
 import com.sanhuzhen.module.musicplayer.adapter.VpAdapter
@@ -397,6 +398,17 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
                 Toast.makeText(this@MusicPlayerActivity, "顺序播放", Toast.LENGTH_SHORT).show()
             }
         }
+        mBinding.musicDownload.setOnClickListener {
+            currentPosition = mBinder.getMusicPosition()
+            val dpHelper = SongDataHelper(this, "song", 1)
+            dpHelper.addBook(
+                songList[currentPosition].name,
+                songList[currentPosition].ar[0].name,
+                musicIdList[currentPosition],
+                songList[currentPosition].al.picUrl
+            )
+            Toast.makeText(this, "下载成功", Toast.LENGTH_SHORT).show()
+        }
 
     }
 
@@ -421,17 +433,17 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
 
         val recyclerView = bottomSheetView.findViewById<RecyclerView>(R.id.rv_comment)
         recyclerView.layoutManager = LinearLayoutManager(this)
-//        recyclerView.adapter = commentAdapter
-//
-//        if (musicIdList.isNotEmpty()) {
-//            currentPosition = mBinder.getMusicPosition()
-//            lifecycleScope.launch {
-//                playViewModel.getComments("0", musicIdList[currentPosition], "3")
-//                    .collectLatest { pagingData ->
-//                        commentAdapter.submitData(pagingData)
-//                    }
-//            }
-//        }
+        recyclerView.adapter = commentAdapter
+
+        if (musicIdList.isNotEmpty()) {
+            currentPosition = mBinder.getMusicPosition()
+            lifecycleScope.launch {
+                playViewModel.getComments("0", musicIdList[currentPosition], "3")
+                    .collectLatest { pagingData ->
+                        commentAdapter.submitData(pagingData)
+                    }
+            }
+        }
         bottomSheetDialog.setContentView(bottomSheetView)
         bottomSheetDialog.show()
     }
