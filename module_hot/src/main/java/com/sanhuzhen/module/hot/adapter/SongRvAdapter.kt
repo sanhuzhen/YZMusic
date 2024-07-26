@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet.Constraint
@@ -82,6 +83,7 @@ class SongRvAdapter: ListAdapter<Track, SongRvAdapter.SongHolder>(object :
                         R.id.downloads -> {
                             val dpHelper=SongDataHelper(itemView.context,"song",1)
                             dpHelper.addBook(track.name,track.ar[0].name,track.id.toString(),track.al.picUrl)
+                            Toast.makeText(itemView.context,"添加成功", Toast.LENGTH_SHORT).show()
                             true
                         }
                         else -> false

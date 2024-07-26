@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DiffUtil
@@ -82,6 +83,7 @@ class FavouriteRvAdapter:ListAdapter<Track,FavouriteRvAdapter.FavHolder>(object 
                         R.id.downloads -> {
                             val dbHelper= SongDataHelper(itemView.context,"song",1)
                             dbHelper.addBook(favouriteData.name,favouriteData.ar[0].name,favouriteData.id.toString(),favouriteData.al.picUrl)
+                            Toast.makeText(itemView.context,"添加成功",Toast.LENGTH_SHORT).show()
                             true
                         }
                         else -> false
