@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.sanhuzhen.lib.base.BaseActivity
-//import com.sanhuzhen.module.musicplayer.MusicPlayerService
+import com.sanhuzhen.module.musicplayer.MusicPlayerService
 import com.sanhuzhen.module.mvplayer.adapter.CommentRvAdapter
 import com.sanhuzhen.module.mvplayer.adapter.SingerRvAdapter
 import com.sanhuzhen.module.mvplayer.databinding.ActivityMvplayerBinding
@@ -30,7 +30,7 @@ class MvPlayerActivity : BaseActivity<ActivityMvplayerBinding>() {
     @Autowired
     @JvmField
     var id: String? = null
-//    private lateinit var mBinder: MusicPlayerService.MusicBinder
+    private lateinit var mBinder: MusicPlayerService.MusicBinder
     private var isBoast = false
     val mViewModel: BaseViewModel by lazy { ViewModelProvider(this).get(BaseViewModel::class.java) }
     val mSingerAdapter: SingerRvAdapter by lazy { SingerRvAdapter() }
@@ -39,23 +39,23 @@ class MvPlayerActivity : BaseActivity<ActivityMvplayerBinding>() {
     var MvUrl: String = ""
     var MvSinger: String = ""
 
-//    private val connection = object : ServiceConnection {
-//        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-//            mBinder = service as MusicPlayerService.MusicBinder
-//
-//            if (mBinder.getPlayWhenReady()){
-//                mBinder.stopMusic()
-//                isBoast = true
-//            }
-//        }
+    private val connection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            mBinder = service as MusicPlayerService.MusicBinder
 
-//        override fun onServiceDisconnected(name: ComponentName?) {
+            if (mBinder.getPlayWhenReady()){
+                mBinder.stopMusic()
+                isBoast = true
+            }
+        }
 
-//        }
+        override fun onServiceDisconnected(name: ComponentName?) {
 
-//    }
+        }
+
+    }
     override fun afterCreate() {
-//        bindService()
+        bindService()
         getMv()
         getback()
         getSinger()
@@ -69,11 +69,11 @@ class MvPlayerActivity : BaseActivity<ActivityMvplayerBinding>() {
         return ActivityMvplayerBinding.inflate(layoutInflater)
     }
     // Service绑定
-//    private fun bindService() {
-//        val intent = Intent(this, MusicPlayerService::class.java)
-//        startService(intent)
-//        bindService(intent, connection, BIND_AUTO_CREATE)
-//    }
+    private fun bindService() {
+        val intent = Intent(this, MusicPlayerService::class.java)
+        startService(intent)
+        bindService(intent, connection, BIND_AUTO_CREATE)
+    }
 
     fun getMv() {
         val controller = StandardVideoController(this)
@@ -163,9 +163,9 @@ class MvPlayerActivity : BaseActivity<ActivityMvplayerBinding>() {
     override fun onDestroy() {
         super.onDestroy()
         mBinding.player.release()
-//        if (isBoast){
-//            mBinder.playMusic()
-//        }
+        if (isBoast){
+            mBinder.playMusic()
+        }
     }
 
     override fun onBackPressed() {
