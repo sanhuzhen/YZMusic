@@ -48,17 +48,18 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" >
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:id="@+id/iv_all"
             android:src="@drawable/music_play"/>
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="45dp"
             android:layout_marginLeft="50dp"
+            android:padding="5dp"
             android:text="播放全部"
             android:id="@+id/tv_all"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:textColor="@color/black"/>
         <ProgressBar
             android:layout_marginTop="100dp"
@@ -71,8 +72,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="700dp"
-            android:layout_marginTop="30dp"
+            android:layout_height="680dp"
+            android:layout_marginTop="50dp"
             />
 
     </androidx.cardview.widget.CardView>
