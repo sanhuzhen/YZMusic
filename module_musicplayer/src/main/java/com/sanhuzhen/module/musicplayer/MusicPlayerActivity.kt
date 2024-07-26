@@ -235,6 +235,7 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>(),OnItemCli
                         if (mBinder.getPlayer().repeatMode == Player.REPEAT_MODE_OFF) {
                             //播放结束，自动播放下一首音乐
 //                            mBinder.nextMusic()
+                            mBinding.seekBar.clearAnimation()
                             currentPosition = mBinder.getMusicPosition()
                             if (currentPosition >= 0 && currentPosition < musicIdList.size) {
                                 // 播放结束，可以开始下一首
@@ -365,6 +366,7 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>(),OnItemCli
                 //进度条滑动
                 if (fromUser) {
                     mBinder.seekTo(progress.toLong())
+                    mBinding.musicTimeCurrent.text = formatTime(progress.toLong())
                 }
             }
 

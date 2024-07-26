@@ -9,6 +9,7 @@ import android.os.Binder
 import android.os.Build
 import android.os.Handler
 import android.os.IBinder
+import android.util.Log
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LiveData
@@ -41,11 +42,14 @@ class MusicPlayerService : Service() {
     //实现通信
     inner class MusicBinder : Binder() {
         fun startPlay(musicUrl: String) {
-            val mediaItem = MediaItem.fromUri(musicUrl)
-            player.setMediaItem(mediaItem)
-            player.prepare()
-            player.playWhenReady = true
-
+            if (musicUrl.isNotEmpty()) {
+                val mediaItem = MediaItem.fromUri(musicUrl)
+                player.setMediaItem(mediaItem)
+                player.prepare()
+                player.playWhenReady = true
+            }else{
+                Toast.makeText(this@MusicPlayerService, "播放失败,播放下一首试试", Toast.LENGTH_SHORT).show()
+            }
         }
 
         //播放音乐
@@ -79,25 +83,37 @@ class MusicPlayerService : Service() {
 
         //播放下一首
         fun nextMusic() {
-            player.stop()
-            if (currentPosition >= 0 && currentPosition < musicUrlList.size - 1) {
-                currentPosition += 1
-                musicBinder.startPlay(musicUrlList[currentPosition])
+            Log.d("youzhang", "$musicUrlList")
+            if (musicUrlList.isNotEmpty()) {
+                player.stop()
+                if (currentPosition >= 0 && currentPosition < musicUrlList.size - 1) {
+                    currentPosition += 1
+                    musicBinder.startPlay(musicUrlList[currentPosition])
+                } else {
+                    currentPosition = 0
+                    musicBinder.startPlay(musicUrlList[currentPosition])
+                }
+                Log.d("musicplayeryou", "$currentPosition")
+                Log.d("musicplayeryoujiachao", "${musicUrlList.size}")
             } else {
-                musicBinder.startPlay(musicUrlList[0])
-                currentPosition = 0
+                Log.e("MusicPlayerService", "Music URL list is empty.")
             }
         }
 
         //播放上一首
         fun preMusic() {
-            player.stop()
-            if (currentPosition > 0 && currentPosition <= musicUrlList.size - 1) {
-                currentPosition -= 1
-                musicBinder.startPlay(musicUrlList[currentPosition])
+            if (musicUrlList.isNotEmpty()) {
+                player.stop()
+                if (currentPosition > 0 && currentPosition <= musicUrlList.size - 1) {
+                    currentPosition -= 1
+                    musicBinder.startPlay(musicUrlList[currentPosition])
+                } else {
+                    currentPosition = musicUrlList.size - 1
+                    musicBinder.startPlay(musicUrlList[musicUrlList.size - 1])
+                }
+                Log.d("musicplayeryou", "$currentPosition")
             } else {
-                musicBinder.startPlay(musicUrlList[musicUrlList.size - 1])
-                currentPosition = musicUrlList.size - 1
+                Log.e("MusicPlayerService", "Music URL list is empty.")
             }
         }
 

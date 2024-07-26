@@ -126,7 +126,14 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>() {
                     .withObject("SongList", songList)
                     .navigation()
             } else {
-                Toast.makeText(requireContext(), "暂无歌曲", Toast.LENGTH_SHORT).show()
+                for (i in SongList){
+                    if (i.id != null) {
+                        songList.add(i.id.toString())
+                    }
+                }
+                TheRouter.build("/musicplayer/musicplayerActivity")
+                    .withObject("SongList", songList)
+                    .navigation()
             }
         }
     }
@@ -191,7 +198,7 @@ class RecommendFragment : BaseFragment<FragmentRecommendBinding>() {
         timer?.schedule(timerTask, delayTime, delayTime)
     }
 
-    //销毁定时器,保证只有一组定时任务在运行
+    //销毁定时器,保证只有一组定时任务在运行,避免内存泄漏
     private fun killDelayedTask() {
         if (timer != null) {
             timer?.cancel()
