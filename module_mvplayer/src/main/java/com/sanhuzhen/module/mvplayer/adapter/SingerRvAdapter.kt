@@ -13,6 +13,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sanhuzhen.module.mvplayer.R
 import com.sanhuzhen.module.mvplayer.bean.Artist
+import com.therouter.TheRouter
 
 class SingerRvAdapter :ListAdapter<Artist,SingerRvAdapter.MyViewHolder>(object :
     DiffUtil.ItemCallback<Artist>(){
@@ -39,12 +40,14 @@ class SingerRvAdapter :ListAdapter<Artist,SingerRvAdapter.MyViewHolder>(object :
         private val artistImg: ImageView =itemView.findViewById(R.id.iv_singer)
         fun singerData(singerData: Artist) {
             artistName.text=singerData.name
-
             if (singerData.img1v1Url.isNotEmpty()){
                 Glide.with(itemView.context)
                     .load(singerData.img1v1Url)
                     .transform(CenterCrop(), RoundedCorners(90))
                     .into(artistImg)
+            }
+            itemView.setOnClickListener{
+                TheRouter.build("/songlist/singer").withString("SingerId",singerData.id.toString()).navigation()
             }
 
         }
