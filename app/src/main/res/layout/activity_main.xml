@@ -154,14 +154,9 @@
             android:layout_gravity="start"
             app:itemTextColor="@color/black"
             app:itemIconTint="@color/black"
+            android:fitsSystemWindows="true"
             app:headerLayout="@layout/navigation_header"
             app:menu="@menu/drawer_view"/>
     </LinearLayout>
-
-
-
-
-
-
 
 </androidx.drawerlayout.widget.DrawerLayout>

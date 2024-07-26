@@ -2,11 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
+
         <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/hot"
-            android:title="@string/hot"
+            android:id="@+id/nav_we"
+            android:icon="@drawable/we"
+            android:title="关于我们"
             android:checked="false"/>
+        <item
+            android:id="@+id/nav_login"
+            android:icon="@drawable/login"
+            android:title="退出登录" />
 
     </group>
+
 </menu>
