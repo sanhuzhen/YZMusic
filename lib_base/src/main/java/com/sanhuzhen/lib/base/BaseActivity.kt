@@ -34,12 +34,10 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         cancelStatusBar()
         //注入TheRouter
         TheRouter.inject(this)
-        if (isNetworkAvailable(this)){
-            afterCreate()
-        }else{
+        afterCreate()
+        if (!isNetworkAvailable(this)){
             Toast.makeText(this,"请检查网络",Toast.LENGTH_SHORT).show()
         }
-
     }
     //将状态栏设置为透明，扒的掌邮
     private fun cancelStatusBar() {

@@ -60,6 +60,8 @@ dependencies {
     implementation("androidx.media3:media3-ui:1.3.1")
     implementation("androidx.media3:media3-session:1.3.1")
     implementation("androidx.media3:media3-exoplayer:1.3.1")
+    debugImplementation("com.squareup.leakcanary:leakcanary-android:3.0-alpha-1")
+
 
     kapt("cn.therouter:apt:1.2.2")
     implementation("cn.therouter:router:1.2.2")

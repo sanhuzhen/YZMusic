@@ -89,6 +89,9 @@ class SongListActivity : BaseActivity<ActivitySonglistBinding>() {
     }
 
     private fun initSongList() {
+        if (SongList.size > 0){
+            mBinding.progressBar.visibility = android.view.View.GONE
+        }
         val mAdapter = SongListAdapter()
         mAdapter.submitList(SongList)
         mBinding.recyclerView.apply {
