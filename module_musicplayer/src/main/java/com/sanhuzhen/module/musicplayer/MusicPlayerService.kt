@@ -270,4 +270,9 @@ class MusicPlayerService : Service() {
             .build()
         startForeground(1, notification)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        player.release()
+    }
 }
