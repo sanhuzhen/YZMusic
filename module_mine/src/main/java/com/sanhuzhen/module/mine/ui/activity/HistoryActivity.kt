@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -42,8 +43,16 @@ class HistoryActivity :BaseActivity<ActivityHistoryBinding>(){
     }
     fun playall(){
         mBinding.ivAll.setOnClickListener {
-            TheRouter.build("/musicplayer/musicplayerActivity").withObject("SongList", SongLists)
-                .navigation()
+            mViewModel.mHistory.observe(this){
+                if (it.weekData.isNotEmpty()){
+                    TheRouter.build("/musicplayer/musicplayerActivity").withObject("SongList", SongLists)
+                        .navigation()
+                }
+                else{
+                    Toast.makeText(this,"你还没有播放过歌曲", Toast.LENGTH_SHORT).show()
+                }
+            }
+
         }
     }
     fun getsp(){
