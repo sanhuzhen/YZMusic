@@ -22,6 +22,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sanhuzhen.lib.base.BaseActivity
+import com.sanhuzhen.lib.base.helper.SongDataHelper
 import com.sanhuzhen.module.musicplayer.adapter.CommentAdapter
 import com.sanhuzhen.module.musicplayer.adapter.SongListAdapter
 import com.sanhuzhen.module.musicplayer.adapter.VpAdapter
@@ -396,6 +397,17 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
                 mBinding.musicRandom.setImageResource(R.drawable.shunxu)
                 Toast.makeText(this@MusicPlayerActivity, "顺序播放", Toast.LENGTH_SHORT).show()
             }
+        }
+        mBinding.musicDownload.setOnClickListener {
+            currentPosition = mBinder.getMusicPosition()
+            val dpHelper = SongDataHelper(this, "song", 1)
+            dpHelper.addBook(
+                songList[currentPosition].name,
+                songList[currentPosition].ar[0].name,
+                musicIdList[currentPosition],
+                songList[currentPosition].al.picUrl
+            )
+            Toast.makeText(this, "下载成功", Toast.LENGTH_SHORT).show()
         }
 
     }
