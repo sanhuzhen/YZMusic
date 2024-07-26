@@ -12,6 +12,8 @@ import android.widget.FrameLayout
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
+import androidx.core.view.get
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -429,6 +431,7 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>(),OnItemCli
     }
 
 
+    @SuppressLint("ResourceAsColor")
     private fun showSongListBottomSheetDialog() {
         val bottomSheetDialog = BottomSheetDialog(this)
         val bottomSheetView = layoutInflater.inflate(R.layout.songlist_bottom_sheet, null)
@@ -438,6 +441,8 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>(),OnItemCli
         recyclerView.adapter = songListAdapter
         songListAdapter.submitList(mBinder.returnMusic())
         currentPosition = mBinder.getMusicPosition()
+        recyclerView.scrollToPosition(currentPosition)
+//        recyclerView.get(currentPosition).setBackgroundColor(R.color.pink)
         bottomSheetDialog.setContentView(bottomSheetView)
         bottomSheetDialog.show()
 
