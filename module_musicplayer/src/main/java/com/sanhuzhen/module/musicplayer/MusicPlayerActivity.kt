@@ -433,17 +433,17 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>() {
 
         val recyclerView = bottomSheetView.findViewById<RecyclerView>(R.id.rv_comment)
         recyclerView.layoutManager = LinearLayoutManager(this)
-//        recyclerView.adapter = commentAdapter
-//
-//        if (musicIdList.isNotEmpty()) {
-//            currentPosition = mBinder.getMusicPosition()
-//            lifecycleScope.launch {
-//                playViewModel.getComments("0", musicIdList[currentPosition], "3")
-//                    .collectLatest { pagingData ->
-//                        commentAdapter.submitData(pagingData)
-//                    }
-//            }
-//        }
+        recyclerView.adapter = commentAdapter
+
+        if (musicIdList.isNotEmpty()) {
+            currentPosition = mBinder.getMusicPosition()
+            lifecycleScope.launch {
+                playViewModel.getComments("0", musicIdList[currentPosition], "3")
+                    .collectLatest { pagingData ->
+                        commentAdapter.submitData(pagingData)
+                    }
+            }
+        }
         bottomSheetDialog.setContentView(bottomSheetView)
         bottomSheetDialog.show()
     }
