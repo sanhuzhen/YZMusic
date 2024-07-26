@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -11,9 +11,11 @@
         android:layout_height="75dp"
         android:src="@drawable/ic_my"
         android:id="@+id/reply_img"
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@id/imageView"
         android:layout_marginTop="52dp"
-        android:layout_marginStart="144dp"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        tools:ignore="NotSibling" />
 
     <TextView
         android:layout_width="80dp"
@@ -27,12 +29,11 @@
     <LinearLayout
         android:id="@+id/layout_mine"
         android:layout_width="80dp"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         android:layout_marginStart="144dp"
         android:layout_marginTop="52dp"
         android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_centerHorizontal="true">
 
         <ImageView
             android:id="@+id/imageView"
@@ -45,23 +46,21 @@
     </LinearLayout>
     <TextView
         android:id="@+id/textView"
+        android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="游客"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="130dp"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        android:layout_below="@+id/layout_mine" />
 
     <androidx.cardview.widget.CardView
+        android:layout_marginTop="15dp"
         app:cardElevation="10dp"
         app:cardCornerRadius="30dp"
         android:layout_width="300dp"
         android:layout_height="270dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="164dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/textView"
+        >
 
         <LinearLayout
             android:id="@+id/music_favourite"
@@ -187,4 +186,4 @@
     </androidx.cardview.widget.CardView>
 
 
-</FrameLayout>
+</RelativeLayout>

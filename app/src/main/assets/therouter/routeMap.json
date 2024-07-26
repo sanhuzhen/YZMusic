@@ -40,5 +40,12 @@
     "action": "",
     "description": "",
     "params": {}
+  },
+  {
+    "path": "/login/LoginActivity",
+    "className": "com.example.module.login.ui.activity.LoginActivity",
+    "action": "",
+    "description": "",
+    "params": {}
   }
 ]

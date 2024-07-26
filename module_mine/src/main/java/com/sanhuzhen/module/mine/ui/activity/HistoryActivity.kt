@@ -3,6 +3,7 @@ package com.sanhuzhen.module.mine.ui.activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -27,7 +28,8 @@ class HistoryActivity :BaseActivity<ActivityHistoryBinding>(){
     private val SongList:MutableList<WeekData> = mutableListOf()
     private val SongLists = arrayListOf<String>()
     override fun afterCreate() {
-
+        mBinding.pbLoading.visibility= View.VISIBLE
+        mBinding.pbLoading.progress=0
         getsp()
         getitem()
         getback()
@@ -57,6 +59,8 @@ class HistoryActivity :BaseActivity<ActivityHistoryBinding>(){
         mViewModel.mHistory.observe(this){
             SongList.addAll(it.weekData)
             rvAdapter.submitList(it.weekData)
+            mBinding.pbLoading.progress=100
+            mBinding.pbLoading.visibility= View.GONE
             for (i in SongList){
                 SongLists.add(i.song.id.toString())
             }
@@ -66,6 +70,12 @@ class HistoryActivity :BaseActivity<ActivityHistoryBinding>(){
     fun getback(){
         mBinding.ivBack.setOnClickListener {
             finish()
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+        for (i in SongList){
+            SongLists.add(i.song.id.toString())
         }
     }
 }

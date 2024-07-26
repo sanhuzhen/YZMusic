@@ -1,11 +1,13 @@
 package com.sanhuzhen.module.hot.adapter
 
+import android.app.Activity
 import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -53,12 +55,17 @@ class TopListRvAdapter:ListAdapter<ListY,TopListRvAdapter.TopListHolder> (object
             topListName.text=data.name
 
             TopList.setOnClickListener {
+                val option= ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    itemView.context as Activity,
+                    topListImg,
+                    "shared_image"
+                )
                 //点击事件
                 val IntentTop=Intent(itemView.context, DetailActivity::class.java)
                 IntentTop.putExtra("id",data.id)
                 IntentTop.putExtra("name",data.name)
                 IntentTop.putExtra("img",data.coverImgUrl)
-                itemView.context.startActivity(IntentTop)
+                itemView.context.startActivity(IntentTop,option.toBundle())
             }
         }
     }

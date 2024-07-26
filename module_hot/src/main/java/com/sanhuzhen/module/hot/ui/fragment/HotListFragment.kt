@@ -21,6 +21,8 @@ class HotListFragment : BaseFragment<FragmentHotListBinding>(){
     }
 
     override fun afterCreate() {
+        mBinding.pbLoading.progress = 0
+        mBinding.pbLoading.visibility = View.VISIBLE
         getfirst()
     }
     fun getfirst(){
@@ -32,6 +34,8 @@ class HotListFragment : BaseFragment<FragmentHotListBinding>(){
         mViewModel.getHotList(90)
         mViewModel.mHotList.observe(viewLifecycleOwner){
             mAdapter.submitList(it.playlists)
+            mBinding.pbLoading.progress=100
+            mBinding.pbLoading.visibility=View.GONE
         }
     }
 }

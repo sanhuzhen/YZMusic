@@ -1,6 +1,7 @@
 package com.sanhuzhen.module.mine.ui.activity
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -22,6 +23,8 @@ class FavouriteActivity : BaseActivity<ActivityFavouriteBinding>(){
     private val SongList:MutableList<Track> = mutableListOf()
     private val SongLists = arrayListOf<String>()
     override fun afterCreate() {
+        mBinding.pbLoading.visibility= View.VISIBLE
+        mBinding.pbLoading.progress=0
         getsp()
         getitem()
         getback()
@@ -57,10 +60,20 @@ class FavouriteActivity : BaseActivity<ActivityFavouriteBinding>(){
             mViewModel.mFavourite.observe(this){
                 SongList.addAll(it.playlist.tracks)
                 rvAdapter.submitList(it.playlist.tracks)
+                mBinding.pbLoading.progress=100
+                mBinding.pbLoading.visibility= View.GONE
                 for (i in SongList) {
                     SongLists.add(i.id.toString())
                 }
             }
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        for (i in SongList) {
+            SongLists.add(i.id.toString())
         }
     }
 }

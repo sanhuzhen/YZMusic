@@ -1,23 +1,15 @@
-package com.example.module.login.ui.activity.fragment
+package com.example.module.login.ui.fragment
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import com.example.module.login.R
 import com.example.module.login.databinding.FragmentLoginBinding
 import com.example.module.login.manager.UserManager
 import com.example.module.login.viewmodel.MyViewModel
 import com.sanhuzhen.lib.base.BaseFragment
-import com.therouter.TheRouter
 
 
 class LoginFragment : BaseFragment<FragmentLoginBinding> () {

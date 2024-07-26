@@ -1,5 +1,6 @@
 package com.sanhuzhen.module.hot.adapter
 
+import android.app.Activity
 import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
@@ -53,17 +54,16 @@ class HotListRvAdapter: ListAdapter<Playlists, HotListRvAdapter.HotListHolder>(o
             }
             hotListName.text = data.name
             hotList.setOnClickListener{
-//                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-//                        itemView.context as MainActivity,
-//                        // 这里需要是Activity中的ImageView，而不是Fragment中的（除非Fragment的根视图就是ImageView）
-//                        // 实际应用中，你可能需要在Activity中设置共享元素
-//                        hotListImg, // 假设这是你在Activity中定义的ImageView
-//                        "songList")
+                val option= ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    itemView.context as Activity,
+                    hotListImg,
+                    "shared_image"
+                )
                 val IntentHot= Intent(itemView.context, DetailActivity::class.java)
                 IntentHot.putExtra("id",data.id)
                 IntentHot.putExtra("name",data.name)
                 IntentHot.putExtra("img",data.coverImgUrl)
-                itemView.context.startActivity(IntentHot)
+                itemView.context.startActivity(IntentHot,option.toBundle())
             }
         }
     }

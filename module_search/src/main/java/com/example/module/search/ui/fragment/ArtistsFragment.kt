@@ -42,9 +42,16 @@ class ArtistsFragment : Fragment(){
             adapter = rvAdapter
         }
        sharedVIewModel.someData.observe(viewLifecycleOwner) {
+           mBinding.pbLoading.visibility=View.VISIBLE
            artistsViewModel.getArtistsData(sharedVIewModel.someData.value!!, 100)
            artistsViewModel.artistsData.observe(viewLifecycleOwner) {
+               mBinding.pbLoading.progress=0
+               if (it.result.artists.isNotEmpty()){
+                   mBinding.pbLoading.visibility=View.GONE
+               }
                rvAdapter.submitList(it.result.artists)
+               mBinding.pbLoading.progress=100
+               mBinding.pbLoading.visibility=View.GONE
                Log.d("ArtistsFragment", "onViewCreated: ${it.result.artists}")
            }
            Log.d("ArtistsFragment", "onViewCreated: ${sharedVIewModel.someData.value}")

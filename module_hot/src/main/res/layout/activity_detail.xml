@@ -60,6 +60,14 @@
             android:id="@+id/tv_all"
             android:textSize="20sp"
             android:textColor="@color/black"/>
+        <ProgressBar
+            android:layout_marginTop="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/CustomIndeterminateProgressBar"
+            android:progress="0"
+            android:max="100"
+            android:id="@+id/pb_loading"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"

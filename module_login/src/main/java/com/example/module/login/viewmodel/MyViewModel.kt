@@ -1,5 +1,6 @@
 package com.example.module.login.viewmodel
 
+import android.accounts.Account
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,10 +12,13 @@ import io.reactivex.rxjava3.disposables.Disposable
 
 class MyViewModel:ViewModel() {
     private val num=MutableLiveData<MyData>()
+    private val num1=MutableLiveData<Long>()
 
 
     val _num: LiveData<MyData>
         get() = num
+    val _num1: LiveData<Long>
+        get() = num1
 
     fun getNum(email:String,password:String){
         NetRepositoryPhone.getSearchDataEmail(email,password).subscribe(object : Observer<MyData>{
@@ -92,7 +96,8 @@ class MyViewModel:ViewModel() {
             }
 
             override fun onNext(t: MyData) {
-                num.postValue(t)
+                num1.postValue(t.account.id)
+                Log.d("you666","$t")
             }
         })
     }

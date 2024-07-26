@@ -1,6 +1,8 @@
 package com.sanhuzhen.module.hot.ui.activity
 
 import android.os.Bundle
+import android.transition.TransitionInflater
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -24,6 +26,10 @@ class DetailActivity :BaseActivity<ActivityDetailBinding>(){
     private val SongList:MutableList<Track> = mutableListOf()
     private val SongLists = arrayListOf<String>()
     override fun afterCreate() {
+        window.sharedElementEnterTransition = TransitionInflater.from(this).inflateTransition(R.transition.shared_element_transition)
+        window.sharedElementReturnTransition = TransitionInflater.from(this).inflateTransition(R.transition.shared_element_transition)
+        mBinding.pbLoading.progress=0
+        mBinding.pbLoading.visibility= View.VISIBLE
         playAll()
         getfirst()
     }
@@ -56,6 +62,8 @@ class DetailActivity :BaseActivity<ActivityDetailBinding>(){
         mViewModel.mSongList.observe(this){
             SongList.addAll(it.playlist.tracks)
             mRvAdapter.submitList(it.playlist.tracks)
+            mBinding.pbLoading.progress=100
+            mBinding.pbLoading.visibility= View.GONE
             for (i in SongList) {
                 SongLists.add(i.id.toString())
             }
@@ -65,6 +73,13 @@ class DetailActivity :BaseActivity<ActivityDetailBinding>(){
         mBinding.ivAll.setOnClickListener {
             TheRouter.build("/musicplayer/musicplayerActivity").withObject("SongList", SongLists)
                 .navigation()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        for (i in SongList) {
+            SongLists.add(i.id.toString())
         }
 
     }
