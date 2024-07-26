@@ -1,11 +1,8 @@
-package com.example.module.login.ui.activity.activity
+package com.example.module.login.ui.activity
 
-import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.module.login.adapter.VpAdapter
 import com.example.module.login.databinding.ActivityLoginBinding
-import com.example.module.login.viewmodel.MyViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sanhuzhen.lib.base.BaseActivity
 import com.therouter.router.Route

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context=".ui.activity.fragment.VisitFragment">
+    tools:context=".ui.fragment.VisitFragment">
 
 <Button
     android:layout_width="match_parent"
