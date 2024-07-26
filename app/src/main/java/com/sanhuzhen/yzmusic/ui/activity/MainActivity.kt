@@ -158,6 +158,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(),OnItemClickListener {
         recyclerView.adapter = songListAdapter
         songListAdapter.submitList(mBinder.returnMusic())
         currentPosition = mBinder.getMusicPosition()
+        recyclerView.scrollToPosition(currentPosition)
         bottomSheetDialog.setContentView(bottomSheetView)
         bottomSheetDialog.show()
     }
