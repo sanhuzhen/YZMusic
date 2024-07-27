@@ -1,5 +1,6 @@
 package com.sanhuzhen.module.songlist.ui.activity
 
+import android.graphics.Color
 import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
