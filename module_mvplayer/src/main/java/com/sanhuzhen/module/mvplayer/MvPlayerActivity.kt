@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +19,11 @@ import com.sanhuzhen.module.mvplayer.viewmodel.BaseViewModel
 import com.therouter.router.Autowired
 import com.therouter.router.Route
 import xyz.doikki.videocontroller.StandardVideoController
+import xyz.doikki.videocontroller.component.CompleteView
+import xyz.doikki.videocontroller.component.ErrorView
+import xyz.doikki.videocontroller.component.GestureView
+import xyz.doikki.videocontroller.component.VodControlView
+import xyz.doikki.videoplayer.player.VideoView
 
 
 /**
@@ -50,7 +56,6 @@ class MvPlayerActivity : BaseActivity<ActivityMvplayerBinding>() {
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
-
         }
 
     }
@@ -82,7 +87,21 @@ class MvPlayerActivity : BaseActivity<ActivityMvplayerBinding>() {
             controller.addDefaultControlComponent("MV", false)
             mBinding.player.setVideoController(controller)
             mBinding.player.setUrl(it.data.url)
-            mBinding.player.setVisibilityBottom(0,0,0,0)
+            mBinding.player.setOnUpSetClickListener{
+                Toast.makeText(this, "功能暂不可用", Toast.LENGTH_SHORT).show()
+            }
+            mBinding.player.setOnDownSetClickListener{
+                Toast.makeText(this, "功能暂不可用", Toast.LENGTH_SHORT).show()
+            }
+            mBinding.player.setOnSelectClickListener{
+                Toast.makeText(this, "功能暂不可用", Toast.LENGTH_SHORT).show()
+            }
+            mBinding.player.setOnWindowClickListener{
+                Toast.makeText(this, "功能暂不可用", Toast.LENGTH_SHORT).show()
+            }
+            mBinding.player.setOnScreenClickListener{
+                Toast.makeText(this, "功能暂不可用", Toast.LENGTH_SHORT).show()
+            }
             mBinding.player.start()
         }
     }
