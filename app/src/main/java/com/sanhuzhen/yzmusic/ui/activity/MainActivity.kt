@@ -9,6 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.ServiceConnection
+import android.graphics.Color
 import android.os.IBinder
 import android.util.Log
 import android.view.animation.LinearInterpolator
@@ -322,6 +323,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(),OnItemClickListener {
         } else {
             Log.e("MainActivity", "Invalid currentPosition or empty musicDetail list.")
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (animator != null) {
+            animator?.cancel()
+            animator = null
+        }
+        stopService(Intent(this, MusicPlayerService::class.java))
+        unbindService(connection)
     }
 
     override fun onItemClick(position: Int) {
