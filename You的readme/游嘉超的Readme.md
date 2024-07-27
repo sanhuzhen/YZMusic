@@ -24,7 +24,7 @@
 
 该模块主要是使用了bottomNavigationView+ViewPaper2搭建底部导航栏，以及使用了DrawerLayout+NavigationView实现抽屉式布局，以及绑定了MusicPlayerService实现了网易云类似音乐小窗播放器，以及使用了bottomsheetdialog实现了播放列表的效果（点击可以切歌）。
 
-<img src="D:\通用\gif\13366470843345238.gif" style="zoom:80%;" />
+![](https://github.com/sanhuzhen/YZMusic/blob/YJC/You%E7%9A%84readme/13366470843345238.gif?raw=true)
 
 ### lib_base模块
 
@@ -38,7 +38,7 @@
 
 下拉刷新则是利用SwipeRefreshLayout布局实现，在改个颜色就完成了
 
-<img src="D:\通用\gif\13366471590853970.gif" style="zoom:80%;" />
+![](https://github.com/sanhuzhen/YZMusic/blob/YJC/You%E7%9A%84readme/13366471590853970.gif?raw=true)
 
 ### module_songlist模块
 
@@ -46,11 +46,11 @@
 
 建立这个模块的初衷是因为太多地方要用到一样的内容，想着跟我队友一起用这里面的一些布局，但我队友没用（哭）。（不知道是不是跨模块的原因，元素共享动画会出一些bug，所以就没有用）。
 
-<img src="D:\通用\gif\13366472101506769.gif" style="zoom:80%;" />
+![](https://github.com/sanhuzhen/YZMusic/blob/YJC/You%E7%9A%84readme/13366472101506769.gif?raw=true)
 
 
 
-<img src="D:\FFOutput\WeChat_20240727093006 00_00_00-00_00_30.gif" style="zoom:80%;" />
+![](https://github.com/sanhuzhen/YZMusic/blob/YJC/You%E7%9A%84readme/WeChat_20240727093006%2000_00_00-00_00_30.gif?raw=true)
 
 ### module_musicplayer模块
 
@@ -68,9 +68,9 @@
 - 进度条跟随播放进度、拖动进度条改变播放进度、音频基本信息的更新展示
 - 评论这一块简单使用了flow和paging3，用来刷新数据
 
-<img src="D:\FFOutput\WeChat_20240727102315 00_00_00-00_00_30.gif" style="zoom:67%;" />
+![](https://github.com/sanhuzhen/YZMusic/blob/YJC/You%E7%9A%84readme/WeChat_20240727102315%2000_00_00-00_00_30.gif?raw=true)
 
-<img src="D:\FFOutput\WeChat_20240727101943 00_00_00-00_00_30.gif" style="zoom:67%;" />
+![](https://github.com/sanhuzhen/YZMusic/blob/YJC/You%E7%9A%84readme/WeChat_20240727101943%2000_00_00-00_00_30.gif?raw=true)
 
 ## 个人感悟
 
