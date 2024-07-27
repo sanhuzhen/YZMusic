@@ -83,14 +83,6 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>(),OnItemCli
         VpAdapter(this)
     }
 
-    companion object {
-        private var instance: MusicPlayerActivity? = null
-
-        fun getInstance(): MusicPlayerActivity? {
-            return instance
-        }
-    }
-
     /**
      * Service和Activity的通信
      */
@@ -137,7 +129,6 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>(),OnItemCli
 
     override fun afterCreate() {
         Log.d("you", "afterCreate: $musicIdList")
-        instance = this
         initService()
         commentAdapter = CommentAdapter()
         songListAdapter = SongListAdapter(this)
@@ -494,7 +485,6 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>(),OnItemCli
 
     override fun onDestroy() {
         super.onDestroy()
-        instance = null
         unbindService(connection)
         //移除更新进度条的任务，避免内存泄漏
         handler.removeCallbacks(updateSeekBarRunnable)
