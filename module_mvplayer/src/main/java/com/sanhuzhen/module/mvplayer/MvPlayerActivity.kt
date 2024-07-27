@@ -56,7 +56,6 @@ class MvPlayerActivity : BaseActivity<ActivityMvplayerBinding>() {
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
-
         }
 
     }

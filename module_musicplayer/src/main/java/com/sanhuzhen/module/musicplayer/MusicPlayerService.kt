@@ -290,5 +290,6 @@ class MusicPlayerService : Service() {
     override fun onDestroy() {
         super.onDestroy()
         player.release()
+        musicBinder.clear()
     }
 }

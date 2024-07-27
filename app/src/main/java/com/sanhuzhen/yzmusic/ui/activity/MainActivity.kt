@@ -3,13 +3,10 @@ package com.sanhuzhen.yzmusic.ui.activity
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.app.AlertDialog
-import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.content.ServiceConnection
-import android.graphics.Color
 import android.os.IBinder
 import android.util.Log
 import android.view.animation.LinearInterpolator
@@ -36,25 +33,13 @@ import com.sanhuzhen.yzmusic.adapter.VpAdapter
 import com.sanhuzhen.yzmusic.databinding.ActivityMainBinding
 import com.therouter.TheRouter
 
-/**
- * @author: sanhuzhen
- * @date: 2024/7/14
- * @description:
- */
-class MainActivity : BaseActivity<ActivityMainBinding>(),OnItemClickListener {
-    private lateinit var mBinder: MusicPlayerService.MusicBinder
-
-    private var animator: ObjectAnimator? = null // 旋转动画
-
+class MainActivity : BaseActivity<ActivityMainBinding>(), OnItemClickListener {
+    private var mBinder: MusicPlayerService.MusicBinder? = null
+    private var animator: ObjectAnimator? = null
     private lateinit var songListAdapter: SongListAdapter
-
     private val mViewModel by lazy {
         ViewModelProvider(this)[BaseViewModel::class.java]
     }
-
-    /**
-     * 音乐的信息
-     */
     private var musicDetail = arrayListOf<Song>()
     private var currentPosition = 0
 
@@ -62,75 +47,74 @@ class MainActivity : BaseActivity<ActivityMainBinding>(),OnItemClickListener {
         return ActivityMainBinding.inflate(layoutInflater)
     }
 
-    /**
-     * Service和Activity的通信
-     */
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             mBinder = service as MusicPlayerService.MusicBinder
-            if (mBinder.getPlayWhenReady()) {
-                mBinding.musicIvPlay.setImageResource(R.drawable.music_open)
-            } else {
-                mBinding.musicIvPlay.setImageResource(R.drawable.music_close)
-            }
-            mBinder.getPlayer().addListener(object : Player.Listener {
-                override fun onPlaybackStateChanged(playbackState: Int) {
-                    Log.d("MusicPlayerService", "onPlaybackStateChanged: $playbackState")
-                    when (playbackState) {
-                        Player.STATE_ENDED -> {
-                            if (mBinder.getPlayer().repeatMode == Player.REPEAT_MODE_OFF) {
-                                musicDetail = mBinder.returnMusic()
-                                Log.d("MainActivity", "onPlaybackStateChanged: ${musicDetail}")
-                                currentPosition = mBinder.getMusicPosition()
-                                if (musicDetail.isNotEmpty() && currentPosition >= 0 && currentPosition < musicDetail.size) {
-                                    handleMusicPlaybackComplete()
+            mBinder?.let { binder ->
+                if (binder.getPlayWhenReady()) {
+                    mBinding.musicIvPlay.setImageResource(R.drawable.music_open)
+                } else {
+                    mBinding.musicIvPlay.setImageResource(R.drawable.music_close)
+                }
+                binder.getPlayer().addListener(object : Player.Listener {
+                    override fun onPlaybackStateChanged(playbackState: Int) {
+                        Log.d("MusicPlayerService", "onPlaybackStateChanged: $playbackState")
+                        when (playbackState) {
+                            Player.STATE_ENDED -> {
+                                if (binder.getPlayer().repeatMode == Player.REPEAT_MODE_OFF) {
+                                    musicDetail = binder.returnMusic()
+                                    Log.d("MainActivity", "onPlaybackStateChanged: ${musicDetail}")
+                                    currentPosition = binder.getMusicPosition()
+                                    if (musicDetail.isNotEmpty() && currentPosition >= 0 && currentPosition < musicDetail.size) {
+                                        handleMusicPlaybackComplete()
+                                    } else {
+                                        Log.e(
+                                            "MainActivity",
+                                            "Invalid currentPosition or empty musicDetail list."
+                                        )
+                                    }
                                 } else {
-                                    Log.e(
-                                        "MainActivity",
-                                        "Invalid currentPosition or empty musicDetail list."
-                                    )
+                                    binder.seekTo(0)
                                 }
-                            } else {
-                                mBinder.seekTo(0)
                             }
                         }
                     }
-                }
-            })
-
+                })
+            }
         }
 
-        override fun onServiceDisconnected(name: ComponentName?) {}
+        override fun onServiceDisconnected(name: ComponentName?) {
+            mBinder = null
+        }
     }
 
     override fun afterCreate() {
         songListAdapter = SongListAdapter(this)
-        // 底部导航栏
         initBottomNav()
-        // 抽屉式菜单
         initNavigationView()
         initEvent()
         bindService()
         initMusic()
     }
 
-    // 固定一下播放栏的一些UI点击事件
     private fun initMusic() {
         mBinding.musicIvPlay.setOnClickListener {
-            if (mBinder.getPlayWhenReady()) {
-                mBinding.musicIvPlay.setImageResource(R.drawable.music_close)
-                mBinder.stopMusic()
-                animator?.pause()
-            } else {
-                if (musicDetail.isEmpty()) {
-                    Toast.makeText(this@MainActivity, "请先添加歌曲", Toast.LENGTH_SHORT).show()
+            mBinder?.let { binder ->
+                if (binder.getPlayWhenReady()) {
+                    mBinding.musicIvPlay.setImageResource(R.drawable.music_close)
+                    binder.stopMusic()
+                    animator?.pause()
                 } else {
-                    mBinding.musicIvPlay.setImageResource(R.drawable.music_open)
-                    mBinder.playMusic()
-                    if (animator == null) {
-                        RecordRotation()
+                    if (musicDetail.isEmpty()) {
+                        Toast.makeText(this@MainActivity, "请先添加歌曲", Toast.LENGTH_SHORT).show()
                     } else {
-                        animator?.resume()
+                        mBinding.musicIvPlay.setImageResource(R.drawable.music_open)
+                        binder.playMusic()
+                        if (animator == null) {
+                            RecordRotation()
+                        } else {
+                            animator?.resume()
+                        }
                     }
                 }
             }
@@ -143,7 +127,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(),OnItemClickListener {
         mBinding.musicIvList.setOnClickListener {
             showSongListBottomSheetDialog()
         }
-
     }
 
     private fun showSongListBottomSheetDialog() {
@@ -157,14 +140,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(),OnItemClickListener {
             bottomSheetView.findViewById<RecyclerView>(com.sanhuzhen.module.musicplayer.R.id.rv_singlist)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = songListAdapter
-        songListAdapter.submitList(mBinder.returnMusic())
-        currentPosition = mBinder.getMusicPosition()
+        songListAdapter.submitList(mBinder?.returnMusic())
+        currentPosition = mBinder?.getMusicPosition() ?: 0
         recyclerView.scrollToPosition(currentPosition)
         bottomSheetDialog.setContentView(bottomSheetView)
         bottomSheetDialog.show()
     }
 
-    // Service绑定
     private fun bindService() {
         val intent = Intent(this, MusicPlayerService::class.java)
         startService(intent)
@@ -172,7 +154,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(),OnItemClickListener {
     }
 
     private fun initBottomNav() {
-        // Vp2设置
         mBinding.mainVp2.apply {
             adapter = VpAdapter(this@MainActivity)
             registerOnPageChangeCallback(object :
@@ -182,10 +163,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(),OnItemClickListener {
                     mBinding.mainNav.menu.getItem(position).isChecked = true
                 }
             })
-            // 禁止滑动
             isUserInputEnabled = false
         }
-        // Nav设置
         mBinding.mainNav.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.menu_nav_home -> mBinding.mainVp2.currentItem = 0
@@ -217,7 +196,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(),OnItemClickListener {
                 userImage.setImageResource(R.drawable.ic_my)
                 userName.text = "游客"
                 userId.text = "不登录，看啥ID"
-
             }
         }
         mBinding.mainNavView.setNavigationItemSelectedListener {
@@ -243,7 +221,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(),OnItemClickListener {
                         }
                         val dialog = builder.create()
                         dialog.show()
-
                     }
                 }
 
@@ -263,51 +240,50 @@ class MainActivity : BaseActivity<ActivityMainBinding>(),OnItemClickListener {
 
     override fun onRestart() {
         super.onRestart()
-        musicDetail = mBinder.returnMusic()
-        Log.d("onRestart", "$musicDetail")
-        if (musicDetail.isNotEmpty()) {
-            currentPosition = mBinder.getMusicPosition()
-            mBinding.apply {
-                musicTvName.text = musicDetail[currentPosition].name
-                var musicAr = ""
-                for (i in musicDetail[currentPosition].ar) {
-                    musicAr += i.name + " "
-                }
-                musicTvArtist.text = musicAr
-                Glide.with(this@MainActivity).load(musicDetail[currentPosition].al.picUrl)
-                    .transform(CenterCrop(), RoundedCorners(360)).into(musicIv)
-                if (mBinding.musicTvName.length() > 5) {
-                    val marqueeTextView = mBinding.musicTvName
-                    marqueeTextView.isSelected = true
+        mBinder?.let { binder ->
+            musicDetail = binder.returnMusic()
+            Log.d("onRestart", "$musicDetail")
+            if (musicDetail.isNotEmpty()) {
+                currentPosition = binder.getMusicPosition()
+                mBinding.apply {
+                    musicTvName.text = musicDetail[currentPosition].name
+                    var musicAr = ""
+                    for (i in musicDetail[currentPosition].ar) {
+                        musicAr += i.name + " "
+                    }
+                    musicTvArtist.text = musicAr
+                    Glide.with(this@MainActivity).load(musicDetail[currentPosition].al.picUrl)
+                        .transform(CenterCrop(), RoundedCorners(360)).into(musicIv)
+                    if (mBinding.musicTvName.length() > 5) {
+                        val marqueeTextView = mBinding.musicTvName
+                        marqueeTextView.isSelected = true
+                    }
                 }
             }
-        }
-        if (mBinder.getPlayWhenReady()) {
-            mBinding.musicIvPlay.setImageResource(R.drawable.music_open)
-            if (animator == null) {
-                RecordRotation()
+            if (binder.getPlayWhenReady()) {
+                mBinding.musicIvPlay.setImageResource(R.drawable.music_open)
+                if (animator == null) {
+                    RecordRotation()
+                } else {
+                    animator?.resume()
+                }
             } else {
-                animator?.resume()
+                mBinding.musicIvPlay.setImageResource(R.drawable.music_close)
+                animator?.pause()
             }
-        } else {
-            mBinding.musicIvPlay.setImageResource(R.drawable.music_close)
-            animator?.pause()
         }
     }
 
-    // 旋转动画
     private fun RecordRotation() {
-        // 打碟效果
         animator = ObjectAnimator.ofFloat(mBinding.musicIv, "rotation", 0f, 360f).apply {
-            duration = 20000 // 旋转时间
-            interpolator = LinearInterpolator() // 匀速
-            repeatCount = ValueAnimator.INFINITE // 设置动画重复次数(-1代表一直转)
-            repeatMode = ValueAnimator.RESTART // 动画重复模式
-            start() // 动画启动
+            duration = 20000
+            interpolator = LinearInterpolator()
+            repeatCount = ValueAnimator.INFINITE
+            repeatMode = ValueAnimator.RESTART
+            start()
         }
     }
 
-    // 更新音乐结束后的播放栏的UI信息
     private fun handleMusicPlaybackComplete() {
         if (musicDetail.isNotEmpty() && currentPosition >= 0 && currentPosition < musicDetail.size) {
             mBinding.apply {
@@ -327,16 +303,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(),OnItemClickListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (animator != null) {
-            animator?.cancel()
-            animator = null
-        }
+        animator?.cancel()
+        animator = null
+        mBinder = null
         stopService(Intent(this, MusicPlayerService::class.java))
         unbindService(connection)
     }
 
     override fun onItemClick(position: Int) {
-        mBinder.changeMusicInfo(position)
+        mBinder?.changeMusicInfo(position)
         currentPosition = position
         if (musicDetail.isNotEmpty() && currentPosition >= 0 && currentPosition < musicDetail.size) {
             mBinding.apply {
