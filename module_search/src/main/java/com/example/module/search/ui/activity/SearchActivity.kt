@@ -41,16 +41,16 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
         mBinding.searchBack.setOnClickListener{
             finish()
         }
-
+        mBinding.searchEdit.setIconifiedByDefault(false)
         mBinding.searchBtn.setOnClickListener {
             keywords = mBinding.searchEdit.query.toString()
             if(TextUtils.isEmpty(keywords)){
                 Toast.makeText(this,"搜索不能为空",Toast.LENGTH_SHORT).show()
             }
             else {
-
                 sharedVIewModel.setData(keywords!!)
                 Log.d("SearchActivity", "afterCreate: $keywords")
+                mBinding.searchEdit.clearFocus()
             }
 
         }

@@ -191,12 +191,7 @@ class MineFragment : BaseFragment<FragmentMineBinding>() {
 
     fun getDownloads() {
         mBinding.musicDownloads.setOnClickListener {
-            if (MyId?.toInt() == 0) {
-                Toast.makeText(this.requireContext(), "请先登录", Toast.LENGTH_SHORT).show()
-                TheRouter.build("/login/LoginActivity").navigation()
-            } else {
                 startActivity(Intent(this.requireContext(), DownloadsActivity::class.java))
-            }
         }
     }
 

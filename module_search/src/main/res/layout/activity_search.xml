@@ -30,7 +30,7 @@
             android:layout_marginBottom="0dp"
             android:layout_weight="5"
             android:background="@drawable/tap"
-            android:hint="请输入搜索内容"
+            app:queryHint="请输入搜索内容"
             android:inputType="text"
             android:textColor="@color/black"
             android:textSize="20sp" />
