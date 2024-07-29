@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.sanhuzhen.lib.base.BaseFragment
 import com.sanhuzhen.module.hot.R
@@ -26,7 +27,7 @@ class HotListFragment : BaseFragment<FragmentHotListBinding>(){
         getfirst()
     }
     fun getfirst(){
-        val LayoutManager=StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL)
+        val LayoutManager= GridLayoutManager(this.requireContext(),3)
         mBinding.rvHotList.apply {
             adapter=mAdapter
             layoutManager=LayoutManager

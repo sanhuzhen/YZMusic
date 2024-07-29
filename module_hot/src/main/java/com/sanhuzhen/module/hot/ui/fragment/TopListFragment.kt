@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.sanhuzhen.lib.base.BaseFragment
@@ -28,7 +29,7 @@ class TopListFragment : BaseFragment<FragmentTopListBinding>() {
     }
     fun getFirst(){
         mBinding.rvTopList.adapter=mAdapter
-        val layoutManager=StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
+        val layoutManager= GridLayoutManager(this.requireContext(),2)
         mBinding.rvTopList.layoutManager=layoutManager
         mViewModel.getTopList()
         mViewModel.mTopList.observe(viewLifecycleOwner){
