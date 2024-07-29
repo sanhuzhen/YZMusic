@@ -47,7 +47,7 @@ import kotlin.math.log
  * @description: 音乐播放器
  */
 @Route(path = "/musicplayer/musicplayerActivity")
-class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>(),OnItemClickListener {
+class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>(), OnItemClickListener {
 
     @Autowired(name = "SongList")
     @JvmField
@@ -331,6 +331,13 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>(),OnItemCli
                     mBinding.musicPlay.setImageResource(R.drawable.music_open)
                     playViewModel.isPlay(true)
                 }
+                val prefs = getPreferences(Context.MODE_PRIVATE)
+                val isLike = prefs.getBoolean("${musicIdList[currentPosition]}", false)
+                if (isLike == true) {
+                    mBinding.musicLike.setImageResource(R.drawable.red_heart)
+                } else {
+                    mBinding.musicLike.setImageResource(R.drawable.heart)
+                }
                 playViewModel.getSongDetail(musicIdList[currentPosition])
                 playViewModel.getSongLyric(musicIdList[currentPosition])
             }
@@ -346,6 +353,13 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>(),OnItemCli
                 if (!mBinder.getPlayWhenReady()) {
                     mBinding.musicPlay.setImageResource(R.drawable.music_open)
                     playViewModel.isPlay(true)
+                }
+                val prefs = getPreferences(Context.MODE_PRIVATE)
+                val isLike = prefs.getBoolean("${musicIdList[currentPosition]}", false)
+                if (isLike == true) {
+                    mBinding.musicLike.setImageResource(R.drawable.red_heart)
+                } else {
+                    mBinding.musicLike.setImageResource(R.drawable.heart)
                 }
                 playViewModel.getSongDetail(musicIdList[currentPosition])
                 playViewModel.getSongLyric(musicIdList[currentPosition])
@@ -410,15 +424,22 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>(),OnItemCli
             }
         }
         mBinding.musicDownload.setOnClickListener {
-            currentPosition = mBinder.getMusicPosition()
-            val dpHelper = SongDataHelper(this, "song", 1)
-            dpHelper.addBook(
-                songList[currentPosition].name,
-                songList[currentPosition].ar[0].name,
-                musicIdList[currentPosition],
-                songList[currentPosition].al.picUrl
-            )
-            Toast.makeText(this, "下载成功", Toast.LENGTH_SHORT).show()
+            if (musicIdList.isEmpty()) {
+                Toast.makeText(this@MusicPlayerActivity, "好像还没有歌曲播放哟", Toast.LENGTH_SHORT)
+                    .show()
+                return@setOnClickListener
+            } else {
+                currentPosition = mBinder.getMusicPosition()
+                val dpHelper = SongDataHelper(this, "song", 1)
+                dpHelper.addBook(
+                    songList[currentPosition].name,
+                    songList[currentPosition].ar[0].name,
+                    musicIdList[currentPosition],
+                    songList[currentPosition].al.picUrl
+                )
+                Toast.makeText(this, "下载成功", Toast.LENGTH_SHORT).show()
+            }
+
         }
 
     }
