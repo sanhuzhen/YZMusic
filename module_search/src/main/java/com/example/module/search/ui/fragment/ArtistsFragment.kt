@@ -4,7 +4,9 @@ package com.example.module.search.ui.fragment
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
+import android.view.ViewConfiguration
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -20,6 +22,12 @@ import com.sanhuzhen.lib.base.BaseFragment
 
 
 class ArtistsFragment : Fragment(){
+    var startX = 0f
+    var startY = 0f
+
+    private val touchSlop: Int by lazy {
+        ViewConfiguration.get(requireContext()).scaledTouchSlop
+    }
     private val mBinding: FragmentArtistsBinding by lazy { FragmentArtistsBinding.inflate(layoutInflater) }
     private val rvAdapter: ArtistsRvAdapter by lazy { ArtistsRvAdapter() }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +45,34 @@ class ArtistsFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
         val sharedVIewModel: SharedVIewModel by lazy { ViewModelProvider(requireActivity())[SharedVIewModel::class.java] }
         val artistsViewModel: ArtistsViewModel by lazy { ViewModelProvider(this)[ArtistsViewModel::class.java] }
-        mBinding.recyclerViewArtists.apply {
+        mBinding.recyclerViewArtists.apply {setOnTouchListener { v, event ->
+            when (event.actionMasked) {
+                MotionEvent.ACTION_DOWN -> {
+                    startX = event.x
+                    startY = event.y
+                    v.parent.requestDisallowInterceptTouchEvent(true)
+                }
+
+                MotionEvent.ACTION_MOVE -> {
+                    val dx = kotlin.math.abs(event.x - startX)
+                    val dy = kotlin.math.abs(event.y - startY)
+                    if (dx > dy) {
+                        v.parent.requestDisallowInterceptTouchEvent(false)
+                    } else {
+                        v.parent.requestDisallowInterceptTouchEvent(true)
+                    }
+                }
+
+                MotionEvent.ACTION_UP -> {
+                    val dx = kotlin.math.abs(event.x - startX)
+                    val dy = kotlin.math.abs(event.y - startY)
+                    if (dx < touchSlop && dy < touchSlop) {
+                        v.performClick()
+                    }
+                }
+            }
+            false
+        }
             layoutManager = LinearLayoutManager(this@ArtistsFragment.context)
             adapter = rvAdapter
         }
