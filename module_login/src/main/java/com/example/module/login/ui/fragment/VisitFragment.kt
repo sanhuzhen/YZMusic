@@ -7,7 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.module.login.databinding.FragmentVisitBinding
-import com.example.module.login.manager.UserManager
+//import com.example.module.login.manager.UserManager
 import com.example.module.login.viewmodel.MyViewModel
 import com.sanhuzhen.lib.base.BaseFragment
 
@@ -20,7 +20,7 @@ class VisitFragment : BaseFragment<FragmentVisitBinding>() {
     }
 
     override fun afterCreate() {
-        UserManager.initialize(requireContext())
+       // UserManager.initialize(requireContext())
         getAnswer()
         getknown()
     }

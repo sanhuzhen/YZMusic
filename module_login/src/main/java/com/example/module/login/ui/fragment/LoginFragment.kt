@@ -7,7 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.module.login.databinding.FragmentLoginBinding
-import com.example.module.login.manager.UserManager
+//import com.example.module.login.manager.UserManager
 import com.example.module.login.viewmodel.MyViewModel
 import com.sanhuzhen.lib.base.BaseFragment
 
@@ -23,7 +23,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding> () {
      }
 
      override fun afterCreate() {
-         UserManager.initialize(requireContext())
+         //UserManager.initialize(requireContext())
          getAnswer()
          getknown()
      }
