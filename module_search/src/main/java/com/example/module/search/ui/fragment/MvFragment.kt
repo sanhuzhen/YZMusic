@@ -1,6 +1,8 @@
 package com.example.module.search.ui.fragment
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,6 +18,7 @@ import com.example.module.search.databinding.FragmentMvBinding
 import com.example.module.search.viewmodel.MvViewModel
 import com.example.module.search.viewmodel.SharedVIewModel
 import com.sanhuzhen.lib.base.BaseFragment
+import kotlin.concurrent.thread
 
 class MvFragment : BaseFragment<FragmentMvBinding>(){
     var startX = 0f
@@ -32,9 +35,9 @@ class MvFragment : BaseFragment<FragmentMvBinding>(){
     }
 
     override fun afterCreate() {
-
         initRv()
     }
+
     fun initRv(){
         mBinding.rvMv.apply {
             layoutManager = LinearLayoutManager(this@MvFragment.context)

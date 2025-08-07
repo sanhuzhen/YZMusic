@@ -26,6 +26,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.sanhuzhen.lib.base.BaseActivity
 import com.sanhuzhen.lib.base.helper.SongDataHelper
 import com.sanhuzhen.module.musicplayer.adapter.CommentAdapter
+import com.sanhuzhen.module.musicplayer.adapter.SingerAdapter
 import com.sanhuzhen.module.musicplayer.adapter.SongListAdapter
 import com.sanhuzhen.module.musicplayer.adapter.VpAdapter
 import com.sanhuzhen.module.musicplayer.bean.Song
@@ -116,6 +117,7 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>(), OnItemCl
                     } else if (formatTime(duration).length <= 5) {
                         mBinding.musicTimeTotal.text = formatTime(duration)
                     }
+                    playViewModel.updatePlaybackPosition(currentPosition)
                 }
             }
             //每隔1秒更新进度条
@@ -372,6 +374,7 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>(), OnItemCl
                 if (fromUser) {
                     mBinder.seekTo(progress.toLong())
                     mBinding.musicTimeCurrent.text = formatTime(progress.toLong())
+                    playViewModel.updatePlaybackPosition(progress.toLong())
                 }
             }
 

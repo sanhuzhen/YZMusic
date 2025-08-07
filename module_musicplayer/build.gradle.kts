@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.sanhuzhen.module.musicplayer"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
 //        applicationId = "com.sanhuzhen.module.musicplayer"
@@ -53,6 +53,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.github.bumptech.glide:glide:4.12.0")
     implementation("com.github.bumptech.glide:compiler:4.12.0")
+    implementation(libs.androidx.ui.graphics.android)
     kapt("cn.therouter:apt:1.2.2")
     implementation("cn.therouter:router:1.2.2")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")

@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.sanhuzhen.yzmusic"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.sanhuzhen.yzmusic"

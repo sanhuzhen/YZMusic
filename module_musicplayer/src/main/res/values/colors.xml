@@ -5,4 +5,7 @@
     <color name="Gainsboro">#C0C0C0</color>
     <color name="font_losecoupon">#999999</color>
     <color name="pink">#F8E4EB</color>
+    <color name="lyric_highlight">#00C853</color>
+    <color name="lyric_highlight_bg">#2200C853</color>
+    <color name="lyric_normal">#90CAF9</color>
 </resources>
