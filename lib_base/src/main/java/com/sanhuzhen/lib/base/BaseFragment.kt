@@ -13,7 +13,7 @@ import com.therouter.TheRouter
  * @date: 2024/7/14
  * @description:
  */
-abstract class BaseFragment<VB: ViewBinding> : Fragment() {
+abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     abstract fun getViewBinding(): VB
     abstract fun afterCreate()
@@ -21,13 +21,14 @@ abstract class BaseFragment<VB: ViewBinding> : Fragment() {
     private var _binding: VB? = null
     protected val mBinding: VB
         get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = getViewBinding()
-        return _binding?.root
+        return mBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

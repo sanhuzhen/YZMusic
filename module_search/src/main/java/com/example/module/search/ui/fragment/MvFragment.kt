@@ -1,24 +1,16 @@
 package com.example.module.search.ui.fragment
 
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
-import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.module.search.R
 import com.example.module.search.adapter.MvRvAdapter
-import com.example.module.search.databinding.FragmentMvBinding
 import com.example.module.search.viewmodel.MvViewModel
 import com.example.module.search.viewmodel.SharedVIewModel
 import com.sanhuzhen.lib.base.BaseFragment
-import kotlin.concurrent.thread
+import com.sanhuzhen.module.search.databinding.FragmentMvBinding
 
 class MvFragment : BaseFragment<FragmentMvBinding>(){
     var startX = 0f

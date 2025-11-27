@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.sanhuzhen.module.recommend.MySwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/swipe_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            xmlns:app="http://schemas.android.com/apk/res-auto">
+            android:layout_height="wrap_content">
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/banner_vp2"
                 android:layout_width="match_parent"
@@ -66,9 +65,9 @@
                     android:id="@+id/recommend_songList_allPlay"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="250dp"
+                    android:layout_marginStart="250dp"
                     android:background="#00000054"
-                    android:drawableLeft="@drawable/boastcast"
+                    android:drawableStart="@drawable/boastcast"
                     android:text="全部播放"/>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -88,7 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:textStyle="bold"
                     android:textSize="15sp"/>
                 <androidx.recyclerview.widget.RecyclerView
@@ -101,5 +100,5 @@
         </FrameLayout>
     </ScrollView>
 
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</com.sanhuzhen.module.recommend.MySwipeRefreshLayout>
 

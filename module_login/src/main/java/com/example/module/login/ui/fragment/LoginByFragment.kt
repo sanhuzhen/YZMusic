@@ -6,10 +6,10 @@ import android.content.SharedPreferences
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import com.example.module.login.databinding.FragmentLoginByBinding
 import com.example.module.login.util.CountDownTimeUtils
 import com.example.module.login.viewmodel.MyViewModel
 import com.sanhuzhen.lib.base.BaseFragment
+import com.sanhuzhen.module.login.databinding.FragmentLoginByBinding
 
 class LoginByFragment : BaseFragment<FragmentLoginByBinding>() {
     private val mViewmodel: MyViewModel by lazy { ViewModelProvider(this)[MyViewModel::class.java] }

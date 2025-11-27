@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.sanhuzhen.module.home.R
+import com.sanhuzhen.module.recommend.R
 import com.sanhuzhen.module.recommend.bean.SongData
 import com.therouter.TheRouter
 

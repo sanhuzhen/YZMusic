@@ -7,14 +7,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
-import com.example.module.search.R
+import com.sanhuzhen.module.search.R
 import com.example.module.search.adapter.SearchVpAdapter
-import com.example.module.search.databinding.ActivitySearchBinding
 import com.example.module.search.ui.fragment.ArtistsFragment
 import com.example.module.search.viewmodel.ArtistsViewModel
 import com.example.module.search.viewmodel.SharedVIewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sanhuzhen.lib.base.BaseActivity
+import com.sanhuzhen.module.search.databinding.ActivitySearchBinding
 import com.therouter.router.Route
 
 @Route(path = "/search/SearchActivity")
