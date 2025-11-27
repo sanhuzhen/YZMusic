@@ -35,6 +35,7 @@
             <option value="$PROJECT_DIR$/module_recommend" />
             <option value="$PROJECT_DIR$/module_search" />
             <option value="$PROJECT_DIR$/module_songlist" />
+            <option value="$PROJECT_DIR$/module_test" />
           </set>
         </option>
       </GradleProjectSettings>

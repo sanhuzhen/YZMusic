@@ -12,6 +12,7 @@ dependencies {
     implementation(projects.moduleSearch)
     implementation(projects.moduleMvplayer)
     implementation(projects.moduleMusicplayer)
+    implementation(projects.moduleTest)
 
     implementation(libs.bundles.glide)
 
