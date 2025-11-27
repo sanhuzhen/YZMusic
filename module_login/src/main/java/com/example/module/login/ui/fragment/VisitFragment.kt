@@ -6,10 +6,9 @@ import android.content.SharedPreferences
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import com.example.module.login.databinding.FragmentVisitBinding
-//import com.example.module.login.manager.UserManager
 import com.example.module.login.viewmodel.MyViewModel
 import com.sanhuzhen.lib.base.BaseFragment
+import com.sanhuzhen.module.login.databinding.FragmentVisitBinding
 
 
 class VisitFragment : BaseFragment<FragmentVisitBinding>() {

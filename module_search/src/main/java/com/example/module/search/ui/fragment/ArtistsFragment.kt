@@ -9,16 +9,12 @@ import android.view.View
 import android.view.ViewConfiguration
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.module.search.R
 import com.example.module.search.adapter.ArtistsRvAdapter
-import com.example.module.search.bean.ArtistsData
-import com.example.module.search.databinding.FragmentArtistsBinding
 import com.example.module.search.viewmodel.ArtistsViewModel
 import com.example.module.search.viewmodel.SharedVIewModel
-import com.sanhuzhen.lib.base.BaseFragment
+import com.sanhuzhen.module.search.databinding.FragmentArtistsBinding
 
 
 class ArtistsFragment : Fragment(){

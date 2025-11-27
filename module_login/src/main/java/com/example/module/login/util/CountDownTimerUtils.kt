@@ -1,19 +1,21 @@
 package com.example.module.login.util
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.CountDownTimer
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.widget.TextView
-import com.example.module.login.R
+import com.sanhuzhen.module.login.R
 
 class CountDownTimeUtils(textView: TextView, millisInFuture: Long,
                              countDownInterval: Long
     ) : CountDownTimer(millisInFuture, countDownInterval) {
         private var mTextView: TextView = textView
+        @SuppressLint("SetTextI18n")
         override fun onTick(millisUntilFinished: Long) {
-            mTextView.setClickable(false)
-            mTextView.setText("${millisUntilFinished/1000}"+"s后重新获取")
+            mTextView.isClickable = false
+            mTextView.text = "${millisUntilFinished/1000}"+"s后重新获取"
             mTextView.setBackgroundColor(mTextView.context.resources.getColor(R.color.grey,null))
             val spannableString= SpannableString(mTextView.text.toString())
             val span= ForegroundColorSpan(Color.RED)
@@ -22,8 +24,8 @@ class CountDownTimeUtils(textView: TextView, millisInFuture: Long,
         }
 
         override fun onFinish() {
-            mTextView.setText("获取验证码")
-            mTextView.setClickable(true)
+            mTextView.text = "获取验证码"
+            mTextView.isClickable = true
             mTextView.setBackgroundColor(mTextView.context.resources.getColor(R.color.grey,null))
         }
 

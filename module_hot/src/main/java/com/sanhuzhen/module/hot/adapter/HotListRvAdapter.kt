@@ -18,14 +18,14 @@ import com.sanhuzhen.module.hot.R
 import com.sanhuzhen.module.hot.bean.Playlists
 import com.sanhuzhen.module.hot.ui.activity.DetailActivity
 
-class HotListRvAdapter: ListAdapter<Playlists, HotListRvAdapter.HotListHolder>(object :
-    DiffUtil.ItemCallback<Playlists>(){
+class HotListRvAdapter : ListAdapter<Playlists, HotListRvAdapter.HotListHolder>(object :
+    DiffUtil.ItemCallback<Playlists>() {
     override fun areItemsTheSame(oldItem: Playlists, newItem: Playlists): Boolean {
-        return oldItem==newItem
+        return oldItem == newItem
     }
 
     override fun areContentsTheSame(oldItem: Playlists, newItem: Playlists): Boolean {
-        return oldItem==newItem
+        return oldItem == newItem
     }
 
 }) {
@@ -39,6 +39,7 @@ class HotListRvAdapter: ListAdapter<Playlists, HotListRvAdapter.HotListHolder>(o
         val hotListData = getItem(position)
         holder.hotListData(hotListData)
     }
+
     inner class HotListHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val hotListImg: ImageView = itemView.findViewById(R.id.iv_hotlist)
         private val hotListName: TextView = itemView.findViewById(R.id.tv_hotlist)
@@ -53,17 +54,17 @@ class HotListRvAdapter: ListAdapter<Playlists, HotListRvAdapter.HotListHolder>(o
                 hotListImg.setImageResource(R.drawable.ic_launcher_background)
             }
             hotListName.text = data.name
-            hotList.setOnClickListener{
-                val option= ActivityOptionsCompat.makeSceneTransitionAnimation(
+            hotList.setOnClickListener {
+                val option = ActivityOptionsCompat.makeSceneTransitionAnimation(
                     itemView.context as Activity,
                     hotListImg,
                     "shared_image"
                 )
-                val IntentHot= Intent(itemView.context, DetailActivity::class.java)
-                IntentHot.putExtra("id",data.id)
-                IntentHot.putExtra("name",data.name)
-                IntentHot.putExtra("img",data.coverImgUrl)
-                itemView.context.startActivity(IntentHot,option.toBundle())
+                val IntentHot = Intent(itemView.context, DetailActivity::class.java)
+                IntentHot.putExtra("id", data.id)
+                IntentHot.putExtra("name", data.name)
+                IntentHot.putExtra("img", data.coverImgUrl)
+                itemView.context.startActivity(IntentHot, option.toBundle())
             }
         }
     }

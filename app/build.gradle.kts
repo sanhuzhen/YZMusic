@@ -1,77 +1,21 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
-    id("therouter")
-    id("kotlin-kapt")
+    alias(libs.plugins.yzmusic.android.application)
 }
-
-android {
-    namespace = "com.sanhuzhen.yzmusic"
-    compileSdk = 35
-
-    defaultConfig {
-        applicationId = "com.sanhuzhen.yzmusic"
-        minSdk = 26
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-    viewBinding{
-        enable = true
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-
 dependencies {
+    implementation(projects.libBase)
+    implementation(projects.libNet)
+    implementation(projects.moduleLogin)
+    implementation(projects.moduleRecommend)
+    implementation(projects.moduleMine)
+    implementation(projects.moduleHot)
+    implementation(projects.moduleSonglist)
+    implementation(projects.moduleSearch)
+    implementation(projects.moduleMvplayer)
+    implementation(projects.moduleMusicplayer)
 
-    implementation(project(":lib_base"))
-    implementation(project(":lib_net"))
-    implementation(project(":module_login"))
-    implementation(project(":module_recommend"))
-    implementation(project(":module_mine"))
-    implementation(project(":module_hot"))
-    implementation(project(":module_songlist"))
-    implementation(project(":module_search"))
-    implementation(project(":module_mvplayer"))
-    implementation(project(":module_musicplayer"))
-
-    implementation ("com.github.bumptech.glide:glide:4.12.0")
-    implementation("com.github.bumptech.glide:compiler:4.12.0")
+    implementation(libs.bundles.glide)
 
     //第三方播放库
-    implementation("androidx.media3:media3-ui:1.3.1")
-    implementation("androidx.media3:media3-session:1.3.1")
-    implementation("androidx.media3:media3-exoplayer:1.3.1")
-    debugImplementation("com.squareup.leakcanary:leakcanary-android:3.0-alpha-1")
-
-
-    kapt("cn.therouter:apt:1.2.2")
-    implementation("cn.therouter:router:1.2.2")
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-
+    implementation(libs.bundles.media3)
+    implementation(libs.bundles.projectBase)
 }

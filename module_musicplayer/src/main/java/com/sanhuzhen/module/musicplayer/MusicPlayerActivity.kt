@@ -40,7 +40,6 @@ import com.therouter.router.Route
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.ArrayList
-import kotlin.math.log
 
 /**
  * @author: sanhuzhen
@@ -182,7 +181,7 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>(), OnItemCl
                 for (i in it) {
                     BASE_URL = BASE_URL + i
                     if (i != it[it.size - 1]) {
-                        BASE_URL = BASE_URL + ","
+                        BASE_URL = "$BASE_URL,"
                     }
                 }
             }
@@ -213,7 +212,7 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>(), OnItemCl
         }
         if (musicIdList.isNotEmpty()) {
             val prefs = getPreferences(Context.MODE_PRIVATE)
-            val isLike = prefs.getBoolean("${musicIdList[currentPosition]}", false)
+            val isLike = prefs.getBoolean(musicIdList[currentPosition], false)
             if (isLike == true) {
                 mBinding.musicLike.setImageResource(R.drawable.red_heart)
             } else {
@@ -240,6 +239,18 @@ class MusicPlayerActivity : BaseActivity<ActivityMusicplayerBinding>(), OnItemCl
                             mBinder.getPlayer().playWhenReady = true
                         }
 
+                    }
+
+                    Player.STATE_BUFFERING -> {
+                        TODO()
+                    }
+
+                    Player.STATE_IDLE -> {
+                        TODO()
+                    }
+
+                    Player.STATE_READY -> {
+                        TODO()
                     }
                 }
             }

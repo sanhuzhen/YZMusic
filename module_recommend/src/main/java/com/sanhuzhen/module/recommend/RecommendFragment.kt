@@ -7,14 +7,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sanhuzhen.lib.base.BaseFragment
-import com.sanhuzhen.module.home.R
+import com.sanhuzhen.module.recommend.R
 import com.sanhuzhen.module.recommend.adapter.BannerAdapter
 import com.sanhuzhen.module.recommend.adapter.HomePlayListAdapter
 import com.sanhuzhen.module.recommend.adapter.SongListAdapter
 import com.sanhuzhen.module.recommend.bean.HomeData
 import com.sanhuzhen.module.recommend.bean.Resource
 import com.sanhuzhen.module.recommend.bean.SongData
-import com.sanhuzhen.module.home.databinding.FragmentRecommendBinding
+import com.sanhuzhen.module.recommend.databinding.FragmentRecommendBinding
 import com.sanhuzhen.module.recommend.bean.Banner
 import com.sanhuzhen.module.recommend.helper.ZoomOutPageTransformer
 import com.therouter.TheRouter

@@ -1,5 +1,6 @@
 package com.sanhuzhen.module.musicplayer
 
+import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
@@ -265,6 +266,7 @@ class MusicPlayerService : Service() {
     }
 
     //创建通知栏
+    @SuppressLint("WrongConstant")
     private fun createNoticeChannel() {
         val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

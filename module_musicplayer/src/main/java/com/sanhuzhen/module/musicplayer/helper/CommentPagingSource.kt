@@ -9,7 +9,8 @@ import com.sanhuzhen.module.musicplayer.bean.Comment
  * @description: 对Paging3的数据进行封装
  */
 class CommentPagingSource(
-    private val apiService: ApiService, private val type: String,
+    private val apiService: ApiService,
+    private val type: String,
     private val id: String,
     private val sortType: String
 ) : PagingSource<Int, Comment>() {

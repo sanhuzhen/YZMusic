@@ -1,30 +1,127 @@
 [versions]
+adapterRxjava3 = "2.9.0"
+browser = "1.4.0"
+dkplayer = "dkplayer-1.1"
+dkplayerJava = "3.3.7"
+glide = "4.12.0"
+compiler = "4.12.0"
+kotlinxCoroutinesCore = "1.5.2"
+kotlinxCoroutinesAndroid = "1.5.2"
+lifecycleViewmodel = "2.8.2"
+lifecycleViewmodelKtx = "2.5.1"
+media3Ui = "1.3.1"
+media3Session = "1.3.1"
+mmkvStatic = "1.3.0"
+pagingRuntimeKtx = "3.3.0"
+rxjava = "3.0.13"
+rxandroid = "3.0.0"
+swiperefreshlayout = "1.1.0"
+therouter-apt = "1.2.2"
+javaTarget = "17"
+kotlinJvmTarget = "17"
+androidDesugarJdkLibs = "2.1.4"
 agp = "8.6.0"
-kotlin = "1.9.0"
+android-compileSdk = "35"
+android-minSdk = "26"
+android-targetSdk = "35"
+kotlin = "1.9.22"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
+leakcanaryAndroid = "3.0-alpha-8"
 material = "1.12.0"
 activity = "1.9.0"
 constraintlayout = "2.1.4"
+router = "1.2.2"
 uiGraphicsAndroid = "1.8.3"
+application-namespace = "com.onerainbow.onerainbow"
+versionCode = "1"
+versionName = "1.0"
+unspecified = "1.0"
+ksp = "1.9.10-1.0.13"
+viewpager2 = "1.1.0"
 
 
 [libraries]
+adapter-rxjava3 = { module = "com.squareup.retrofit2:adapter-rxjava3", version.ref = "adapterRxjava3" }
+android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
+androidx-browser = { module = "androidx.browser:browser", version.ref = "browser" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "lifecycleViewmodel" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
+androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "media3Ui" }
+androidx-media3-session = { module = "androidx.media3:media3-session", version.ref = "media3Session" }
+androidx-media3-ui = { module = "androidx.media3:media3-ui", version.ref = "media3Ui" }
+androidx-paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "pagingRuntimeKtx" }
+androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
+androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
+dkplayer-java = { module = "xyz.doikki.android.dkplayer:dkplayer-java", version.ref = "dkplayerJava" }
+dkplayer = { module = "com.github.uaoan:DkPlayer", version.ref = "dkplayer" }
+glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compiler" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
+mmkv-static = { module = "com.tencent:mmkv-static", version.ref = "mmkvStatic" }
+retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "adapterRxjava3" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanaryAndroid" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-ui-graphics-android = { group = "androidx.compose.ui", name = "ui-graphics-android", version.ref = "uiGraphicsAndroid" }
+# Dependencies of the included build-logic
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "adapterRxjava3" }
+rxandroid = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rxandroid" }
+rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
+therouter-router = { module = "cn.therouter:router", version.ref = "router" }
+therouter-apt = { module = "cn.therouter:apt", version.ref = "therouter-apt" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+yzmusic-android-library = { id = "yzmusic.android.library", version.ref = "unspecified" }
+yzmusic-android-application = { id = "yzmusic.android.application", version.ref = "unspecified" }
 
+[bundles]
+projectBase = [
+    # Android 基础依赖
+    "androidx-core-ktx",
+    "androidx-appcompat",
+    "material",
+    "androidx-activity",
+    "androidx-constraintlayout"
+]
+
+network = [
+    "adapter-rxjava3",
+    "rxjava",
+    "retrofit",
+    "rxandroid",
+    "retrofit-converter-gson"
+]
+
+media3 = [
+    "androidx-media3-exoplayer",
+    "androidx-media3-session",
+    "androidx-media3-ui"
+]
+
+glide = [
+    "glide-compiler",
+    "glide"
+]
+
+dkplayer = [
+    "dkplayer",
+    "dkplayer-java"
+]

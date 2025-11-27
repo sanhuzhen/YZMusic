@@ -1,5 +1,6 @@
 package com.example.module.search.adapter
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -13,9 +14,9 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.module.search.R
 import com.example.module.search.bean.Song
 import com.sanhuzhen.lib.base.helper.SongDataHelper
+import com.sanhuzhen.module.search.R
 import com.therouter.TheRouter
 
 class MusicRvAdapter:ListAdapter<Song,MusicRvAdapter.ViewHolder>(object :
@@ -24,6 +25,7 @@ class MusicRvAdapter:ListAdapter<Song,MusicRvAdapter.ViewHolder>(object :
         return oldItem.id==newItem.id&&oldItem.name==newItem.name&&oldItem.album.id==newItem.album.id&&oldItem.artists==newItem.artists
     }
 
+    @SuppressLint("DiffUtilEquals")
     override fun areContentsTheSame(oldItem: Song, newItem: Song): Boolean {
         return oldItem.id==newItem.id&&oldItem.name==newItem.name&&oldItem.album.id==newItem.album.id&&oldItem.artists==newItem.artists
     }

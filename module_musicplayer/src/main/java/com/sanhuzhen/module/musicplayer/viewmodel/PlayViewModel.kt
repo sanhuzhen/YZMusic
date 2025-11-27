@@ -9,7 +9,6 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.sanhuzhen.module.musicplayer.bean.Comment
 import com.sanhuzhen.module.musicplayer.bean.Data
-import com.sanhuzhen.module.musicplayer.bean.Lrc
 import com.sanhuzhen.module.musicplayer.bean.MusicUrlData
 import com.sanhuzhen.module.musicplayer.bean.MusicUsedData
 import com.sanhuzhen.module.musicplayer.bean.Song

@@ -13,8 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.sanhuzhen.module.home.R
+import com.sanhuzhen.module.recommend.R
 import com.sanhuzhen.module.recommend.bean.Banner
+import androidx.core.net.toUri
 
 
 class BannerAdapter() :
@@ -38,9 +39,9 @@ class BannerAdapter() :
         fun initListener() {
             bannerIv.setOnClickListener {
                 //使用let，避免空指针
-                getItem(adapterPosition).url?.let {
+                getItem(adapterPosition).url.let {
                     if ("http" in it){
-                        val url = Uri.parse(it)
+                        val url = it.toUri()
                         val customTabsIntent = CustomTabsIntent.Builder().build()
                         customTabsIntent.launchUrl(itemView.context, url)
                     }
